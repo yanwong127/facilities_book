@@ -10,7 +10,7 @@ if ($_SESSION['true'] !== true) {
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];zx
 
 $sql = "SELECT * FROM `item` WHERE user_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
