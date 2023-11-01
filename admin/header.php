@@ -21,9 +21,10 @@ include_once('home.php');
 
 <div class="sidebar">
     <a href="home.php"><i class="fa fa-fw fa-home"></i> Home</a>
-    <a href="admin.php"><i class="fa fa-fw fa-user"></i> Consult</a>
-    <a href="servics.php"><i class="fa fa-fw fa-wrench"></i> Services</a>
-    <a href="contact.php"><i class="fa fa-fw fa-envelope"></i> Contact</a>
+    <a href="home.php"><i class="fa fa-fw fa-user"></i> Item</a>
+    <a href="place.php"><i class="fa fa-fw fa-wrench"></i> Place</a>
+    <a href="student.php"><i class="fa fa-fw fa-envelope"></i> Student Info</a>
+    <a href="booking.php"><i class="fa fa-fw fa-envelope"></i> Booking</a>
   </div>
 
 </body>
