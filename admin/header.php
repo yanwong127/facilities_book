@@ -19,9 +19,7 @@ include_once('home.php');
 </head>     
 <body>
     
-<div class="w3-container">
-  <h2>Navigation Bar with Dropdown</h2>
-  <p>Add a dropdown menu inside the navigation bar:</p>
+
 
   <div class="w3-bar w3-light-grey">
     <a href="#" class="w3-bar-item w3-button">Home</a>
