@@ -13,19 +13,42 @@ include_once('home.php');
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <title>Header</title>
 </head>     
 <body>
     
+<div class="w3-container">
+  <h2>Navigation Bar with Dropdown</h2>
+  <p>Add a dropdown menu inside the navigation bar:</p>
 
-<div class="sidebar">
-    <a href="home.php"><i class="fa fa-fw fa-home"></i> Home</a>
-    <a href="home.php"><i class="fa fa-fw fa-user"></i> Item</a>
-    <a href="place.php"><i class="fa fa-fw fa-wrench"></i> Place</a>
-    <a href="student.php"><i class="fa fa-fw fa-envelope"></i> Student Info</a>
-    <a href="booking.php"><i class="fa fa-fw fa-envelope"></i> Booking</a>
+  <div class="w3-bar w3-light-grey">
+    <a href="#" class="w3-bar-item w3-button">Home</a>
+    <div class="w3-dropdown-hover">
+      <button class="w3-button">Item</button>
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="#" class="w3-bar-item w3-button">Add Item</a>
+        <a href="#" class="w3-bar-item w3-button">Edit Item</a>
+      </div>
+    </div>
+    <div class="w3-dropdown-hover">
+      <button class="w3-button">Place</button>
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="#" class="w3-bar-item w3-button">Add Place</a>
+        <a href="#" class="w3-bar-item w3-button">Edit Place</a>
+      </div>
+    </div>
+    <a href="#" class="w3-bar-item w3-button">Student Info</a>
+    <div class="w3-dropdown-hover">
+      <button class="w3-button">Booking</button>
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="#" class="w3-bar-item w3-button">Booking History</a>
+        <a href="#" class="w3-bar-item w3-button">Booking Status</a>
+      </div>
+    </div>
   </div>
+</div>
 
 </body>
 </html>
