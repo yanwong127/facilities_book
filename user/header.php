@@ -8,7 +8,7 @@
        
     <title>Facilities Book</title>
     <style>
-        /* 样式顶部导航栏 */
+        
         .header {
             background-color: #333;
             color: #fff;
@@ -18,16 +18,14 @@
             align-items: center;
         }
 
-        /* 样式链接 */
         .header a {
             text-decoration: none;
             color: #fff;
             margin-left: 20px;
         }
 
-        /* 鼠标悬停链接时的样式 */
         .header a:hover {
-            color: #FFA500; /* 橙色 */
+            color: #FFA500; 
         }
     </style>
 </head>
