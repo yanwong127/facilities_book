@@ -3,13 +3,13 @@ include_once('db.php');
 include_once('header.php');
 
 if ($_SESSION['true'] !== true) {
-   header("location: login.php");
+    header("location: login.php");
     exit;
 }
 
 $user_id = $_SESSION['user_id'];
 
-$sql = "SELECT * FROM `item` WHERE user_id = ?";
+$sql = "SELECT * FROM `user` WHERE user_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $user_id);
 mysqli_stmt_execute($stmt);
