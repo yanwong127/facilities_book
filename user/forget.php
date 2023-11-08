@@ -55,6 +55,7 @@
             <label for="email">Email:</label>
             <input type="text" id="email" name="email" required>
             <input type="submit" value="Reset Password">
+            <input type="submit" value="Back" onclick="window.location.href='login.php'">
         </form>
     </div>
 </body>
