@@ -44,20 +44,24 @@ td, th {
 
   <table>
         <tr>
-          <th>UserID</th>
-          <th>Facilities Name</th></th>
+          <th>User ID</th>
+          <th>Facilities Name</th>
+          <th>Facilities Picture</th>
           <th>Booked By</th>
-          <th>Start Time</th></th>
+          <th>Start Time</th>
           <th>End Time</th>
+          <th>Status</th>
         </tr>
 
   <?php while($row=mysqli_fetch_array($booking)) {?>
         <tr>
           <td><?=$row['user_id']?></td>
           <td><?=$row['facilities_name']?></td>
+          <td><?=$row['pic']?></td>
           <td><?=$row['booked_by']?></td>
           <td><?=$row['start_time']?></td>
           <td><?=$row['end_time']?></td>
+          <td><?=$rom['status']?></td>
         </tr>
   <?php }?>
   </table>
