@@ -37,7 +37,7 @@
         <li><a href="home.php">Home</a></li>
         <li><a href="profile.php">User Profile</a></li>
         <li><a href="booking.php">Booking Progress</a></li>
-        <!-- <li><a href="contact.php">Contact</a></li> -->
+        <li><a href="result.php">Booking Result</a></li>
         <li><a href="logout.php">Logout</a></li>
     </ul>
 </div>

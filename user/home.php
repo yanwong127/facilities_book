@@ -29,47 +29,54 @@ if ($_SESSION['true'] != true) {
 </head>
 
 <body>
- 
-<br>
+
+    <br>
     <div class="place">
-        <button id="showProduct">Product</button>
+        <button type="button" id="showProduct">Product</button>
         <button id="showPlace">Place</button>
     </div>
     <br>
 
     <div id="item-content">
-        <?php include_once('item.php'); ?>
+
+        <?php
+        if (isset($message)) {
+            echo $message;
+        }
+        include_once('item.php');
+        include('footer.php');
+
+        ?>
     </div>
 
     <div id="place-content">
-        <?php include_once('place.php'); ?>
+        <?php
+        if (isset($message)) {
+            echo $message;
+        }
+        include_once('place.php');
+        include('footer.php');
+        ?>
     </div>
 
-
-    <?php
-    include_once('footer.php');
-    ?>
 </body>
 
 </html>
 
 <script>
-    //show button
-    var showPlaceButton = document.getElementById('showPlace');
-    var showProductButton = document.getElementById('showProduct');
+        var showPlaceButton = document.getElementById('showPlace');
+        var showProductButton = document.getElementById('showProduct');
 
-    var itemContent = document.getElementById('item-content');
-    var placeContent = document.getElementById('place-content');
+        var itemContent = document.getElementById('item-content');
+        var placeContent = document.getElementById('place-content');
 
-    showProductButton.addEventListener('click', function () {
-        itemContent.style.display = 'block';
-        placeContent.style.display = 'none';
-    });
+        showProductButton.addEventListener('click', function () {
+            itemContent.style.display = 'block';
+            placeContent.style.display = 'none';
+        });
 
-    showPlaceButton.addEventListener('click', function () {
-        itemContent.style.display = 'none';
-        placeContent.style.display = 'block';
-    });
-
-
-</script>
+        showPlaceButton.addEventListener('click', function () {
+            itemContent.style.display = 'none';
+            placeContent.style.display = 'block';
+        });
+    </script>

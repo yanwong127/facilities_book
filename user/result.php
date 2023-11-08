@@ -47,9 +47,6 @@ $place_result = mysqli_query($conn, $place_query);
                         <?= $row['item_id'] ?>
                     </td>
                     <td>
-                        <?= $row['item_name'] ?>
-                    </td>
-                    <td>
                         <?= $row['user_id'] ?>
                     </td>
                     <td>
@@ -58,8 +55,7 @@ $place_result = mysqli_query($conn, $place_query);
                     <td>
                         <?= $row['bookingtime'] ?>
                     </td>
-                    <td><a href="edit_item.php?item_id=<?= $row['item_id'] ?>">Edit</a></td>
-                    <td><a href="cancel_item.php?item_id=<?= $row['item_id'] ?>">Cancel</a></td>
+                    <!-- Add a cell for user_data if needed -->
                 </tr>
             <?php } ?>
         </table>
@@ -77,6 +73,9 @@ $place_result = mysqli_query($conn, $place_query);
             <?php while ($row = mysqli_fetch_array($place_result)) { ?>
                 <tr>
                     <td>
+                        <img class="rounded-image" src="<?= $row['item_img'] ?>">
+                    </td>
+                    <td>
                         <?= $row['placebook_id'] ?>
                     </td>
                     <td>
@@ -88,8 +87,6 @@ $place_result = mysqli_query($conn, $place_query);
                     <td>
                         <?= $row['bookingtime'] ?>
                     </td>
-                    <td><a href="edit_place.php?placebook_id=<?= $row['placebook_id'] ?>">Edit</a></td>
-                    <td><a href="cancel_place.php?placebook_id=<?= $row['placebook_id'] ?>">Cancel</a></td>
                 </tr>
             <?php } ?>
         </table>
