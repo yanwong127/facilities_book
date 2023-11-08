@@ -22,19 +22,21 @@ include_once('home.php');
 
 
   <div class="w3-bar w3-light-grey">
-    <a href="#" class="w3-bar-item w3-button">Home</a>
+    <a href="home.php" class="w3-bar-item w3-button">Home</a>
     <div class="w3-dropdown-hover">
-      <button class="w3-button">Item</button>
+      <button href="item.php" class="w3-button">Item</button>
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
-        <a href="#" class="w3-bar-item w3-button">Add Item</a>
-        <a href="#" class="w3-bar-item w3-button">Edit Item</a>
+      <a href="item.php" class="w3-bar-item w3-button">Item List</a>
+        <a href="add_item.php" class="w3-bar-item w3-button">Add Item</a>
+        <a href="edit_item.php" class="w3-bar-item w3-button">Edit Item</a>
       </div>
     </div>
     <div class="w3-dropdown-hover">
       <button class="w3-button">Place</button>
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
-        <a href="#" class="w3-bar-item w3-button">Add Place</a>
-        <a href="#" class="w3-bar-item w3-button">Edit Place</a>
+      <a href="place.php" class="w3-bar-item w3-button">Place List</a>
+        <a href="add_place.php" class="w3-bar-item w3-button">Add Place</a>
+        <a href="edit_place.php" class="w3-bar-item w3-button">Edit Place</a>
       </div>
     </div>
     <a href="#" class="w3-bar-item w3-button">Student Info</a>
