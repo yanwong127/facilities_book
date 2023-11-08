@@ -36,106 +36,50 @@ if (isset($_POST['signup'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
     <title>SignUp</title>
 </head>
-
-<style>
-    body {
-            background: #F4CE14;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-         }
-
-         
-        .signup-container {
-            background: orange;
-            text-align: center;
-            margin: 0;
-            padding: 20px; 
-            border-radius: 10px;
-        }
-
-        .signup-text {
-          border-radius: 10px;
-          height: 20px
-        }
-
-        label {
-        color: white;
-        }
-        
-        .loginpage {
-            margin-top: 10px;
-            text-align: left;
-        }
-
-        .custom-button {
-        background-color: #CE5A67; 
-        width: 100%;
-        color: white; 
-        border: none; 
-        border-radius: 20px; 
-        padding: 10px 20px; 
-        cursor: pointer; 
-        }
-
-        .custom-button:hover {
-        background-color: #FF0000; 
-        }
-
-
-</style>
-
 <body>
-    
-  
-<form action="signup.php" method='post'>
-<div class="signup-container">
-    <table>
-        <tr>
-            <td><label for="username">Name:</label></td>
-            <td><input type="text" name="username" class="signup-text" required><br></td>
-        </tr>
-        <tr>
-            <td><label for="username">Password:</label></td>
-            <td><input type="password" name="password" class="signup-text" required><br></td>
-        </tr>
-        
-        <tr>
-            <td><label for="username">Address:</label></td>
-            <td><input type="text" name="address" class="signup-text" required><br></td>
-        </tr>
-        
-        <tr>
-            <td><label for="username">Email:</label></td>
-            <td><input type="text" name="email" class="signup-text" required><br></td>
-        </tr>
-        
-        <tr>
-            <td><label for="username">Phone Number:</label></td>
-            <td><input type="text" name="phone" class="signup-text" required><br></td>
-        </tr>
-        
-    </table>
-
+<div class="login-container">
+        <form action="signup.php" method="post">
+            <div class="box">
+                <i class="fa fa-user-circle" id="user" aria-hidden="true"></i>
+                <br>
+                <div class="input-container">
+                <div class="input-fort">
+                    <label for="username" class="fa fa-user"> Name: </label>
+                    <input type="text" name="username" class="login-text" required>
+                </div>
+                <div class="input-fort">
+                    <label for="userpass" class="fa fa-lock"> Password: </label>
+                    <input type="password" class="login-text" name="password" required>
+                </div>
+                <div class="input-fort">
+                    <label for="address" class="fa fa-user"> Address: </label>
+                    <input type="text" name="address" class="login-text" required>
+                </div>
+                <div class="input-fort">
+                    <label for="email" class="fa fa-user"> Email: </label>
+                    <input type="text" name="email" class="login-text" required>
+                </div>
+                <div class="input-fort">
+                    <label for="phone" class="fa fa-user"> Phone Number: </label>
+                    <input type="text" name="phone" class="login-text" required>
+                </div>
+                </div>
+            
+                <div class="forget-password">
+                    <a href="forget.php">Forget Password</a>
+                </div>
+                <div class="btn-container">
+                <input type="submit" name="signup" value="SignUp" class="custom-button">
+                </div>
+            </div>
+        </form>
         <div>
             <p class="loginpage">Click here to login. <a href="login.php">Login here</a></p>
         </div>
-
-        <tr>
-            <td><input type="submit" name="signup" value="SignUp" class="custom-button"></td>
-        </tr>
-
-
-</div>
-
-</form>
-
-
-
-
+    </div>
 </body>
 </html>

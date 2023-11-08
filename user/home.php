@@ -5,10 +5,10 @@ session_start();
 include_once('db.php');
 include_once('header.php');
 
-if ($_SESSION['true'] !== true) {
-    header("location: login.php");
-    exit;
-}
+//if ($_SESSION['true'] !== true) {
+  //  header("location: login.php");
+    //exit;
+//}
 
 $user_id = $_SESSION['user_id'];
 
