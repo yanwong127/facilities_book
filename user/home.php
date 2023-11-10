@@ -2,9 +2,21 @@
 include_once('db.php');
 include_once('header.php');
 
-if ($_SESSION['true'] != true) {
-    echo 'not gg';
-    header("location:logout.php");
+if ($_SESSION['true'] !== true) {
+    header("location: login.php");
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
+
+$sql = "SELECT * FROM `item` WHERE user_id = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $user_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+if (mysqli_num_rows($result) === 0) {
+    header("location: unauthorized.php");
     exit;
 }
 ?>
