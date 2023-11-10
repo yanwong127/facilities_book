@@ -44,19 +44,20 @@ $place_result = mysqli_query($conn, $place_query);
                         <img class="rounded-image" src="<?= $row['item_img'] ?>">
                     </td>
                     <td>
-                        <?= $row['item_id'] ?>
-                    </td>
-                    <td>
                         <?= $row['item_name'] ?>
                     </td>
+
                     <td>
-                        <?= $row['user_id'] ?>
+                        <?= $row['booking_date'] ?>
+                    </td>
+                    <td>
+                        <?= $row['start_time'] ?>
+                    </td>
+                    <td>
+                        <?= $row['end_time'] ?>
                     </td>
                     <td>
                         <?= $row['status'] ?>
-                    </td>
-                    <td>
-                        <?= $row['bookingtime'] ?>
                     </td>
                     <td><a href="edit_item.php?item_id=<?= $row['item_id'] ?>">Edit</a></td>
                     <td><a href="cancel_item.php?item_id=<?= $row['item_id'] ?>">Cancel</a></td>
@@ -76,6 +77,9 @@ $place_result = mysqli_query($conn, $place_query);
             </tr>
             <?php while ($row = mysqli_fetch_array($place_result)) { ?>
                 <tr>
+                    <td>
+                        <img class="rounded-image" src="<?= $row['place_img'] ?>">
+                    </td>
                     <td>
                         <?= $row['placebook_id'] ?>
                     </td>
@@ -112,4 +116,9 @@ $place_result = mysqli_query($conn, $place_query);
         align-items: center;
         min-height: 50vh;
     }
+
+    .rounded-image {
+        border-radius: 10px;
+    }
+    
 </style>

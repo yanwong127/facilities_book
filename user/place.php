@@ -16,20 +16,20 @@ if (isset($_REQUEST['place_book'])) {
         $start_time = $_POST['start_time'];
         $end_time = $_POST['end_time'];
 
-        $booking_date = date('Y/m/d', strtotime($booking_date));
+        $booking_date = date('Y/m/d', strtotime($booking_date));    
         $start_time = date('H:i:s', strtotime($start_time));
         $end_time = date('H:i:s', strtotime($end_time));
 
-        $insertQuery = "INSERT INTO `place_appointment`(place_id, place_name, place_img, user_id, start_time, end_time, booking_date,  status) VALUES ('$place_id', '$place_name', '$place_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Active')";
+        $insertQuery = "INSERT INTO `place_appointment`(place_id, place_name, place_img, user_id, start_time, end_time, booking_date,  status) VALUES ('$place_id', '$place_name', '$place_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive')";
         $result = mysqli_query($conn, $insertQuery);
 
         if ($result) {
             $message = "Booking successful!";
-            echo "<script>window.location.href='home.php';</script>";
+            echo "<script>window.location.href = 'home.php';
+            alert('Booking Sucessful.');</script>";
             exit();
         } else {
             error_log("Error: " . mysqli_error($conn)); // Log the error
-            // Handle the error or redirect as needed without generating output
         }
     }
 }

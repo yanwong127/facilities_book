@@ -18,12 +18,12 @@ if (isset($_REQUEST['item_book'])) {
         $start_time = date('H:i:s', strtotime($start_time));
         $end_time = date('H:i:s', strtotime($end_time));
 
-        $insertQuery = "INSERT INTO `item_appointment` (item_id, item_name, item_img, user_id, start_time, end_time, booking_date, status) VALUES ('$item_id', '$item_name', '$item_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Active')";
+        $insertQuery = "INSERT INTO `item_appointment` (item_id, item_name, item_img, user_id, start_time, end_time, booking_date, status) VALUES ('$item_id', '$item_name', '$item_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive')";
         $result = mysqli_query($conn, $insertQuery);
         if ($result) {
             $message = "Booking successful!";
-            echo "<script>window.location.href='home.php';</script>";
-
+            echo "<script>window.location.href = 'home.php';
+            alert('Booking Sucessful.');</script>";
         } else {
             echo "Error: " . mysqli_error($conn);
         }
@@ -126,9 +126,6 @@ if (isset($_REQUEST['item_book'])) {
         });
     });
 
-
-
-
     closeButton.addEventListener("click", () => {
         dialog.close();
     });
@@ -172,8 +169,6 @@ if (isset($_REQUEST['item_book'])) {
     .item-name {
         font-weight: bold;
     }
-
-    width: 400px;
 
     #clickable-div:hover {
         cursor: pointer;

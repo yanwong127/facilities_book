@@ -55,7 +55,9 @@ if (isset($_POST['signup'])) {
                 </tr>
                 <tr>
                     <td><label for="username">Password:</label></td>
-                    <td><input type="password" name="password" class="signup-text" required><br></td>
+                    <td><input type="password" name="password" class="signup-text" required pattern="^(?=.*[A-Z]).{8,}$"
+                            title="Password must be at least 8 characters long and contain at least one uppercase letter"><br>
+                    </td>
                 </tr>
 
                 <tr>
@@ -77,8 +79,9 @@ if (isset($_POST['signup'])) {
                 <tr>
                     <td><label for="phone">Phone Number:</label></td>
                     <td>
-                        <input type="tel" name="phone" class="signup-text" required pattern="[0-9]{10}"
-                            title="Please enter a valid 10-digit phone number (e.g., 1234567890)">
+                        <input type="tel" name="phone" id="phone" class="signup-text" required
+                            title="Please enter a valid Malaysian mobile phone number"
+                            oninput="formatPhoneNumber(this.value)">
                         <br>
                     </td>
                 </tr>
@@ -106,6 +109,22 @@ if (isset($_POST['signup'])) {
 
 </html>
 
+<script>
+    function formatPhoneNumber(input) {
+        var cleanedInput = input.replace(/[-\s]/g, '');
+
+        var match = cleanedInput.match(/^(01[0-46-9]|011|012|013|014|015|016|017|018|019)(\d{7,9})$/);
+
+        if (match) {
+            var formattedNumber = match[1] + '-' + match[2];
+            document.getElementById('phone').setCustomValidity('');
+            document.getElementById('phone').value = formattedNumber;
+            document.getElementById('phone').pattern = "^(01[011|012|013|014|015|016|017|018|019)\\d{7,9}$";
+        } else {
+            document.getElementById('phone').setCustomValidity('Please enter a valid Malaysian mobile phone number');
+        }
+    }
+</script>
 
 <style>
     body {
