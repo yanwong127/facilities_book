@@ -2,9 +2,9 @@
 
 include_once("db.php");
 
-echo $sql = "DELETE FROM `item_appointment` WHERE `item_id`='" . $_GET["item_id"] . "'";
+echo $sql = "DELETE FROM `item_appointment` WHERE `itembook_id`='" . $_GET["itembook_id"] . "'";
 if (mysqli_query($conn, $sql)) {
-    echo "<script>alert('Delete Success'); window.location.href='home.php';</script>";
+    echo "<script>alert('Delete Success'); window.location.href='booking.php';</script>";
 } else {
     echo "Error deleting record: " . mysqli_error($conn);
 }

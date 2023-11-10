@@ -31,7 +31,7 @@ if(isset($_POST['edit']) && isset($_GET['id'])){
         $quantity=$_POST['quantity'];
         $Price=$_POST['price'];
         
-        $Query="UPDATE item_appointment SET image='$image',SKU='$sku',Quantity='$quantity',Price='$Price' WHERE id = '".$_GET['id']."'";
+        $Query="UPDATE item_appointment SET image='$image',SKU='$sku',Quantity='$quantity',Price='$Price' WHERE itembook_id = '".$_GET['id']."'";
         if($result=mysqli_query($conn,$Query)){     
             echo "<script>window.location.href = 'index.php';alert('Record Success to Edit');</script>";     
         }else{          
@@ -43,7 +43,7 @@ if(isset($_POST['edit']) && isset($_GET['id'])){
 ?>
 
 <?php
-$qry = "SELECT * FROM item_appointment WHERE item_id='".$_GET['id']."'";
+$qry = "SELECT * FROM item_appointment WHERE itembook_id='".$_GET['id']."'";
 $sql = mysqli_query($conn, $qry);
 $row = mysqli_fetch_array($sql);
 ?>
@@ -80,7 +80,7 @@ $row = mysqli_fetch_array($sql);
         <div>
             <div>
                 <button type="submit" name="edit" value="edit">Submit</button>
-                <button type="button" onclick="window.location.href='index.php'">Back</button>
+                <button type="button" onclick="window.location.href='booking.php'">Back</button>
             </div>
         </div>
     </form>
