@@ -128,48 +128,50 @@ if (isset($_POST['signup'])) {
 
 <style>
     body {
-        background: #F4CE14;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
+            background: #F4CE14;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+         }
 
+         
+        .signup-container {
+            background: orange;
+            text-align: center;
+            margin: 0;
+            padding: 20px; 
+            border-radius: 10px;
+        }
 
-    .signup-container {
-        background: orange;
-        text-align: center;
-        margin: 0;
-        padding: 20px;
-        border-radius: 10px;
-    }
+        .signup-text {
+          border-radius: 10px;
+          height: 20px
+        }
 
-    .signup-text {
-        border-radius: 10px;
-        height: 20px
-    }
-
-    label {
+        label {
         color: white;
-    }
+        }
+        
+        .loginpage {
+            margin-top: 10px;
+            text-align: left;
+        }
 
-    .loginpage {
-        margin-top: 10px;
-        text-align: left;
-    }
-
-    .custom-button {
-        background-color: #CE5A67;
+        .custom-button {
+        background-color: #CE5A67; 
         width: 100%;
-        color: white;
-        border: none;
-        border-radius: 20px;
-        padding: 10px 20px;
-        cursor: pointer;
-    }
+        color: white; 
+        border: none; 
+        border-radius: 20px; 
+        padding: 10px 20px; 
+        cursor: pointer; 
+        }
 
-    .custom-button:hover {
-        background-color: #FF0000;
-    }
+        .custom-button:hover {
+        background-color: #FF0000; 
+        }
+
+
 </style>
