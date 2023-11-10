@@ -31,7 +31,7 @@ if(isset($_POST['edit']) && isset($_GET['id'])){
         $quantity=$_POST['quantity'];
         $Price=$_POST['price'];
         
-        $Query="UPDATE tb_item SET image='$image',SKU='$sku',Quantity='$quantity',Price='$Price' WHERE id = '".$_GET['id']."'";
+        $Query="UPDATE item_appointment SET image='$image',SKU='$sku',Quantity='$quantity',Price='$Price' WHERE id = '".$_GET['id']."'";
         if($result=mysqli_query($conn,$Query)){     
             echo "<script>window.location.href = 'index.php';alert('Record Success to Edit');</script>";     
         }else{          
@@ -43,7 +43,7 @@ if(isset($_POST['edit']) && isset($_GET['id'])){
 ?>
 
 <?php
-$qry = "SELECT * FROM tb_item WHERE id='".$_GET['id']."'";
+$qry = "SELECT * FROM item_appointment WHERE item_id='".$_GET['id']."'";
 $sql = mysqli_query($conn, $qry);
 $row = mysqli_fetch_array($sql);
 ?>

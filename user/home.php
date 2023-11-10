@@ -9,7 +9,7 @@ if ($_SESSION['true'] !== true) {
 
 $user_id = $_SESSION['user_id'];
 
-$sql = "SELECT * FROM `item` WHERE user_id = ?";
+$sql = "SELECT * FROM `user` WHERE user_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $user_id);
 mysqli_stmt_execute($stmt);

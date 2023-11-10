@@ -6,14 +6,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Forgot Password</h2>
-        <p>Enter your email address to reset your password.</p>
-        <form action="#" method="post">
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email" required>
-            <input type="submit" value="Reset Password">
+    <div class="login-container">
+            <form action="#" method="post">
+                <div class="box">
+                <i class="fa fa-lock" style="font-size: 50px;" id="user" aria-hidden="true"></i>
+                    <div class="input-container">
+                        <h2>Forgot Password</h2>
+                        <p>Enter your email address to reset your password.</p>
+                        <div class="input-fort">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <input class="custom-button" type="submit" value="Reset Password">
+                    </div>
+                <input type="submit" value="Back" onclick="window.location.href='login.php'">
         </form>
+                </div>
     </div>
 </body>
 </html>

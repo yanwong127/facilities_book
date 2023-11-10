@@ -41,7 +41,7 @@ $place_result = mysqli_query($conn, $place_query);
             <?php while ($row = mysqli_fetch_array($item_result)) { ?>
                 <tr>
                     <td>
-                        <img class="rounded-image" src="<?= $row['item_img'] ?>">
+                    <img class="rounded-image" src="<?= $row['item_img'] ?>" style="width: 100px; height: 100px;">
                     </td>
                     <td>
                         <?= $row['item_id'] ?>
@@ -73,7 +73,7 @@ $place_result = mysqli_query($conn, $place_query);
             <?php while ($row = mysqli_fetch_array($place_result)) { ?>
                 <tr>
                     <td>
-                        <img class="rounded-image" src="<?= $row['item_img'] ?>">
+                        <img class="rounded-image" src="<?= $row['place_img'] ?>" style="width: 100px; height: 100px;">
                     </td>
                     <td>
                         <?= $row['placebook_id'] ?>
@@ -109,4 +109,5 @@ $place_result = mysqli_query($conn, $place_query);
         align-items: center;
         min-height: 50vh;
     }
+    
 </style>
