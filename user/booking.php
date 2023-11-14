@@ -10,10 +10,10 @@ if ($_SESSION['true'] != true) {
 
 $user_id = $_SESSION['user_id'];
 
-$item_query = "SELECT * FROM `item_appointment` WHERE user_id = $user_id";
+$item_query = "SELECT * FROM `item_appointment` WHERE `user_id` = $user_id AND `status` != 'active'";
 $item_result = mysqli_query($conn, $item_query);
 
-$place_query = "SELECT * FROM `place_appointment` WHERE user_id = $user_id";
+$place_query = "SELECT * FROM `place_appointment` WHERE `user_id` = $user_id AND `status` != 'active'";
 $place_result = mysqli_query($conn, $place_query);
 
 ?>
@@ -37,7 +37,7 @@ $place_result = mysqli_query($conn, $place_query);
         <th>Status</th>
         <th>Booking Time</th> -->
                 <!-- Add header for user_data if needed -->
-            </tr>
+            </tr>       
             <?php while ($row = mysqli_fetch_array($item_result)) { ?>
                 <tr>
                     <td>
@@ -59,8 +59,8 @@ $place_result = mysqli_query($conn, $place_query);
                     <td>
                         <?= $row['status'] ?>
                     </td>
-                    <td><a href="edit_item.php?item_id=<?= $row['item_id'] ?>">Edit</a></td>
-                    <td><a href="cancel_item.php?item_id=<?= $row['item_id'] ?>">Cancel</a></td>
+                    <td><a href="edit_item.php?itembook_id=<?= $row['itembook_id'] ?>">Edit</a></td>
+                    <td><a href="cancel_item.php?itembook_id=<?= $row['itembook_id'] ?>">Cancel</a></td>
                 </tr>
             <?php } ?>
         </table>

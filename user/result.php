@@ -10,14 +10,13 @@ if ($_SESSION['true'] != true) {
 
 $user_id = $_SESSION['user_id'];
 
-$item_query = "SELECT * FROM `item_appointment` WHERE user_id = $user_id";
+$item_query = "SELECT * FROM `item_appointment` WHERE user_id = $user_id AND status = 'active'";
 $item_result = mysqli_query($conn, $item_query);
 
-$place_query = "SELECT * FROM `place_appointment` WHERE user_id = $user_id";
+$place_query = "SELECT * FROM `place_appointment` WHERE user_id = $user_id AND status = 'active'";
 $place_result = mysqli_query($conn, $place_query);
 
 ?>
-
 
 <!DOCTYPE html>
 
@@ -41,7 +40,7 @@ $place_result = mysqli_query($conn, $place_query);
             <?php while ($row = mysqli_fetch_array($item_result)) { ?>
                 <tr>
                     <td>
-                    <img class="rounded-image" src="<?= $row['item_img'] ?>" style="width: 100px; height: 100px;">
+                        <img class="rounded-image" src="<?= $row['item_img'] ?>" style="width: 100px; height: 100px;">
                     </td>
                     <td>
                         <?= $row['item_id'] ?>
@@ -92,7 +91,6 @@ $place_result = mysqli_query($conn, $place_query);
         </table>
     </div>
 
-
     <?php
     include_once('footer.php');
     ?>
@@ -109,5 +107,4 @@ $place_result = mysqli_query($conn, $place_query);
         align-items: center;
         min-height: 50vh;
     }
-    
 </style>
