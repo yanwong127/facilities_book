@@ -10,10 +10,10 @@ if ($_SESSION['true'] != true) {
 
 $user_id = $_SESSION['user_id'];
 
-$item_query = "SELECT * FROM `item_appointment` WHERE `user_id` = $user_id";
+$item_query = "SELECT * FROM `item_appointment` WHERE `user_id` = $user_id AND `status` != 'active'";
 $item_result = mysqli_query($conn, $item_query);
 
-$place_query = "SELECT * FROM `place_appointment` WHERE `user_id` = $user_id";
+$place_query = "SELECT * FROM `place_appointment` WHERE `user_id` = $user_id AND `status` != 'active'";
 $place_result = mysqli_query($conn, $place_query);
 
 ?>

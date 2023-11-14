@@ -2,78 +2,47 @@
 include_once('db.php');
 
 if(isset($_POST['edit']) && isset($_GET['id'])){
-    if(!empty($_FILES['image']['name']))
-    {   
-        $ext = explode('.', $_FILES['image']['name']);
-        $ext = strtolower(array_pop($ext));
-        $file = 'img/'.date('YmdHis').'.'.$ext;
-        if(($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png')){ 
-            $target_path = $file;
-        }else{
-            $error_ext = 1;
-        }
-        if(file_exists($file)){
-            $file_exists = 1;
-        }
-    }elseif(empty($_FILES['image']['name'])){
-        
-        $file = $_POST['old_img'];
-    }
-    if(isset($error_ext)){
-        echo "<script>alert('Please upload .jpg, .jpeg or .png file only.')</script>"; 
-    }elseif(isset($file_exists)){
-        echo "<script>alert('Image already exists, please choose another image or change the image name.')</script>"; 
-    }elseif(isset($target_path) && !move_uploaded_file($_FILES['image']['tmp_name'], $target_path)){
-        echo "<script>alert('Image failed to upload image')</script>";  
-    }else{
-        $image=$file;
-        $sku=$_POST['sku'];
-        $quantity=$_POST['quantity'];
-        $Price=$_POST['price'];
-        
-        $Query="UPDATE item_appointment SET image='$image',SKU='$sku',Quantity='$quantity',Price='$Price' WHERE itembook_id = '".$_GET['id']."'";
-        if($result=mysqli_query($conn,$Query)){     
-            echo "<script>window.location.href = 'index.php';alert('Record Success to Edit');</script>";     
-        }else{          
-            echo "<script>alert('Record Fails to Edit')</script>";
-        }
+    $booking_date = $_POST['booking_date'];
+    $start_time = $_POST['start_time'];
+    $end_time = $_POST['end_time'];
+
+    $Query="UPDATE `item_appointment` SET booking_date='$booking_date', start_time='$start_time', end_time='$end_time' WHERE itembook_id = '".$_GET['id']."'";
+
+    if($result = mysqli_query($conn, $Query)){     
+        echo "<script>window.location.href = 'booking.php';alert('Record Successfully Edited');</script>";     
+    }else{          
+        echo "<script>alert('Record Fails to Edit')</script>";
     }
 }
 
 ?>
 
 <?php
-$qry = "SELECT * FROM item_appointment WHERE itembook_id='".$_GET['id']."'";
+
+$qry = "SELECT * FROM `item_appointment` WHERE itembook_id='".$_GET['itembook_id']."'";
 $sql = mysqli_query($conn, $qry);
 $row = mysqli_fetch_array($sql);
+
 ?>
 
 <div class="container">
-    <form class="form-horizontal" action="edit.php?id=<?=$_GET['id']?>" method="post" enctype="multipart/form-data">
+    <form class="form-horizontal" action="edit_item.php?id=<?=$_GET['itembook_id']?>" method="post">
         <div>
-            <input type="hidden" name="old_img" value="<?=$row['image']?>">
-            <label>Image:</label>
+            <label>Booking Date:</label>
             <div>
-                <img src="<?=$row['image']?>" width="123px" height="150px"><br>
-                <input type="file" name="image" accept="image/*" onchange="loadFile(event)">
+                <input type="date" name="booking_date" value="<?=$row['booking_date']?>" required>
             </div>
         </div>
         <div>
-            <label>SKU:</label>
+            <label>Start Time:</label>
             <div>
-                <input type="text" name="sku" placeholder="SKU" value="<?=$row['sku']?>" required>
+                <input type="time" name="start_time" value="<?=$row['start_time']?>" required>
             </div>
         </div>
         <div>
-            <label>Quantity:</label>
+            <label>End Time:</label>
             <div>
-                <input type="number" name="quantity" placeholder="Quantity" value="<?=$row['quantity']?>" required>
-            </div>
-        </div>
-        <div>
-            <label>Price (RM):</label>
-            <div>
-                <input type="text" name="price" placeholder="RM" value="<?=$row['price']?>" required>
+                <input type="time" name="end_time" value="<?=$row['end_time']?>" required>
             </div>
         </div>
         <br />
