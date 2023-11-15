@@ -27,27 +27,33 @@ $sql = mysqli_query($conn, $user);
 
 <body>
 
-    <div class="container mt-5 profile-box">
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <?php while ($row = mysqli_fetch_array($sql)) { ?>
-                    <p><?= $row['username'] ?></p>
-                    <p><?= $row['address'] ?></p>
-                    <p><?= $row['email'] ?></p>
-                    <p><?= $row['phone'] ?></p>
-                <?php } ?>
+<div class="ctable">
+    <div class="profile-panel">
+        <?php while ($row = mysqli_fetch_array($sql)) { ?>
+            <div class="profile-details">
+                    <div class="profile-picture"></div>
+                    <div class="profile-name"><?= $row['username'] ?></div>
+                </div>
+                <div class="right-column">
+                    <div class="profile-info email">
+                        <label>Email:</label>
+                        <span><?= $row['email'] ?></span>
+                    </div>
+                    <div class="profile-info phone">
+                        <label>Phone:</label>
+                        <span><?= $row['phone'] ?></span>
+                    </div>
+                    <div class="profile-info address">
+                        <label>Address:</label>
+                        <span><?= $row['address'] ?></span>
+                    </div>
+                    <form method="post">
+                        <input type="password" name="new_password" placeholder="New Password">
+                        <button class="btn" type="submit" name="change_password">Change Password</button>
+                    </form>
+                </div>
             </div>
-        </div>
-
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-4">
-                <!-- Add your form here -->
-                <form method="post" class="text-center">
-                    <input type="password" name="new_password" placeholder="New Password" class="form-control">
-                    <button type="submit" name="change_password" class="btn btn-primary mt-2">Change Password</button>
-                </form>
-            </div>
-        </div>
+        <?php } ?>
     </div>
 
 </body>
