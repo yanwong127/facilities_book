@@ -7,15 +7,32 @@ if(strlen($_SESSION['alogin'])==0)
 header('location:index.php');
 }
 else{
-
-if(isset($_REQUEST['del']))
+if(isset($_REQUEST['eid']))
 	{
-$delid=intval($_GET['del']);
-$sql = "delete from item  WHERE  item_id=:item_id";
+$eid=intval($_GET['eid']);
+$status="Cancelled";
+$sql = "UPDATE place_appointment SET status=:status WHERE  placebook_id=:eid";
 $query = $dbh->prepare($sql);
-$query -> bindParam(':item_id',$delid, PDO::PARAM_STR);
+$query -> bindParam(':status',$status, PDO::PARAM_STR);
+$query-> bindParam(':eid',$eid, PDO::PARAM_STR);
 $query -> execute();
-$msg="Vehicle  record deleted successfully";
+
+$msg="Booking Successfully Cancelled";
+}
+
+
+if(isset($_REQUEST['aeid']))
+	{
+$aeid=intval($_GET['aeid']);
+$status="Approve";
+
+$sql = "UPDATE place_appointment SET status=:status WHERE  placebook_id=:aeid";
+$query = $dbh->prepare($sql);
+$query -> bindParam(':status',$status, PDO::PARAM_STR);
+$query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
+$query -> execute();
+
+$msg="Booking Successfully Confirmed";
 }
 
 
@@ -32,7 +49,7 @@ $msg="Vehicle  record deleted successfully";
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>College  |Admin Manage Item   </title>
+	<title>College |Admin Manage Place Booking </title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -82,11 +99,11 @@ $msg="Vehicle  record deleted successfully";
 				<div class="row">
 					<div class="col-md-12">
 
-						<h2 class="page-title">Manage Item</h2>
+						<h2 class="page-title">Manage Bookings</h2>
 
 						<!-- Zero Configuration Table -->
 						<div class="panel panel-default">
-							<div class="panel-heading">Item Details</div>
+							<div class="panel-heading">Bookings Info</div>
 							<div class="panel-body">
 							<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
 				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
@@ -94,29 +111,32 @@ $msg="Vehicle  record deleted successfully";
 									<thead>
 										<tr>
 										<th>#</th>
-											<th>Item Name </th>
-											<th>Item Overview</th>
-											<th>Item Image</th>
-											<th>Availability</th>
+											<th>Name</th>
+											<th>Place</th>
+											<th>From Time</th>
+											<th>To Time</th>
+											<th>Date</th>
 											<th>Status</th>
+											<th>Posting date</th>
 											<th>Action</th>
 										</tr>
 									</thead>
 									<tfoot>
-									<tr>
+										<tr>
 										<th>#</th>
-											<th>Item Name </th>
-											<th>Item Overview</th>
-											<th>Item Image</th>
-											<th>Availability</th>
+										<th>Name</th>
+											<th>Place</th>
+											<th>From Time</th>
+											<th>To Time</th>
+											<th>Date</th>
 											<th>Status</th>
+											<th>Posting date</th>
 											<th>Action</th>
-										</tr>
 										</tr>
 									</tfoot>
 									<tbody>
 
-<?php $sql = "SELECT item_id, item_name, item_overview, item_img, availability, status FROM item";
+<?php $sql = "SELECT user.name, place.place_name, place.place_img, place_appointment.start_time, place_appointment.end_time, place_appointment.booking_date, place_appointment.status, place_appointment.bookingtime, place_appointment.placebook_id FROM place_appointment JOIN place ON place.place_id = place_appointment.place_id JOIN user ON user.user_id = place_appointment.user_id;";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -126,14 +146,22 @@ if($query->rowCount() > 0)
 foreach($results as $result)
 {				?>	
 										<tr>
-                                        <td><?php echo htmlentities($cnt); ?></td>
-                                                    <td><?php echo htmlentities($result->item_name); ?></td>
-                                                    <td><?php echo htmlentities($result->item_overview); ?></td>
-                                                    <td><img src="img/image/<?php echo htmlentities($result->item_img); ?>" style="width:100px;"></td>
-                                                    <td><?php echo htmlentities($result->availability); ?></td>
-                                                    <td><?php echo htmlentities($result->status); ?></td>
-		<td><a href="edit_item.php?item_id=<?php echo $result->item_id;?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-<a href="manage-item.php?del=<?php echo $result->item_id;?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i></a></td>
+											<td><?php echo htmlentities($cnt);?></td>
+											<td><?php echo htmlentities($result->name);?></td>
+											<td><a href="edit-place.php?place_id=<?php echo htmlentities($result->place_id);?>"><?php echo htmlentities($result->place_name);?></td>
+											<td><?php echo htmlentities($result->start_time);?></td>
+											<td><?php echo htmlentities($result->end_time);?></td>
+											<td><?php echo htmlentities($result->booking_date);?></td>
+											<td><?php echo htmlentities($result->status);
+
+										?></td>
+											<td><?php echo htmlentities($result->bookingtime);?></td>
+										<td><a href="place_booking.php?aeid=<?php echo htmlentities($result->placebook_id);?>" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a> /
+
+
+<a href="place_booking.php?eid=<?php echo htmlentities($result->placebook_id);?>" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
+</td>
+
 										</tr>
 										<?php $cnt=$cnt+1; }} ?>
 										
