@@ -99,7 +99,7 @@ $place_result = mysqli_query($conn, $place_query);
         justify-content: center;
         align-items: center;
         min-height: 50vh;
-    }
+    }sda
 
     .rounded-image {
         border-radius: 20px;
