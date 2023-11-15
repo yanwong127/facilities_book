@@ -9,15 +9,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$item_name = $_POST['item_name'];
 		$item_overview = $_POST['item_overview'];
 		$availability = $_POST['availability'];
-		$status = $_POST['status'];
 		$item_id = intval($_GET['item_id']);
 
-		$sql = "UPDATE item SET item_name = :item_name, item_overview = :item_overview, availability = :availability, status = :status WHERE item_id = :item_id";
+		$sql = "UPDATE item SET item_name = :item_name, item_overview = :item_overview, availability = :availability WHERE item_id = :item_id";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':item_name', $item_name, PDO::PARAM_STR);
 		$query->bindParam(':item_overview', $item_overview, PDO::PARAM_STR);
 		$query->bindParam(':availability', $availability, PDO::PARAM_STR);
-		$query->bindParam(':status', $status, PDO::PARAM_STR);
 		$query->bindParam(':item_id', $item_id, PDO::PARAM_INT);
 		$query->execute();
 
@@ -159,16 +157,9 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                             <option value="Not Working" <?php if ($result['availability'] == "Not Working") echo "selected"; ?>>Not Working</option>
                                                         </select>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Status<span style="color:red">*</span></label>
-                                                    <div class="col-sm-4">
-                                                        <select class="form-control" name="status" required>
-                                                            <option value="Booked" <?php if ($result['status'] == "Booked") echo "selected"; ?>>Booked</option>
-                                                            <option value="Not Booked" <?php if ($result['status'] == "Not Booked") echo "selected"; ?>>Not Booked</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                        </div>
+                                        
+
                                                 <div class="form-group">
                                                     <div class="col-sm-8 col-sm-offset-2">
                                                         <button class="btn btn-primary" name="submit" type="submit" style="margin-top:4%">Save changes</button>

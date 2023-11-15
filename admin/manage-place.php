@@ -98,7 +98,6 @@ $msg="Place  record deleted successfully";
 											<th>Place Overview</th>
 											<th>Place Image</th>
 											<th>Availability</th>
-											<th>Status</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -109,14 +108,13 @@ $msg="Place  record deleted successfully";
 											<th>Place Overview</th>
 											<th>Place Image</th>
 											<th>Availability</th>
-											<th>Status</th>
 											<th>Action</th>
 										</tr>
 										</tr>
 									</tfoot>
 									<tbody>
 
-<?php $sql = "SELECT place_id, place_name, place_overview, place_img, availability, status FROM place";
+<?php $sql = "SELECT place_id, place_name, place_overview, place_img, availability FROM place";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -131,7 +129,6 @@ foreach($results as $result)
                                                     <td><?php echo htmlentities($result->place_overview); ?></td>
                                                     <td><img src="img/image/<?php echo htmlentities($result->place_img); ?>" style="width:100px;"></td>
                                                     <td><?php echo htmlentities($result->availability); ?></td>
-                                                    <td><?php echo htmlentities($result->status); ?></td>
 		<td><a href="edit_place.php?place_id=<?php echo $result->place_id;?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
 <a href="manage-place.php?del=<?php echo $result->place_id;?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i></a></td>
 										</tr>

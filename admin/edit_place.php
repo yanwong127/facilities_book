@@ -9,15 +9,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$place_name = $_POST['place_name'];
 		$place_overview = $_POST['place_overview'];
 		$availability = $_POST['availability'];
-		$status = $_POST['status'];
 		$place_id = intval($_GET['place_id']);
 
-		$sql = "UPDATE place SET place_name = :place_name, place_overview = :place_overview, availability = :availability, status = :status WHERE place_id = :place_id";
+		$sql = "UPDATE place SET place_name = :place_name, place_overview = :place_overview, availability = :availability WHERE place_id = :place_id";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':place_name', $place_name, PDO::PARAM_STR);
 		$query->bindParam(':place_overview', $place_overview, PDO::PARAM_STR);
 		$query->bindParam(':availability', $availability, PDO::PARAM_STR);
-		$query->bindParam(':status', $status, PDO::PARAM_STR);
 		$query->bindParam(':place_id', $place_id, PDO::PARAM_INT);
 		$query->execute();
 
@@ -160,15 +158,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Status<span style="color:red">*</span></label>
-                                                    <div class="col-sm-4">
-                                                        <select class="form-control" name="status" required>
-                                                            <option value="Booked" <?php if ($result['status'] == "Booked") echo "selected"; ?>>Booked</option>
-                                                            <option value="Not Booked" <?php if ($result['status'] == "Not Booked") echo "selected"; ?>>Not Booked</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                            
                                                 <div class="form-group">
                                                     <div class="col-sm-8 col-sm-offset-2">
                                                         <button class="btn btn-primary" name="submit" type="submit" style="margin-top:4%">Save changes</button>
