@@ -20,7 +20,7 @@
 				<li><a href="#"><i class="fa fa-book"></i>Manage Booking</a>
 					<ul>
 						<li><a href="item_booking.php">Item Booking</a></li>
-						<li><a href="manage-place.php">Place Booking</a></li>
+						<li><a href="place_booking.php">Place Booking</a></li>
 					</ul>
 				</li>
 				<li><a href="reg-users.php"><i class="fa fa-users"></i>Manage Users</a></li>
