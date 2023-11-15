@@ -108,6 +108,75 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                 </tr>
             <?php } ?>
 
+            <dialog id="editDialog">
+                <button autofocus>Close</button>
+                <h2 id="editDialogTitle"></h2>
+                <div class="container">
+                    <form class="form-horizontal" action="booking.php" method="post">
+                        <input type="hidden" name="itembook_id" id="editItembookId">
+                        <div>
+                            <label>Booking Date:</label>
+                            <div>
+                                <input type="date" name="booking_date" id="editBookingDate" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label>Start Time:</label>
+                            <div>
+                                <input type="time" name="start_time" id="editStartTime" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label>End Time:</label>
+                            <div>
+                                <input type="time" name="end_time" id="editEndTime" required>
+                            </div>
+                        </div>
+                        <br />
+                        <div>
+                            <div>
+                                <button type="submit" name="edit" value="edit">Submit</button>
+                                <button type="button" onclick="window.location.href='booking.php'">Back</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </dialog>
+
+            <script>
+                const editLinks = document.querySelectorAll(".edit-link");
+                const dialog = document.getElementById('editDialog');
+                const dialogTitle = document.getElementById('editDialogTitle');
+                const itembookIdInput = document.getElementById('editItembookId');
+                const bookingDateInput = document.getElementById('editBookingDate');
+                const startTimeInput = document.getElementById('editStartTime');
+                const endTimeInput = document.getElementById('editEndTime');
+
+                editLinks.forEach((link) => {
+                    link.addEventListener("click", (event) => {
+                        event.preventDefault();
+
+                        const itembook_id = link.getAttribute('data-itembook-id');
+                        const booking_date = link.getAttribute('data-booking-date');
+                        const start_time = link.getAttribute('data-start-time');
+                        const end_time = link.getAttribute('data-end-time');
+
+                        // dialogTitle.textContent = `Edit Booking for Item ID: ${itembook_id}`;
+
+                        itembookIdInput.value = itembook_id;
+                        bookingDateInput.value = booking_date;
+                        startTimeInput.value = start_time;
+                        endTimeInput.value = end_time;
+
+                        dialog.showModal();
+                    });
+                });
+
+                dialog.querySelector("button").addEventListener("click", () => {
+                    dialog.close();
+                });
+            </script>
+
             <?php while ($row = mysqli_fetch_array($place_result)) { ?>
                 <tr>
                     <td>
@@ -129,7 +198,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                         <?= $row['status'] ?>
                     </td>
                     <td>
-                        <a href="#" class="edit-link" data-placebook-id="<?= $row['placebook_id'] ?>">Edit</a>
+                        <a href="#" class="edit-place-link" data-placebook-id="<?= $row['placebook_id'] ?>">Edit</a>
                     </td>
                     <td>
                         <a href="cancel_place.php?placebook_id=<?= $row['placebook_id'] ?>">Cancel</a>
@@ -139,75 +208,6 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
         </table>
 
     </div>
-
-    <dialog id="editDialog">
-        <button autofocus>Close</button>
-        <h2 id="editDialogTitle"></h2>
-        <div class="container">
-            <form class="form-horizontal" action="booking.php" method="post">
-                <input type="hidden" name="itembook_id" id="editItembookId">
-                <div>
-                    <label>Booking Date:</label>
-                    <div>
-                        <input type="date" name="booking_date" id="editBookingDate" required>
-                    </div>
-                </div>
-                <div>
-                    <label>Start Time:</label>
-                    <div>
-                        <input type="time" name="start_time" id="editStartTime" required>
-                    </div>
-                </div>
-                <div>
-                    <label>End Time:</label>
-                    <div>
-                        <input type="time" name="end_time" id="editEndTime" required>
-                    </div>
-                </div>
-                <br />
-                <div>
-                    <div>
-                        <button type="submit" name="edit" value="edit">Submit</button>
-                        <button type="button" onclick="window.location.href='booking.php'">Back</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </dialog>
-
-    <script>
-        const editLinks = document.querySelectorAll(".edit-link");
-        const dialog = document.getElementById('editDialog');
-        const dialogTitle = document.getElementById('editDialogTitle');
-        const itembookIdInput = document.getElementById('editItembookId');
-        const bookingDateInput = document.getElementById('editBookingDate');
-        const startTimeInput = document.getElementById('editStartTime');
-        const endTimeInput = document.getElementById('editEndTime');
-
-        editLinks.forEach((link) => {
-            link.addEventListener("click", (event) => {
-                event.preventDefault();
-
-                const itembook_id = link.getAttribute('data-itembook-id');
-                const booking_date = link.getAttribute('data-booking-date');
-                const start_time = link.getAttribute('data-start-time');
-                const end_time = link.getAttribute('data-end-time');
-
-                dialogTitle.textContent = `Edit Booking for Item ID: ${itembook_id}`;
-
-                itembookIdInput.value = itembook_id;
-                bookingDateInput.value = booking_date;
-                startTimeInput.value = start_time;
-                endTimeInput.value = end_time;
-
-                dialog.showModal();
-            });
-        });
-
-        dialog.querySelector("button").addEventListener("click", () => {
-            dialog.close();
-        });
-    </script>
 
     <dialog id="editPlaceDialog">
         <button autofocus>Close</button>
@@ -245,7 +245,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     </dialog>
 
     <script>
-        const editPlaceLinks = document.querySelectorAll(".edit-link");
+        const editPlaceLinks = document.querySelectorAll(".edit-place-link");
         const placeDialog = document.getElementById('editPlaceDialog');
         const placeDialogTitle = document.getElementById('editPlaceDialogTitle');
         const placebookIdInput = document.getElementById('editPlacebookId');
@@ -262,7 +262,11 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                 const place_start_time = link.getAttribute('data-place-start-time');
                 const place_end_time = link.getAttribute('data-place-end-time');
 
-                placeDialogTitle.textContent = `Edit Booking for Place ID: ${placebook_id}`;
+                if (placebook_id) {
+                    // placeDialogTitle.textContent = `Edit Booking for Place ID: ${placebook_id}`;
+                } else {
+                    placeDialogTitle.textContent = '';
+                }
 
                 placebookIdInput.value = placebook_id;
                 placeBookingDateInput.value = place_booking_date;
@@ -273,9 +277,16 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
             });
         });
 
-        placeDialog.querySelector("button").addEventListener("click", () => {
+        placeDialog.querySelector("button[autofocus]").addEventListener("click", () => {
             placeDialog.close();
         });
+
+        // placeDialog.addEventListener("click", (event) => {
+        //     if (event.target === placeDialog) {
+        //         placeDialog.close();
+        //     }
+    // });
+
     </script>
 
     <br>
