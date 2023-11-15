@@ -77,39 +77,40 @@ if (isset($_POST['change_password'])) {
 
 <body>
 
-
-    <div class="ctable">
+<div class="ctable">
+    <div class="profile-panel">
         <?php while ($row = mysqli_fetch_array($sql)) { ?>
-            <?= $row['username'] ?>
-            <?= $row['address'] ?>
-            <?= $row['email'] ?>
-            <?= $row['phone'] ?>
+            <div class="profile-details">
+                    <div class="profile-picture"></div>
+                    <div class="profile-name"><?= $row['username'] ?></div>
+                </div>
+                <div class="right-column">
+                    <div class="profile-info email">
+                        <label>Email:</label>
+                        <span><?= $row['email'] ?></span>
+                    </div>
+                    <div class="profile-info phone">
+                        <label>Phone:</label>
+                        <span><?= $row['phone'] ?></span>
+                    </div>
+                    <div class="profile-info address">
+                        <label>Address:</label>
+                        <span><?= $row['address'] ?></span>
+                    </div>
+                    <form method="post">
+                        <input type="password" name="new_password" placeholder="New Password">
+                        <button class="btn" type="submit" name="change_password">Change Password</button>
+                    </form>
+                </div>
+            </div>
         <?php } ?>
-
-        <div>
-            <form method="post">
-                <input type="password" name="new_password" placeholder="New Password">
-                <button type="submit" name="change_password">Change Password</button>
-            </form>
-        </div>
-
     </div>
+</div>
 
-
-    <?php
+<?php
     include_once('footer.php');
-    ?>
+?>
 
 </body>
 
 </html>
-
-<style>
-    .ctable {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-height: 50vh;
-    }
-</style>

@@ -25,19 +25,6 @@ if (mysqli_num_rows($result) === 0) {
 <html lang="en">
 
 <head>
-    <style>
-        .place {
-            margin-left: 60px;
-        }
-
-        .title {
-            text-align: center;
-        }
-
-        #place-content {
-            display: none;
-        }
-    </style>
 </head>
 
 <body>

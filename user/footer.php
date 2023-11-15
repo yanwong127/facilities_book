@@ -6,20 +6,39 @@
     <title>Footer</title>
 </head>
 <body>
-    
-<!-- Footer -->
-<footer class="w3-padding-32 w3-black w3-center w3-margin-top">
+<div class="content">
+  <!-- 这里放你的网站内容 -->
+</div>
+<footer class="footer">
   <h5>Find Us On</h5>
   <div class="w3-xlarge w3-padding-16">
     <i class="fa fa-facebook-official w3-hover-opacity"></i>
     <i class="fa fa-instagram w3-hover-opacity"></i>
-    <!-- <i class="fa fa-snapchat w3-hover-opacity"></i>
-    <i class="fa fa-pinterest-p w3-hover-opacity"></i> -->
     <i class="fa fa-twitter w3-hover-opacity"></i>
     <i class="fa fa-linkedin w3-hover-opacity"></i>
   </div>
 </footer>
 
-
 </body>
 </html>
+<style>
+  body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #333;
+  color: white;
+  padding: 0px;
+  text-align: center;
+}
+
+</style>
