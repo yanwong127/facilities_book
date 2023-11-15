@@ -5,7 +5,7 @@ session_start();
 $server = "localhost";
 $user   = "root";
 $pass   = "";
-$data   ="final_project";
+$data   ="facilities_book";
 
 $conn =mysqli_connect($server,$user,$pass,$data);
 
