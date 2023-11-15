@@ -7,7 +7,7 @@ if ($_SESSION['true'] !== true) {
     exit;
 }
 
-$user_id = $_SESSION['user_id'];asdaldhb
+$user_id = $_SESSION['user_id'];
 
 $sql = "SELECT * FROM `user` WHERE user_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
