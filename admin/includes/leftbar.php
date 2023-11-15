@@ -19,7 +19,7 @@
 				</li>
 				<li><a href="#"><i class="fa fa-book"></i>Manage Booking</a>
 					<ul>
-						<li><a href="add_place.php">Item Booking</a></li>
+						<li><a href="item_booking.php">Item Booking</a></li>
 						<li><a href="manage-place.php">Place Booking</a></li>
 					</ul>
 				</li>
