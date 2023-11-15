@@ -10,12 +10,12 @@ else{
 
 if(isset($_POST['update']))
 {
-$item_img=$_FILES["item_img"]["name"];
-$item_id=intval($_GET['item_id']);
-move_uploaded_file($_FILES["item_img"]["tmp_name"],"img/image/".$_FILES["item_img"]["name"]);
-$sql="update item set item_img=:item_img where item_id=:item_id";
+$image=$_FILES["img1"]["name"];
+$item_id=intval($_GET['imgid']);
+move_uploaded_file($_FILES["img1"]["tmp_name"],"img/image/".$_FILES["img1"]["name"]);
+$sql="update item set item_img=:image where item_id=:item_id";
 $query = $dbh->prepare($sql);
-$query->bindParam(':item_img',$item_img,PDO::PARAM_STR);
+$query->bindParam(':image',$image,PDO::PARAM_STR);
 $query->bindParam(':item_id',$item_id,PDO::PARAM_INT);
 $query->execute();
 
@@ -105,8 +105,8 @@ $msg="Image updated successfully";
 <div class="form-group">
 												<label class="col-sm-4 control-label">Current Image1</label>
 <?php 
-$item_id=intval($_GET['item_id']);
-$sql ="SELECT item_img from item where item_id=:item_id";
+$item_id=intval($_GET['imgid']);
+$sql ="SELECT item_img from item where item.item_id=:item_id";
 $query = $dbh -> prepare($sql);
 $query-> bindParam(':item_id', $item_id, PDO::PARAM_STR);
 $query->execute();

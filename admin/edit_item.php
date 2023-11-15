@@ -158,7 +158,23 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         </select>
                                                     </div>
                                         </div>
-                                        
+                                        </div>
+<div class="hr-dashed"></div>								
+<div class="form-group">
+<div class="col-sm-12">
+<h4><b>Item Images</b></h4>
+</div>
+</div>
+
+
+<div class="form-group">
+<div class="col-sm-4">
+Image  <img src="img/image/<?php echo htmlentities($result->item_img);?>" width="300" height="200" style="border:solid 1px #000">
+<a href="changeimage1.php?imgid=<?php echo htmlentities($result->item_id)?>">Change Image </a>
+</div>
+
+
+</div>
 
                                                 <div class="form-group">
                                                     <div class="col-sm-8 col-sm-offset-2">
