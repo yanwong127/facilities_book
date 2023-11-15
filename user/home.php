@@ -43,8 +43,6 @@ if (mysqli_num_rows($result) === 0) {
             echo $message;
         }
         include_once('item.php');
-        include('footer.php');
-
         ?>
     </div>
 
@@ -54,7 +52,6 @@ if (mysqli_num_rows($result) === 0) {
             echo $message;
         }
         include_once('place.php');
-        include('footer.php');
         ?>
     </div>
 
@@ -63,19 +60,19 @@ if (mysqli_num_rows($result) === 0) {
 </html>
 
 <script>
-        var showPlaceButton = document.getElementById('showPlace');
-        var showProductButton = document.getElementById('showProduct');
+    var showPlaceButton = document.getElementById('showPlace');
+    var showProductButton = document.getElementById('showProduct');
 
-        var itemContent = document.getElementById('item-content');
-        var placeContent = document.getElementById('place-content');
+    var itemContent = document.getElementById('item-content');
+    var placeContent = document.getElementById('place-content');
 
-        showProductButton.addEventListener('click', function () {
-            itemContent.style.display = 'block';
-            placeContent.style.display = 'none';
-        });
+    showProductButton.addEventListener('click', function () {
+        itemContent.style.display = 'block';
+        placeContent.style.display = 'none';
+    });
 
-        showPlaceButton.addEventListener('click', function () {
-            itemContent.style.display = 'none';
-            placeContent.style.display = 'block';
-        });
-    </script>
+    showPlaceButton.addEventListener('click', function () {
+        itemContent.style.display = 'none';
+        placeContent.style.display = 'block';
+    });
+</script>

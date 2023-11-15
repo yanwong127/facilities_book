@@ -55,7 +55,9 @@ if (isset($_POST['signup'])) {
                 </tr>
                 <tr>
                     <td><label for="username">Password:</label></td>
-                    <td><input type="password" name="password" class="signup-text" required><br></td>
+                    <td><input type="password" name="password" class="signup-text" required pattern="^(?=.*[A-Z]).{8,}$"
+                            title="Password must be at least 8 characters long and contain at least one uppercase letter"><br>
+                    </td>
                 </tr>
 
                 <tr>
@@ -77,8 +79,9 @@ if (isset($_POST['signup'])) {
                 <tr>
                     <td><label for="phone">Phone Number:</label></td>
                     <td>
-                        <input type="tel" name="phone" class="signup-text" required pattern="[0-9]{10}"
-                            title="Please enter a valid 10-digit phone number (e.g., 1234567890)">
+                        <input type="tel" name="phone" id="phone" class="signup-text" required
+                            title="Please enter a valid Malaysian mobile phone number"
+                            oninput="formatPhoneNumber(this.value)">
                         <br>
                     </td>
                 </tr>
@@ -106,51 +109,69 @@ if (isset($_POST['signup'])) {
 
 </html>
 
+<script>
+    function formatPhoneNumber(input) {
+        var cleanedInput = input.replace(/[-\s]/g, '');
+
+        var match = cleanedInput.match(/^(01[0-46-9]|011|012|013|014|015|016|017|018|019)(\d{7,9})$/);
+
+        if (match) {
+            var formattedNumber = match[1] + '-' + match[2];
+            document.getElementById('phone').setCustomValidity('');
+            document.getElementById('phone').value = formattedNumber;
+            document.getElementById('phone').pattern = "^(01[011|012|013|014|015|016|017|018|019)\\d{7,9}$";
+        } else {
+            document.getElementById('phone').setCustomValidity('Please enter a valid Malaysian mobile phone number');
+        }
+    }
+</script>
 
 <style>
     body {
-        background: #F4CE14;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
+            background: #F4CE14;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+         }
 
+         
+        .signup-container {
+            background: orange;
+            text-align: center;
+            margin: 0;
+            padding: 20px; 
+            border-radius: 10px;
+        }
 
-    .signup-container {
-        background: orange;
-        text-align: center;
-        margin: 0;
-        padding: 20px;
-        border-radius: 10px;
-    }
+        .signup-text {
+          border-radius: 10px;
+          height: 20px
+        }
 
-    .signup-text {
-        border-radius: 10px;
-        height: 20px
-    }
-
-    label {
+        label {
         color: white;
-    }
+        }
+        
+        .loginpage {
+            margin-top: 10px;
+            text-align: left;
+        }
 
-    .loginpage {
-        margin-top: 10px;
-        text-align: left;
-    }
-
-    .custom-button {
-        background-color: #CE5A67;
+        .custom-button {
+        background-color: #CE5A67; 
         width: 100%;
-        color: white;
-        border: none;
-        border-radius: 20px;
-        padding: 10px 20px;
-        cursor: pointer;
-    }
+        color: white; 
+        border: none; 
+        border-radius: 20px; 
+        padding: 10px 20px; 
+        cursor: pointer; 
+        }
 
-    .custom-button:hover {
-        background-color: #FF0000;
-    }
+        .custom-button:hover {
+        background-color: #FF0000; 
+        }
+
+
 </style>

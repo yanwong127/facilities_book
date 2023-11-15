@@ -14,58 +14,7 @@ $user_id = $_SESSION['user_id'];
 $user = "SELECT * FROM user WHERE `user_id` = $user_id";
 $sql = mysqli_query($conn, $user);
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-// Function to send verification email
-function sendVerificationEmail($recipient_email, $verification_code)
-{
-    $mail = new PHPMailer(true);
-
-    try {
-        //Server settings
-        $mail->SMTPDebug = 0; // Set to 2 for debugging
-        $mail->isSMTP();
-        $mail->Host = 'smtp.example.com'; // Your SMTP server details
-        $mail->SMTPAuth = true;
-        $mail->Username = 'your_username';
-        $mail->Password = 'your_password';
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = 587;
-
-        //Sender
-        $mail->setFrom('your_email@example.com', 'Your Name');
-
-        //Recipient
-        $mail->addAddress($recipient_email);
-
-        //Email content
-        $mail->isHTML(true);
-        $mail->Subject = 'Password Reset Verification';
-        $mail->Body = 'Click the following link to verify your password reset: <a href="http://yourwebsite.com/verify_password.php?code=' . $verification_code . '">Verify Password Reset</a>';
-
-        $mail->send();
-    } catch (Exception $e) {
-        // Handle any exceptions here, e.g., log an error message
-    }
-}
-
-// Check if the user clicked the "Change Password" button
-if (isset($_POST['change_password'])) {
-    $new_password = $_POST['new_password'];
-    // Generate a unique verification code, store it in the database, and send an email
-    $verification_code = md5(uniqid(rand(), true));
-    // Store the verification_code in the database for this user
-    $user_id = $_SESSION['user_id'];
-    // Perform a database update to store the verification_code for this user
-
-    // Send the verification email
-    $user_email = $row['email']; // You need to fetch the user's email from the database
-    sendVerificationEmail($user_email, $verification_code);
-}
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,6 +22,7 @@ if (isset($_POST['change_password'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -105,12 +55,25 @@ if (isset($_POST['change_password'])) {
             </div>
         <?php } ?>
     </div>
-</div>
-
-<?php
-    include_once('footer.php');
-?>
 
 </body>
 
 </html>
+
+
+<style>
+    .ctable {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 50vh;
+    }
+    .profile-box {
+        background-color: #f8f9fa; 
+        padding: 20px; 
+        border-radius: 10px; 
+        max-width: 50%; 
+    }
+    
+</style>
