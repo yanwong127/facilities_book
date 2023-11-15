@@ -98,7 +98,7 @@ $place_result = mysqli_query($conn, $place_query);
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        min-height: 50vh;
+        min-height: 50vh;sd
     }
 
     .rounded-image {
