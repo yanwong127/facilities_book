@@ -28,19 +28,17 @@ $place_result = mysqli_query($conn, $place_query);
 
 <body>
 
+<br>
+    <br>
+
+    
     <div class="ctable">
         <table>
-            <tr>
-                <!-- <th>Item ID</th>
-        <th>User ID</th>
-        <th>Status</th>
-        <th>Booking Time</th> -->
-                <!-- Add header for user_data if needed -->
-            </tr>
+
             <?php while ($row = mysqli_fetch_array($item_result)) { ?>
                 <tr>
                     <td>
-                        <img class="rounded-image" src="<?= $row['item_img'] ?>" style="width: 100px; height: 100px;">
+                        <img class="rounded-image" src="<?= $row['item_img'] ?>">
                     </td>
                     <td>
                         <?= $row['item_id'] ?>
@@ -54,25 +52,14 @@ $place_result = mysqli_query($conn, $place_query);
                     <td>
                         <?= $row['bookingtime'] ?>
                     </td>
-                    <!-- Add a cell for user_data if needed -->
                 </tr>
             <?php } ?>
-        </table>
-    </div>
 
-    <div class="ctable">
-        <table>
-            <tr>
-                <!-- <th>Item ID</th>
-        <th>User ID</th>
-        <th>Status</th>
-        <th>Booking Time</th> -->
-                <!-- Add header for user_data if needed -->
-            </tr>
+            
             <?php while ($row = mysqli_fetch_array($place_result)) { ?>
                 <tr>
                     <td>
-                        <img class="rounded-image" src="<?= $row['place_img'] ?>" style="width: 100px; height: 100px;">
+                        <img class="rounded-image" src="<?= $row['place_img'] ?>">
                     </td>
                     <td>
                         <?= $row['placebook_id'] ?>
@@ -88,12 +75,12 @@ $place_result = mysqli_query($conn, $place_query);
                     </td>
                 </tr>
             <?php } ?>
+
         </table>
     </div>
 
-    <?php
-    include_once('footer.php');
-    ?>
+    
+
 
 </body>
 
@@ -106,5 +93,11 @@ $place_result = mysqli_query($conn, $place_query);
         justify-content: center;
         align-items: center;
         min-height: 50vh;
+    }
+    
+    .rounded-image {
+        border-radius: 20px;
+        width: 200px;
+        height: auto;
     }
 </style>
