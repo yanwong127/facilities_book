@@ -1,31 +1,65 @@
 <?php
 session_start();
-error_reporting(0);
 include('includes/config.php');
-if (strlen($_SESSION['alogin']) == 0) {
-	header('location:index.php');
-} else {
-	if (isset($_POST['submit'])) {
-		$place_name = $_POST['place_name'];
-		$place_overview = $_POST['place_overview'];
-		$availability = $_POST['availability'];
-		$place_id = intval($_GET['place_id']);
 
-		$sql = "UPDATE place SET place_name = :place_name, place_overview = :place_overview, availability = :availability WHERE place_id = :place_id";
-		$query = $dbh->prepare($sql);
-		$query->bindParam(':place_name', $place_name, PDO::PARAM_STR);
-		$query->bindParam(':place_overview', $place_overview, PDO::PARAM_STR);
-		$query->bindParam(':availability', $availability, PDO::PARAM_STR);
-		$query->bindParam(':place_id', $place_id, PDO::PARAM_INT);
-		$query->execute();
+error_reporting(E_ALL);
 
-		$msg = "Data updated successfully";
-	}
+if (empty($_SESSION['alogin'])) {
+    header('location:index.php');
+    exit;
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $place_name = $_POST['place_name'];
+    $place_overview = $_POST['place_overview'];
+    $availability = $_POST['availability'];
+    $place_id = intval($_GET['place_id']);
+
+
+    $sql = "UPDATE place SET place_name = :place_name, place_overview = :place_overview, availability = :availability WHERE place_id = :place_id";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':place_name', $place_name, PDO::PARAM_STR);
+    $stmt->bindParam(':place_overview', $place_overview, PDO::PARAM_STR);
+    $stmt->bindParam(':availability', $availability, PDO::PARAM_STR);
+    $stmt->bindParam(':place_id', $place_id, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+        $msg = "Data updated successfully";
+    } else {
+        $msg = "Error updating data";
+    }
+
+    // Handle image upload
+    if (isset($_FILES['place_image']) && $_FILES['place_image']['error'] === UPLOAD_ERR_OK) {
+        $image_tmp = $_FILES['place_image']['tmp_name'];
+        $image_name = $_FILES['place_image']['name'];
+        $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
+        $new_image_name = uniqid() . '.' . $image_extension;
+        $image_path = 'img/image/' . $new_image_name;
+
+        if (move_uploaded_file($image_tmp, $image_path)) {
+            // Update the image path in the database
+            $sql = "UPDATE place SET place_img = :place_img WHERE place_id = :place_id";
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':place_img', $new_image_name, PDO::PARAM_STR);
+            $query->bindParam(':place_id', $place_id, PDO::PARAM_INT);
+            $query->execute();
+            $msg .= " Image updated successfully.";
+        } else {
+            $msg .= " Error uploading image.";
+        }
+    }
+}
+
+$place_id = intval($_GET['place_id']);
+$sql = "SELECT * FROM place WHERE place_id = :place_id";
+$stmt = $dbh->prepare($sql);
+$stmt->bindParam(':place_id', $place_id, PDO::PARAM_INT);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+// Display HTML
 ?>
 <!doctype html>
 <html lang="en" class="no-js">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,9 +67,7 @@ if (strlen($_SESSION['alogin']) == 0) {
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="theme-color" content="#3e454c">
-
     <title>College | Admin Edit Place Info</title>
-
     <!-- Font awesome -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Sandstone Bootstrap CSS -->
@@ -61,7 +93,6 @@ if (strlen($_SESSION['alogin']) == 0) {
             -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
             box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
         }
-
         .succWrap {
             padding: 10px;
             margin: 0 0 20px 0;
@@ -70,43 +101,34 @@ if (strlen($_SESSION['alogin']) == 0) {
             -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
             box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
         }
-
         /* Custom Styles */
         .page-title {
             margin-bottom: 20px;
         }
-
         .panel-heading {
             background-color: #3e454c;
             color: #fff;
         }
-
         .panel-body {
             background-color: #f7f7f7;
         }
-
         .form-horizontal .control-label {
             text-align: right;
         }
-
         .form-group {
             margin-bottom: 20px;
         }
-
         .form-control {
             width: 70%;
         }
-
         select.form-control {
             width: 70%;
         }
-
         .btn-primary {
             margin-top: 20px;
         }
     </style>
 </head>
-
 <body>
     <?php include('includes/header.php'); ?>
     <div class="ts-main-content">
@@ -121,21 +143,13 @@ if (strlen($_SESSION['alogin']) == 0) {
                                 <div class="panel panel-default">
                                     <div class="panel-heading">Basic Info</div>
                                     <div class="panel-body">
-                                        <?php if ($msg) { ?>
+                                        <?php if (!empty($msg)) { ?>
                                             <div class="succWrap">
                                                 <strong>SUCCESS</strong>:
                                                 <?php echo htmlentities($msg); ?>
                                             </div>
                                         <?php } ?>
-                                        <?php
-                                        $place_id = intval($_GET['place_id']);
-                                        $sql = "SELECT * FROM place WHERE place_id = :place_id";
-                                        $query = $dbh->prepare($sql);
-                                        $query->bindParam(':place_id', $place_id, PDO::PARAM_INT);
-                                        $query->execute();
-                                        $result = $query->fetch(PDO::FETCH_ASSOC);
-                                        if ($result) {
-                                        ?>
+                                        <?php if ($result) { ?>
                                             <form method="post" class="form-horizontal" enctype="multipart/form-data">
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Place Name<span style="color:red">*</span></label>
@@ -158,7 +172,13 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         </select>
                                                     </div>
                                                 </div>
-                                            
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Place Image</label>
+                                                    <div class="col-sm-4">
+                                                        <input type="file" name="place_image">
+                                                        <img src="img/image/<?php echo htmlentities($result['place_img']); ?>" width="300" height="200" style="border:solid 1px #000">
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-8 col-sm-offset-2">
                                                         <button class="btn btn-primary" name="submit" type="submit" style="margin-top:4%">Save changes</button>
@@ -187,5 +207,3 @@ if (strlen($_SESSION['alogin']) == 0) {
     <script src="js/main.js"></script>
 </body>
 </html>
-
-<?php ?>
