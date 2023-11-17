@@ -1,5 +1,8 @@
 <?php
 
+include_once('db.php');
+include_once('header.php');
+
 $item = "SELECT * FROM `item`";
 $qry = mysqli_query($conn, $item);
 
@@ -22,7 +25,7 @@ if (isset($_REQUEST['item_book'])) {
         $result = mysqli_query($conn, $insertQuery);
         if ($result) {
             $message = "Booking successful!";
-            echo "<script>window.location.href = 'home.php';
+            echo "<script>window.location.href = 'item.php';
             alert('Booking Sucessful.');</script>";
         } else {
             echo "Error: " . mysqli_error($conn);
@@ -30,6 +33,17 @@ if (isset($_REQUEST['item_book'])) {
     }
 }
 
+
+$records_per_page = 3;
+if (isset($_GET['item_page'])) {
+    $page = $_GET['item_page'];
+} else {
+    $page = 1;
+}
+
+$set = ($page - 1) * $records_per_page;
+$jj = "SELECT * FROM `item` LIMIT $set,$records_per_page";
+$result = mysqli_query($conn, $jj);
 
 ?>
 
@@ -45,15 +59,18 @@ if (isset($_REQUEST['item_book'])) {
 
 
 <body>
+    <br>
 
-
+    <h1>Item Page</h1>
+    <a href="place.php">Place</a>
+    <!-- <a href="home.php">Back</a> -->
 
     <div class="custom-table" id="clickable-div">
-        <?php while ($row = mysqli_fetch_array($qry)) { ?>
+        <?php while ($row = mysqli_fetch_array($result)) { ?>
             <div class="td">
                 <div class="item-row">
                     <div class="item-container" id="none">
-                        <a href="itemDetail.php?id=<?= $row['item_id'] ?>">
+                        <a href="place.php?id=<?= $row['item_id'] ?>">
                             <img class="rounded-image" src="img/<?= $row['item_img'] ?>">
                             <div class="item-name">
                                 <?= $row['item_name'] ?>
@@ -68,7 +85,7 @@ if (isset($_REQUEST['item_book'])) {
 
 
 
-    <form action="home.php" method="post">
+    <form action="item.php" method="post">
         <dialog>
             <button autofocus>Close</button>
             <h2 id="dialog-title"></h2>
@@ -87,8 +104,41 @@ if (isset($_REQUEST['item_book'])) {
             <input type="time" name="end_time" id="end_time" required>
             <button name="item_book">Book</button>
         </dialog>
+
+
     </form>
 
+    </table>
+    <div class="pagination justify-content-center">
+        <?php
+        $SQL = "SELECT COUNT(*) FROM item";
+        $result_count = mysqli_query($conn, $SQL);
+        $row = mysqli_fetch_row($result_count);
+        $records = $row[0];
+
+        $total_pages = ceil($records / $records_per_page);
+        $pagelink = "";
+
+        if ($page >= 2) {
+            echo "<a href='item.php?item_page=" . ($page - 1) . "'>Prev</a>";
+        }
+
+        for ($i = 1; $i <= $total_pages; $i++) {
+            if ($i == $page) {
+                $pagelink .= "<a class='active' href='item.php?item_page=" . $i . "'>" . $i . "</a>";
+            } else {
+                $pagelink .= "<a href='item.php?item_page=" . $i . "'>" . $i . "</a>";
+            }
+        }
+
+        echo $pagelink;
+
+        if ($page < $total_pages) {
+            echo "<a href='item.php?item_page=" . ($page + 1) . "'>Next</a>";
+        }
+        ?>
+    </div>
+    </table>
 
 
 
@@ -150,9 +200,6 @@ if (isset($_REQUEST['item_book'])) {
     }
 
     .custom-table .td {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
         text-align: center;
     }
 
@@ -161,9 +208,15 @@ if (isset($_REQUEST['item_book'])) {
         justify-content: center;
     }
 
+    .item-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .item-container img {
-        max-width: 300px;
-        max-height: 300px;
+        max-width: 200px;
+        max-height: 200px;
     }
 
     .item-name {
@@ -180,10 +233,36 @@ if (isset($_REQUEST['item_book'])) {
     }
 
     .rounded-image {
-        border-radius: 10px;
+        border-radius: 20px;
+        width: 200px;
+        height: 200px;
     }
 
     #dialog-image {
         height: 200px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    .pagination a {
+        color: black;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .pagination a.active {
+        background-color: dodgerblue;
+        color: white;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
     }
 </style>

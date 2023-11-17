@@ -136,7 +136,7 @@ $msg="Booking Successfully Confirmed";
 									</tfoot>
 									<tbody>
 
-<?php $sql = "SELECT user.name, item.item_name, item.item_img, item_appointment.start_time, item_appointment.end_time, item_appointment.booking_date, item_appointment.status, item_appointment.bookingtime, item_appointment.itembook_id FROM item_appointment JOIN item ON item.item_id = item_appointment.item_id JOIN user ON user.user_id = item_appointment.user_id;";
+<?php $sql = "SELECT item.item_id, user.name, item.item_name, item_appointment.start_time, item_appointment.end_time, item_appointment.booking_date, item_appointment.status, item_appointment.bookingtime, item_appointment.itembook_id FROM item_appointment JOIN item ON item.item_id = item_appointment.item_id JOIN user ON user.user_id = item_appointment.user_id;";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -148,7 +148,7 @@ foreach($results as $result)
 										<tr>
 											<td><?php echo htmlentities($cnt);?></td>
 											<td><?php echo htmlentities($result->name);?></td>
-											<td><a href="edit-item.php?item_id=<?php echo htmlentities($result->item_id);?>"><?php echo htmlentities($result->item_name);?></td>
+											<td><a href="edit_item.php?item_id=<?php echo $result->item_id;?>"><?php echo htmlentities($result->item_name);?></td>
 											<td><?php echo htmlentities($result->start_time);?></td>
 											<td><?php echo htmlentities($result->end_time);?></td>
 											<td><?php echo htmlentities($result->booking_date);?></td>
@@ -156,10 +156,10 @@ foreach($results as $result)
 
 										?></td>
 											<td><?php echo htmlentities($result->bookingtime);?></td>
-										<td><a href="item_booking.php?aeid=<?php echo htmlentities($result->itembook_id);?>" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a> /
+										<td><a href="booking_item.php?aeid=<?php echo htmlentities($result->itembook_id);?>" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a> /
 
 
-<a href="item_booking.php?eid=<?php echo htmlentities($result->itembook_id);?>" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
+<a href="booking_item.php?eid=<?php echo htmlentities($result->itembook_id);?>" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
 </td>
 
 										</tr>

@@ -1,6 +1,7 @@
 <?php
 
-
+include_once('db.php');
+include_once('header.php');
 
 $place = "SELECT * FROM `place`";
 $qry = mysqli_query($conn, $place);
@@ -16,7 +17,7 @@ if (isset($_REQUEST['place_book'])) {
         $start_time = $_POST['start_time'];
         $end_time = $_POST['end_time'];
 
-        $booking_date = date('Y/m/d', strtotime($booking_date));    
+        $booking_date = date('Y/m/d', strtotime($booking_date));
         $start_time = date('H:i:s', strtotime($start_time));
         $end_time = date('H:i:s', strtotime($end_time));
 
@@ -25,14 +26,27 @@ if (isset($_REQUEST['place_book'])) {
 
         if ($result) {
             $message = "Booking successful!";
-            echo "<script>window.location.href = 'home.php';
+            echo "<script>window.location.href = 'place.php';
             alert('Booking Sucessful.');</script>";
             exit();
         } else {
-            error_log("Error: " . mysqli_error($conn)); // Log the error
+            error_log("Error: " . mysqli_error($conn));
         }
     }
 }
+
+
+$records_per_page = 3;
+if (isset($_GET['place_page'])) {
+    $place_page = $_GET['place_page'];
+} else {
+    $place_page = 1;
+}
+$set2 = ($place_page - 1) * $records_per_page;
+$jj2 = "SELECT * FROM `place` LIMIT $set2,$records_per_page";
+$result2 = mysqli_query($conn, $jj2);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -44,12 +58,15 @@ if (isset($_REQUEST['place_book'])) {
 </head>
 
 <body>
+    <br>
+    <h1>Place Page</h1>
+    <a href="item.php">Back</a>
     <div class="custom-table" id="clickable-div">
-        <?php while ($row = mysqli_fetch_array($qry)) { ?>
+        <?php while ($row = mysqli_fetch_array($result2)) { ?>
             <div class="td">
                 <div class="place-row">
                     <div class="place-container" id="none">
-                        <a href="placeDetail.php?id=<?= $row['place_id'] ?>">
+                        <a href="place.php?id=<?= $row['place_id'] ?>">
                             <img class="rounded-image" src="img/<?= $row['place_img'] ?>">
                             <div class="place-name">
                                 <?= $row['place_name'] ?>
@@ -61,7 +78,7 @@ if (isset($_REQUEST['place_book'])) {
         <?php } ?>
     </div>
 
-    <form action="home.php" method="post">
+    <form action="place.php" method="post">
         <dialog id="place-dialog">
             <button autofocus>Close</button>
             <h2 id="place-dialog-title"></h2>
@@ -82,6 +99,37 @@ if (isset($_REQUEST['place_book'])) {
         </dialog>
     </form>
 
+    </table>
+    <div class="pagination justify-content-center">
+        <?php
+        $SQL = "SELECT COUNT(*) FROM place";
+        $result_count = mysqli_query($conn, $SQL);
+        $row = mysqli_fetch_row($result_count);
+        $records = $row[0];
+
+        $total_pages = ceil($records / $records_per_page);
+        $pagelink = "";
+
+        if ($place_page >= 2) {
+            echo "<a href='place.php?place_page=" . ($place_page - 1) . "'>Prev</a>";
+        }
+
+        for ($i = 1; $i <= $total_pages; $i++) {
+            if ($i == $place_page) {
+                $pagelink .= "<a class='active' href='place.php?place_page=" . $i . "'>" . $i . "</a>";
+            } else {
+                $pagelink .= "<a href='place.php?place_page=" . $i . "'>" . $i . "</a>";
+            }
+        }
+
+        echo $pagelink;
+
+        if ($place_page < $total_pages) {
+            echo "<a href='place.php?place_page=" . ($place_page + 1) . "'>Next</a>";
+        }
+        ?>
+    </div>
+    </table>
 
 
 </body>
@@ -153,15 +201,41 @@ if (isset($_REQUEST['place_book'])) {
 
     a {
         text-decoration: none;
-        color: black;
+        color: black; 
     }
 
     .rounded-image {
-        border-radius: 10px;
+        border-radius: 20px;
+        width: 200px;
+        height: 200px;    
     }
 
     #place-dialog-image {
         width: 400px;
         height: 200px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    .pagination a {
+        color: black;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .pagination a.active {
+        background-color: dodgerblue;
+        color: white;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
     }
 </style>

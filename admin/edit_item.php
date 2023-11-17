@@ -1,33 +1,64 @@
 <?php
 session_start();
-error_reporting(0);
 include('includes/config.php');
-if (strlen($_SESSION['alogin']) == 0) {
-	header('location:index.php');
-} else {
-	if (isset($_POST['submit'])) {
-		$item_name = $_POST['item_name'];
-		$item_overview = $_POST['item_overview'];
-		$availability = $_POST['availability'];
-		$status = $_POST['status'];
-		$item_id = intval($_GET['item_id']);
-
-		$sql = "UPDATE item SET item_name = :item_name, item_overview = :item_overview, availability = :availability, status = :status WHERE item_id = :item_id";
-		$query = $dbh->prepare($sql);
-		$query->bindParam(':item_name', $item_name, PDO::PARAM_STR);
-		$query->bindParam(':item_overview', $item_overview, PDO::PARAM_STR);
-		$query->bindParam(':availability', $availability, PDO::PARAM_STR);
-		$query->bindParam(':status', $status, PDO::PARAM_STR);
-		$query->bindParam(':item_id', $item_id, PDO::PARAM_INT);
-		$query->execute();
-
-		$msg = "Data updated successfully";
-	}
+// Set error reporting to report all errors and warnings
+error_reporting(E_ALL);
+// Check if user is logged in
+if (empty($_SESSION['alogin'])) {
+    header('location:index.php');
+    exit;
 }
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $item_name = $_POST['item_name'];
+    $item_overview = $_POST['item_overview'];
+    $availability = $_POST['availability'];
+    $item_id = intval($_GET['item_id']);
+    // Use prepared statement to update item info
+    $sql = "UPDATE item SET item_name = :item_name, item_overview = :item_overview, availability = :availability WHERE item_id = :item_id";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':item_name', $item_name, PDO::PARAM_STR);
+    $stmt->bindParam(':item_overview', $item_overview, PDO::PARAM_STR);
+    $stmt->bindParam(':availability', $availability, PDO::PARAM_STR);
+    $stmt->bindParam(':item_id', $item_id, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+        $msg = "Data updated successfully";
+    } else {
+        $msg = "Error updating data";
+    }
+
+    // Handle image upload
+    if (isset($_FILES['item_image']) && $_FILES['item_image']['error'] === UPLOAD_ERR_OK) {
+        $image_tmp = $_FILES['item_image']['tmp_name'];
+        $image_name = $_FILES['item_image']['name'];
+        $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
+        $new_image_name = uniqid() . '.' . $image_extension;
+        $image_path = 'img/image/' . $new_image_name;
+
+        if (move_uploaded_file($image_tmp, $image_path)) {
+            // Update the image path in the database
+            $sql = "UPDATE item SET item_img = :item_img WHERE item_id = :item_id";
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':item_img', $new_image_name, PDO::PARAM_STR);
+            $query->bindParam(':item_id', $item_id, PDO::PARAM_INT);
+            $query->execute();
+            $msg .= " Image updated successfully.";
+        } else {
+            $msg .= " Error uploading image.";
+        }
+    }
+}
+// Retrieve item info
+$item_id = intval($_GET['item_id']);
+$sql = "SELECT * FROM item WHERE item_id = :item_id";
+$stmt = $dbh->prepare($sql);
+$stmt->bindParam(':item_id', $item_id, PDO::PARAM_INT);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+// Display HTML
 ?>
 <!doctype html>
 <html lang="en" class="no-js">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,9 +66,7 @@ if (strlen($_SESSION['alogin']) == 0) {
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="theme-color" content="#3e454c">
-
     <title>College | Admin Edit Item Info</title>
-
     <!-- Font awesome -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Sandstone Bootstrap CSS -->
@@ -63,7 +92,6 @@ if (strlen($_SESSION['alogin']) == 0) {
             -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
             box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
         }
-
         .succWrap {
             padding: 10px;
             margin: 0 0 20px 0;
@@ -72,43 +100,34 @@ if (strlen($_SESSION['alogin']) == 0) {
             -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
             box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
         }
-
         /* Custom Styles */
         .page-title {
             margin-bottom: 20px;
         }
-
         .panel-heading {
             background-color: #3e454c;
             color: #fff;
         }
-
         .panel-body {
             background-color: #f7f7f7;
         }
-
         .form-horizontal .control-label {
             text-align: right;
         }
-
         .form-group {
             margin-bottom: 20px;
         }
-
         .form-control {
             width: 70%;
         }
-
         select.form-control {
             width: 70%;
         }
-
         .btn-primary {
             margin-top: 20px;
         }
     </style>
 </head>
-
 <body>
     <?php include('includes/header.php'); ?>
     <div class="ts-main-content">
@@ -123,21 +142,13 @@ if (strlen($_SESSION['alogin']) == 0) {
                                 <div class="panel panel-default">
                                     <div class="panel-heading">Basic Info</div>
                                     <div class="panel-body">
-                                        <?php if ($msg) { ?>
+                                        <?php if (!empty($msg)) { ?>
                                             <div class="succWrap">
                                                 <strong>SUCCESS</strong>:
                                                 <?php echo htmlentities($msg); ?>
                                             </div>
                                         <?php } ?>
-                                        <?php
-                                        $item_id = intval($_GET['item_id']);
-                                        $sql = "SELECT * FROM item WHERE item_id = :item_id";
-                                        $query = $dbh->prepare($sql);
-                                        $query->bindParam(':item_id', $item_id, PDO::PARAM_INT);
-                                        $query->execute();
-                                        $result = $query->fetch(PDO::FETCH_ASSOC);
-                                        if ($result) {
-                                        ?>
+                                        <?php if ($result) { ?>
                                             <form method="post" class="form-horizontal" enctype="multipart/form-data">
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Item Name<span style="color:red">*</span></label>
@@ -161,12 +172,10 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Status<span style="color:red">*</span></label>
+                                                    <label class="col-sm-2 control-label">Item Image</label>
                                                     <div class="col-sm-4">
-                                                        <select class="form-control" name="status" required>
-                                                            <option value="Booked" <?php if ($result['status'] == "Booked") echo "selected"; ?>>Booked</option>
-                                                            <option value="Not Booked" <?php if ($result['status'] == "Not Booked") echo "selected"; ?>>Not Booked</option>
-                                                        </select>
+                                                        <input type="file" name="item_image">
+                                                        <img src="img/image/<?php echo htmlentities($result['item_img']); ?>" width="300" height="200" style="border:solid 1px #000">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -197,5 +206,3 @@ if (strlen($_SESSION['alogin']) == 0) {
     <script src="js/main.js"></script>
 </body>
 </html>
-
-<?php ?>

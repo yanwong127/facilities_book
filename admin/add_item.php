@@ -10,17 +10,15 @@ if (strlen($_SESSION['alogin']) == 0) {
         $item_name = $_POST['item_name'];
         $item_overview = $_POST['item_overview'];
         $item_img = $_FILES["item_img"]["name"];
-        $status = $_POST['status'];
         $availability = $_POST['availability'];
 
         move_uploaded_file($_FILES["item_img"]["tmp_name"], "img/image/" . $_FILES["item_img"]["name"]);
 
-        $sql = "INSERT INTO item(item_name,item_overview, item_img, status, availability) VALUES(:item_name, :item_overview, :item_img, :status, :availability)";
+        $sql = "INSERT INTO item(item_name,item_overview, item_img, availability) VALUES(:item_name, :item_overview, :item_img, , :availability)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':item_name', $item_name, PDO::PARAM_STR);
         $query->bindParam(':item_overview', $item_overview, PDO::PARAM_STR);
         $query->bindParam(':item_img', $item_img, PDO::PARAM_STR);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
         $query->bindParam(':availability', $availability, PDO::PARAM_STR);
 
         $query->execute();
@@ -141,15 +139,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         </select>
                                                     </div>
 
-                                                    <label class="col-sm-2 control-label">Status<span
-                                                            style="color:red">*</span></label>
-                                                    <div class="col-sm-4">
-                                                        <select class="form-control" name="status" required>
-                                                            <option value="">Select</option>
-                                                            <option value="Booked">Booked</option>
-                                                            <option value="Not Booked">Not Booked</option>
-                                                        </select>
-                                                    </div>
+                                                   
                                                 </div>
 
                                                 <div class="form-group">
