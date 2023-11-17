@@ -32,7 +32,8 @@ $sql = mysqli_query($conn, $user);
     <div class="profile-panel">
         <?php while ($row = mysqli_fetch_array($sql)) { ?>
             <div class="profile-details">
-                    <div class="profile-picture"></div>
+            <img src="img/<?= $row['user_img'] ?>">
+                    <!-- <div class="profile-picture"></div> -->
                     <div class="profile-name"><?= $row['username'] ?></div>
                     <div class="profile-info email">
                         <label>Email:</label>
