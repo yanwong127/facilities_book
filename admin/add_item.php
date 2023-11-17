@@ -14,7 +14,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
         move_uploaded_file($_FILES["item_img"]["tmp_name"], "img/image/" . $_FILES["item_img"]["name"]);
 
-        $sql = "INSERT INTO item(item_name,item_overview, item_img, availability) VALUES(:item_name, :item_overview, :item_img, , :availability)";
+        $sql = "INSERT INTO item(item_name,item_overview, item_img,availability) VALUES(:item_name, :item_overview, :item_img, :availability)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':item_name', $item_name, PDO::PARAM_STR);
         $query->bindParam(':item_overview', $item_overview, PDO::PARAM_STR);
@@ -24,7 +24,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         $query->execute();
         $lastInsertId = $dbh->lastInsertId();
         if ($lastInsertId) {
-            $msg = "Item posted successfully";
+            $msg = "Facilities posted successfully";
         } else {
             $error = "Something went wrong. Please try again";
         }
@@ -94,7 +94,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                     <div class="row">
                         <div class="col-md-12">
 
-                            <h2 class="page-title">Post An Item</h2>
+                            <h2 class="page-title">Post A Item</h2>
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -139,11 +139,11 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         </select>
                                                     </div>
 
-                                                   
+                                                  
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <div class="col-sm-10">
+                                                    <div class="col-sm-6">
                                                         <h4><b>Upload Images</b></h4>
                                                     </div>
                                                 </div>
