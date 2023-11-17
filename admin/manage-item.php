@@ -98,7 +98,6 @@ $msg="Vehicle  record deleted successfully";
 											<th>Item Overview</th>
 											<th>Item Image</th>
 											<th>Availability</th>
-											<th>Status</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -109,14 +108,13 @@ $msg="Vehicle  record deleted successfully";
 											<th>Item Overview</th>
 											<th>Item Image</th>
 											<th>Availability</th>
-											<th>Status</th>
 											<th>Action</th>
 										</tr>
 										</tr>
 									</tfoot>
 									<tbody>
 
-<?php $sql = "SELECT item_id, item_name, item_overview, item_img, availability, status FROM item";
+<?php $sql = "SELECT item_id, item_name, item_overview, item_img, availability FROM item";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -131,7 +129,6 @@ foreach($results as $result)
                                                     <td><?php echo htmlentities($result->item_overview); ?></td>
                                                     <td><img src="img/image/<?php echo htmlentities($result->item_img); ?>" style="width:100px;"></td>
                                                     <td><?php echo htmlentities($result->availability); ?></td>
-                                                    <td><?php echo htmlentities($result->status); ?></td>
 		<td><a href="edit_item.php?item_id=<?php echo $result->item_id;?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
 <a href="manage-item.php?del=<?php echo $result->item_id;?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i></a></td>
 										</tr>

@@ -148,7 +148,7 @@ foreach($results as $result)
 										<tr>
 											<td><?php echo htmlentities($cnt);?></td>
 											<td><?php echo htmlentities($result->name);?></td>
-											<td><a href="edit-place.php?place_id=<?php echo htmlentities($result->place_id);?>"><?php echo htmlentities($result->place_name);?></td>
+											<td><a href="edit_place.php?place_id=<?php echo htmlentities($result->place_id);?>"><?php echo htmlentities($result->place_name);?></td>
 											<td><?php echo htmlentities($result->start_time);?></td>
 											<td><?php echo htmlentities($result->end_time);?></td>
 											<td><?php echo htmlentities($result->booking_date);?></td>
@@ -156,10 +156,10 @@ foreach($results as $result)
 
 										?></td>
 											<td><?php echo htmlentities($result->bookingtime);?></td>
-										<td><a href="place_booking.php?aeid=<?php echo htmlentities($result->placebook_id);?>" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a> /
+										<td><a href="booking_place.php?aeid=<?php echo htmlentities($result->placebook_id);?>" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a> /
 
 
-<a href="place_booking.php?eid=<?php echo htmlentities($result->placebook_id);?>" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
+<a href="booking_place.php?eid=<?php echo htmlentities($result->placebook_id);?>" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
 </td>
 
 										</tr>
