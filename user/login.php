@@ -63,7 +63,7 @@ if (isset($_POST['submit'])) {
                 </div>
             
                 <div class="forget-password">
-                    <a href="forget.php">Forget Password</a>
+                    <a href="forgot_password.php">Forget Password</a>
                 </div>
                 <div class="btn-container">
                     <input type="submit" name="submit" value="Login" class="custom-button">
