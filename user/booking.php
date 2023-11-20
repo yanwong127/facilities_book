@@ -10,11 +10,31 @@ if ($_SESSION['true'] != true) {
 
 $user_id = $_SESSION['user_id'];
 
-$item_query = "SELECT * FROM `item_appointment` WHERE `user_id` = $user_id AND `status` != 'active'";
-$item_result = mysqli_query($conn, $item_query);
+$records_per_page = 3;
 
-$place_query = "SELECT * FROM `place_appointment` WHERE `user_id` = $user_id AND `status` != 'active'";
-$place_result = mysqli_query($conn, $place_query);
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+
+$offset = ($page - 1) * $records_per_page;
+
+
+$query = "
+    (SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status
+    FROM `item_appointment` ia
+    INNER JOIN `place_appointment` pa ON ia.user_id = pa.user_id
+    WHERE ia.`user_id` = $user_id AND ia.`status` = 'unactive')
+
+    UNION
+
+    (SELECT 'place' as type, pa.placebook_id as book_id, pa.place_img as img, pa.place_name as name, pa.booking_date, pa.start_time, pa.end_time, pa.status
+    FROM `place_appointment` pa
+    INNER JOIN `item_appointment` ia ON pa.user_id = ia.user_id
+    WHERE pa.`user_id` = $user_id AND pa.`status` = 'unactive')
+    LIMIT $offset, $records_per_page
+";
+
+$result = mysqli_query($conn, $query);
+
+
 
 if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
     $itembook_id = $_POST['itembook_id'];
@@ -22,9 +42,9 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
     $start_time = $_POST['start_time'];
     $end_time = $_POST['end_time'];
 
-    $query = "UPDATE `item_appointment` SET booking_date=?, start_time=?, end_time=? WHERE itembook_id=?";
+    $query1 = "UPDATE `item_appointment` SET booking_date=?, start_time=?, end_time=? WHERE itembook_id=?";
 
-    $stmt = mysqli_prepare($conn, $query);
+    $stmt = mysqli_prepare($conn, $query1);
     mysqli_stmt_bind_param($stmt, "sssi", $booking_date, $start_time, $end_time, $itembook_id);
 
     if (mysqli_stmt_execute($stmt)) {
@@ -43,9 +63,9 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     $start_time = $_POST['place_start_time'];
     $end_time = $_POST['place_end_time'];
 
-    $query = "UPDATE `place_appointment` SET booking_date=?, start_time=?, end_time=? WHERE placebook_id=?";
+    $query2 = "UPDATE `place_appointment` SET booking_date=?, start_time=?, end_time=? WHERE placebook_id=?";
 
-    $stmt = mysqli_prepare($conn, $query);
+    $stmt = mysqli_prepare($conn, $query2);
     mysqli_stmt_bind_param($stmt, "sssi", $booking_date, $start_time, $end_time, $placebook_id);
 
     if (mysqli_stmt_execute($stmt)) {
@@ -79,13 +99,13 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
 
     <div class="ctable">
         <table>
-            <?php while ($row = mysqli_fetch_array($item_result)) { ?>
+            <?php while ($row = mysqli_fetch_array($result)) { ?>
                 <tr>
                     <td>
-                        <img class="rounded-image" src="<?= $row['item_img'] ?>">
+                        <img class="rounded-image" src="<?= $row['img'] ?>">
                     </td>
                     <td>
-                        <?= $row['item_name'] ?>
+                        <?= $row['name'] ?>
                     </td>
                     <td>
                         <?= $row['booking_date'] ?>
@@ -100,10 +120,10 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                         <?= $row['status'] ?>
                     </td>
                     <td>
-                        <a href="#" class="edit-link" data-itembook-id="<?= $row['itembook_id'] ?>">Edit</a>
+                        <a href="#" class="edit-link" data-itembook-id="<?= $row['book_id'] ?>">Edit</a>
                     </td>
                     <td>
-                        <a href="cancel_item.php?itembook_id=<?= $row['itembook_id'] ?>">Cancel</a>
+                        <a href="cancel_item.php?itembook_id=<?= $row['book_id'] ?>">Cancel</a>
                     </td>
                 </tr>
             <?php } ?>
@@ -177,10 +197,10 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                 });
             </script>
 
-            <?php while ($row = mysqli_fetch_array($place_result)) { ?>
+            <?php while ($row = mysqli_fetch_array($result)) { ?>
                 <tr>
                     <td>
-                        <img class="rounded-image" src="<?= $row['place_img'] ?>">
+                        <img class="rounded-image" src="<?= $row['img'] ?>">
                     </td>
                     <td>
                         <?= $row['place_name'] ?>
@@ -198,10 +218,10 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                         <?= $row['status'] ?>
                     </td>
                     <td>
-                        <a href="#" class="edit-place-link" data-placebook-id="<?= $row['placebook_id'] ?>">Edit</a>
+                        <a href="#" class="edit-place-link" data-placebook-id="<?= $row['book_id'] ?>">Edit</a>
                     </td>
                     <td>
-                        <a href="cancel_place.php?placebook_id=<?= $row['placebook_id'] ?>">Cancel</a>
+                        <a href="cancel_place.php?placebook_id=<?= $row['book_id'] ?>">Cancel</a>
                     </td>
                 </tr>
             <?php } ?>
@@ -285,9 +305,44 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
         //     if (event.target === placeDialog) {
         //         placeDialog.close();
         //     }
-    // });
+        // });
 
     </script>
+
+    <div class="pagination justify-content-center">
+        <?php
+        $item_count_query = "SELECT COUNT(*) FROM `item_appointment` WHERE `user_id` = $user_id AND `status` = 'unactive'";
+        $item_count_result = mysqli_query($conn, $item_count_query);
+        $item_row = mysqli_fetch_row($item_count_result);
+        $item_records = $item_row[0];
+
+        $place_count_query = "SELECT COUNT(*) FROM `place_appointment` WHERE `user_id` = $user_id AND `status` = 'unactive'";
+        $place_count_result = mysqli_query($conn, $place_count_query);
+        $place_row = mysqli_fetch_row($place_count_result);
+        $place_records = $place_row[0];
+
+        $total_records = $item_records + $place_records;
+        $total_pages = ceil($total_records / $records_per_page);
+
+        if ($page > 1) {
+            echo "<a href='booking.php?page=" . ($page - 1) . "'>Prev</a>";
+        }
+
+        for ($i = 1; $i <= $total_pages; $i++) {
+            echo "<a " . ($i == $page ? "class='active'" : "") . " href='booking.php?page=" . $i . "'>" . $i . "</a>";
+        }
+
+        if ($page < $total_pages) {
+            echo "<a href='booking.php?page=" . ($page + 1) . "'>Next</a>";
+        } elseif ($page >= $total_pages) {
+            echo "<a class='disabled'>Next</a>";
+        }
+        ?>
+
+
+
+    </div>
+
 
     <br>
     <br>
@@ -312,5 +367,29 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
         border-radius: 20px;
         width: 200px;
         height: auto;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    .pagination a {
+        color: black;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .pagination a.active {
+        background-color: dodgerblue;
+        color: white;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
     }
 </style>
