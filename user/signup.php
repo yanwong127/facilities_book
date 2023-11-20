@@ -64,7 +64,8 @@ if (isset($_POST['signup'])) {
             padding: 70px 100px;
             display: inline-block;
             text-align: center;
-            margin: 50px; /* Adjust the margin as needed */
+            margin: 50px;
+            /* Adjust the margin as needed */
         }
 
         .input-container {
@@ -124,7 +125,7 @@ if (isset($_POST['signup'])) {
 <body>
     <form action="signup.php" method='post'>
         <div class="signup-container">
-        <i class="fa fa-user-circle" id="user" aria-hidden="true"></i>
+            <i class="fa fa-user-circle" id="user" aria-hidden="true"></i>
             <div class="input-container">
                 <label for="username">Name:</label>
                 <input type="text" name="username" class="signup-text" required>
