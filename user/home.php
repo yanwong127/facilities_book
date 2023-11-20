@@ -61,9 +61,9 @@ if (isset($_REQUEST['item_book'])) {
 <body>
 <br>    
 
-<div >
+<div class="home_page">
 <h1 class="home">Home Page</h1>
-    <button class="show-all-button" onclick="showAllItems()">Show All</button>
+<button class="show-all-button" onclick="showAllItems()">Show All</button>
 </div><br>
 
 <div class="custom-table" id="clickable-div">
@@ -93,28 +93,26 @@ if (isset($_REQUEST['item_book'])) {
   
 </div>
 
-    <form action="home.php" method="post">
-        <dialog>
-            <button autofocus>Close</button>
-            <h2 id="dialog-title"></h2>
-            <h2 id="dialog-item-name" style="text-align: center;"></h2>
-            <img id="dialog-image" src="" alt="Item Image">
-            <p id="dialog-description"></p>
-            <input type="hidden" name="item_id" id="item_id">
-            <input type="hidden" name="item_name" id="item_name">
-            <input type="hidden" name="item_img" id="item_img">
-            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-            <label for="booking_date">Booking Date:</label>
-            <input type="date" name="booking_date" id="booking_date" required>
-            <label for="start_time">Start Time:</label>
-            <input type="time" name="start_time" id="start_time" required>
-            <label for="end_time">End Time:</label>
-            <input type="time" name="end_time" id="end_time" required>
-            <button name="item_book">Book</button>
-        </dialog>
-
-
-    </form>
+<form action="home.php" method="post">
+    <dialog class="dialog" >
+      <i class="fa fa-close" style="float: right;"></i>
+        <h2 id="dialog-item-name" style="text-align: center;"></h2>
+      <h2 id="dialog-title"></h2>
+      <img id="dialog-image" src="" alt="Item Image">
+      <p id="dialog-description"></p>
+      <input type="hidden" name="item_id" id="item_id">
+      <input type="hidden" name="item_name" id="item_name">
+      <input type="hidden" name="item_img" id="item_img">
+      <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+      <label for="booking_date">Booking Date:</label>
+      <input type="date" name="booking_date" id="booking_date" required>
+      <label for="start_time">Start Time:</label>
+      <input type="time" name="start_time" id="start_time" required>
+      <label for="end_time">End Time:</label>
+      <input type="time" name="end_time" id="end_time" required>
+      <button name="item_book">Book</button>
+    </dialog>
+  </form>
 
 
 </body>
@@ -130,7 +128,7 @@ if (isset($_REQUEST['item_book'])) {
 <script>
     const dialog = document.querySelector("dialog");
     const showButton = document.querySelector("dialog + button");
-    const closeButton = document.querySelector("dialog button");
+    const closeButton = document.querySelector(".fa-close");
     const dialogTitle = document.getElementById("dialog-title");
     const dialogImage = document.getElementById("dialog-image");
     const dialogDescription = document.getElementById("dialog-description");
@@ -167,55 +165,78 @@ if (isset($_REQUEST['item_book'])) {
 </script>
 
 
+
 <style>
+.home_page {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;"
+}
 
+/* 对话框样式 */
+.dialog {
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+
+button {
+  background-color: #8d8f8d;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #525352;
+}
+
+/* 原有表格样式的改进 */
 .custom-table {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 16px;
-    }
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 16px;
+  justify-content: center; /* 居中对齐 */
+}
 
-    .custom-table .td {
-        text-align: center;
-    }
 
-    .item-row {
-        align-items: center;
-        justify-content: center;
-    }
+.td {
+  text-align: center;
+}
 
-    .item-container {
-        display: flex; 
-        flex-direction: column;
-        align-items: center;
-    }
+.item-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease; /* 添加移动效果 */
+}
 
-    .item-container img {
-        max-width: 200px;
-        max-height: 200px;
-    }
+.item-container:hover {
+  transform: translateY(-10px); /* 悬停时上移一些 */
+  cursor: pointer;
+}
 
-    .item-name {
-        font-weight: bold;
-    }
+.item-container img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 20px;
+}
 
-    #clickable-div:hover {
-        cursor: pointer;
-    }
+.item-name {
+  font-weight: bold;
+  margin-top: 10px;
+}
 
-    a {
-        text-decoration-line: none;
-        color: black;
-    }
+#clickable-div:hover {
+  cursor: pointer;
+}
 
-    .rounded-image {
-        border-radius: 20px;
-        width: 200px;
-        height: 200px;
-    }
-
-    #dialog-image {
-        height: 200px;
-    }
         
 </style>

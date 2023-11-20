@@ -59,8 +59,11 @@ $result2 = mysqli_query($conn, $jj2);
 
 <body>
     <br>
-    <h1>Place Page</h1>
-    <a href="item.php">Back</a>
+    <div>
+    <h1 style="font-family: Clarkson,Helvetica,sans-serif;">Item Page</h1>
+    <a class="button-1" href="item.php" role="button"><span class="text">Item</span></a>
+    <a class="button-1" href="place.php" role="button"><span class="text">Place</span></a>
+    </div>
     <div class="custom-table" id="clickable-div">
         <?php while ($row = mysqli_fetch_array($result2)) { ?>
             <div class="td">
@@ -79,25 +82,26 @@ $result2 = mysqli_query($conn, $jj2);
     </div>
 
     <form action="place.php" method="post">
-        <dialog id="place-dialog">
-            <button autofocus>Close</button>
-            <h2 id="place-dialog-title"></h2>
-            <h2 id="place-dialog-item-name" style="text-align: center;"></h2>
-            <img id="place-dialog-image" src="" alt="Place Image">
-            <p id="place-dialog-description"></p>
-            <input type="hidden" name="place_id" id="place_id">
-            <input type="hidden" name="place_name" id="place_name">
-            <input type="hidden" name="place_img" id="place_img">
-            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-            <label for="booking_date">Booking Date:</label>
-            <input type="date" name="booking_date" id="booking_date" required>
-            <label for="start_time">Start Time:</label>
-            <input type="time" name="start_time" id="start_time" required>
-            <label for="end_time">End Time:</label>
-            <input type="time" name="end_time" id="end_time" required>
-            <button name="place_book">Book</button>
-        </dialog>
+    <dialog id="place-dialog">
+        <i class="fa fa-close" onclick="document.getElementById('place-dialog').close()"></i>
+        <h2 id="place-dialog-title"></h2>
+        <h2 id="place-dialog-item-name" style="text-align: center;"></h2>
+        <img id="place-dialog-image" src="" alt="Place Image">
+        <p id="place-dialog-description"></p>
+        <input type="hidden" name="place_id" id="place_id">
+        <input type="hidden" name="place_name" id="place_name">
+        <input type="hidden" name="place_img" id="place_img">
+        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+        <label for="booking_date">Booking Date:</label>
+        <input type="date" name="booking_date" id="booking_date" required>
+        <label for="start_time">Start Time:</label>
+        <input type="time" name="start_time" id="start_time" required>
+        <label for="end_time">End Time:</label>
+        <input type="time" name="end_time" id="end_time" required>
+        <button name="place_book">Book</button>
+    </dialog>
     </form>
+
 
     </table>
     <div class="pagination justify-content-center">
@@ -161,81 +165,82 @@ $result2 = mysqli_query($conn, $jj2);
             placeDialog.showModal();
         });
     });
-
-    placeDialog.querySelector("button").addEventListener("click", () => {
-        placeDialog.close();
-    });
 </script>
 
+
 <style>
-    .custom-table {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 16px;
-    }
+.home_page {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;"
+}
 
-    .custom-table .td {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
-        text-align: center;
-    }
+/* 对话框样式 */
+.dialog {
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
 
-    .place-row {
-        align-items: center;
-        justify-content: center;
-    }
+.dialog i {
+  margin-left: auto; /* Move the <i> element to the right */
+}
 
-    .place-container img {
-        max-width: 300px;
-        max-height: 300px;
-    }
+button {
+  background-color: #8d8f8d;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
 
-    .place-name {
-        font-weight: bold;
-    }
+button:hover {
+  background-color: #525352;
+}
 
-    #clickable-div:hover {
-        cursor: pointer;
-    }
+/* 原有表格样式的改进 */
+.custom-table {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 16px;
+  justify-content: center; /* 居中对齐 */
+}
 
-    a {
-        text-decoration: none;
-        color: black; 
-    }
+.td {
+  text-align: center;
+}
 
-    .rounded-image {
-        border-radius: 20px;
-        width: 200px;
-        height: 200px;    
-    }
+.place-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease; /* 添加移动效果 */
+}
 
-    #place-dialog-image {
-        width: 400px;
-        height: 200px;
-    }
+.place-container:hover {
+  transform: translateY(-10px); /* 悬停时上移一些 */
+  cursor: pointer;
+}
 
-    .pagination {
-        display: flex;
-        justify-content: center;
-        list-style: none;
-        padding: 0;
-        margin-top: 20px;
-    }
+.place-container img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 20px;
+}
 
-    .pagination a {
-        color: black;
-        padding: 8px 16px;
-        text-decoration: none;
-        transition: background-color 0.3s;
-    }
+.place-name {
+  font-weight: bold;
+  margin-top: 10px;
+}
 
-    .pagination a.active {
-        background-color: dodgerblue;
-        color: white;
-    }
+#clickable-div:hover {
+  cursor: pointer;
+}
 
-    .pagination a:hover:not(.active) {
-        background-color: #ddd;
-    }
+        
 </style>

@@ -22,7 +22,7 @@ if (isset($_POST['new'])) {
             // $quantity=$_POST['quantity'];
             // $name=$_POST['name'];
             // $price=$_POST['price'];
-            $sql = "INSERT INTO place(`place_img`) VALUES ('$filename')";
+            $sql = "INSERT INTO item(`item_img`) VALUES ('$filename')";
             if (mysqli_query($conn, $sql)) {
                 // $name=$_POST['name']; 
                 // $abc = "INSERT INTO stock_history(`item_id`,`quantity`,`item_name`) VALUES ((SELECT `item_id` FROM `item` WHERE `item_name` = '$name'), '$quantity','$name')"; 

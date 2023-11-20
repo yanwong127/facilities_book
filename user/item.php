@@ -60,11 +60,12 @@ $result = mysqli_query($conn, $jj);
 
 <body>
     <br>
-
-    <h1>Item Page</h1>
-    <a href="place.php">Place</a>
-    <!-- <a href="home.php">Back</a> -->
-
+    <div style="display: flex;">
+    <h1 style="font-family: Clarkson,Helvetica,sans-serif;">Item Page</h1>
+    <a class="button-1" href="item.php" role="button"><span class="text">Item</span></a>
+    <a class="button-1" href="place.php" role="button"><span class="text">Place</span></a>
+    </div>
+    
     <div class="custom-table" id="clickable-div">
         <?php while ($row = mysqli_fetch_array($result)) { ?>
             <div class="td">
@@ -87,7 +88,7 @@ $result = mysqli_query($conn, $jj);
 
     <form action="item.php" method="post">
         <dialog>
-            <button autofocus>Close</button>
+            <i class="fa fa-close" style="float: right;" autofocus></i>
             <h2 id="dialog-title"></h2>
             <h2 id="dialog-item-name" style="text-align: center;"></h2>
             <img id="dialog-image" src="" alt="Item Image">
@@ -150,7 +151,7 @@ $result = mysqli_query($conn, $jj);
 <script>
     const dialog = document.querySelector("dialog");
     const showButton = document.querySelector("dialog + button");
-    const closeButton = document.querySelector("dialog button");
+    const closeButton = document.querySelector(".fa-close");
     const dialogTitle = document.getElementById("dialog-title");
     const dialogImage = document.getElementById("dialog-image");
     const dialogDescription = document.getElementById("dialog-description");
@@ -193,76 +194,81 @@ $result = mysqli_query($conn, $jj);
 </script>
 
 <style>
-    .custom-table {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 16px;
-    }
 
-    .custom-table .td {
-        text-align: center;
-    }
+.home_page {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;"
+}
 
-    .item-row {
-        align-items: center;
-        justify-content: center;
-    }
+/* 对话框样式 */
+.dialog {
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
 
-    .item-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+.dialog i {
+  margin-left: auto; /* Move the <i> element to the right */
+}
 
-    .item-container img {
-        max-width: 200px;
-        max-height: 200px;
-    }
+button {
+  background-color: #8d8f8d;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
 
-    .item-name {
-        font-weight: bold;
-    }
+button:hover {
+  background-color: #525352;
+}
 
-    #clickable-div:hover {
-        cursor: pointer;
-    }
+/* 原有表格样式的改进 */
+.custom-table {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 16px;
+  justify-content: center; /* 居中对齐 */
+}
 
-    a {
-        text-decoration-line: none;
-        color: black;
-    }
+.td {
+  text-align: center;
+}
 
-    .rounded-image {
-        border-radius: 20px;
-        width: 200px;
-        height: 200px;
-    }
+.item-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease; /* 添加移动效果 */
+}
 
-    #dialog-image {
-        height: 200px;
-    }
+.item-container:hover {
+  transform: translateY(-10px); /* 悬停时上移一些 */
+  cursor: pointer;
+}
 
-    .pagination {
-        display: flex;
-        justify-content: center;
-        list-style: none;
-        padding: 0;
-        margin-top: 20px;
-    }
+.item-container img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 20px;
+}
 
-    .pagination a {
-        color: black;
-        padding: 8px 16px;
-        text-decoration: none;
-        transition: background-color 0.3s;
-    }
+.item-name {
+  font-weight: bold;
+  margin-top: 10px;
+}
 
-    .pagination a.active {
-        background-color: dodgerblue;
-        color: white;
-    }
+#clickable-div:hover {
+  cursor: pointer;
+}
 
-    .pagination a:hover:not(.active) {
-        background-color: #ddd;
-    }
+
+
 </style>
+
