@@ -1,8 +1,6 @@
 <?php
-// Include the database connection script
 include 'db2.php';
 
-// Function to verify if the verification code is valid
 function isVerificationCodeValid($email, $code) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM user WHERE email = :email AND verification_code = :code AND verification_code_expiration > NOW()");
@@ -12,21 +10,16 @@ function isVerificationCodeValid($email, $code) {
     return $stmt->rowCount() > 0;
 }
 
-// Handle the form submission for resetting the password
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $code = $_POST['code'];
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
 
-    // Validate the verification code
     if (isVerificationCodeValid($email, $code)) {
-        // Verify that the passwords match
         if ($password === $confirmPassword) {
-            // Hash the password before storing it in the database
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            // Update the user's password and clear the verification code
             $updateStmt = $pdo->prepare("UPDATE user SET password = :password, verification_code = NULL, verification_code_expiration = NULL WHERE email = :email");
             $updateStmt->bindParam(':password', $hashedPassword);
             $updateStmt->bindParam(':email', $email);

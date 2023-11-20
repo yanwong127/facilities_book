@@ -1,39 +1,31 @@
 <?php
 require 'vendor/autoload.php';
 
-// Use the PHPMailer classes from Composer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Include the database connection script
 include 'db2.php';
 
-// Function to generate a unique token
 function generateToken($length = 20) {
     return bin2hex(random_bytes($length));
 }
 
-// Handle the form submission for sending verification code
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
 
-    // Check if the email exists in the database
     $stmt = $pdo->prepare("SELECT * FROM user WHERE email = :email");
     $stmt->bindParam(':email', $email);
     $stmt->execute();
 
     if ($stmt->rowCount() > 0) {
-        // Email exists, generate a unique verification code
         $verificationCode = generateToken(6);
 
-        // Update the user's record with the verification code and a timestamp
         $updateStmt = $pdo->prepare("UPDATE user SET verification_code = :code, verification_code_expiration = NOW() + INTERVAL 10 MINUTE WHERE email = :email");
 
         $updateStmt->bindParam(':code', $verificationCode);
         $updateStmt->bindParam(':email', $email);
 
         if ($updateStmt->execute()) {
-            // Send an email with the verification code using PHPMailer
             $mail = new PHPMailer(true);
 
             try {
@@ -41,14 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->isSMTP();
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
-                $mail->Username   = 'chankelvin53@gmail.com';  // Replace with your Gmail email address
-                $mail->Password   = 'iiezptdcgwhjteyy';   // Replace with the generated App Password
+                $mail->Username   = 'chankelvin53@gmail.com';  
+                $mail->Password   = 'iiezptdcgwhjteyy';   
                 $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
 
                 //Recipients
-               $mail->setFrom('chankelvin53@gmail.com', 'Chan'); // Replace with your name
-                $mail->addAddress($email); // Use the user's email from the database
+               $mail->setFrom('chankelvin53@gmail.com', 'Chan'); 
+                $mail->addAddress($email); 
 
                 // Content
                 $mail->isHTML(true);
@@ -80,6 +72,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .form-container {
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            text-transform: uppercase;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            font-size: 14px;
+            color: #555;
+            margin-top: 15px;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -88,8 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h2>Forgot Password</h2>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
-                <button type="submit">Send Verification Code</button>
-                <p>Remember your password? <a href="login.php">Login here</a></p>
+                <button type="submit">Send Verification Code</button><br><br>
+                <button type="button" onclick="window.location.href='login.php'">Back</button>
             </form>
         </div>
     </div>
