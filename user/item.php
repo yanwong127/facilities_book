@@ -63,7 +63,7 @@ $result = mysqli_query($conn, $jj);
 
     <h1>Item Page</h1>
     <a href="place.php">Place</a>
-    <!-- <a href="home.php">Back</a> -->
+    <button type="button" onclick="window.location.href='home.php'">Back</button>
 
     <div class="custom-table" id="clickable-div">
         <?php while ($row = mysqli_fetch_array($result)) { ?>

@@ -49,7 +49,7 @@ $sql = mysqli_query($conn, $user);
                     </div>
                     <form method="post">
                         <input type="password" name="new_password" placeholder="New Password">
-                        <button class="btn" type="submit" name="change_password">Change Password</button>
+                        <button class="btn" type="submit" onclick="window.location.href='forgot_password.php'" name="change_password">Change Password</button>
                     </form>
                 </div>
             </div>
