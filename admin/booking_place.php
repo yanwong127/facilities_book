@@ -2,6 +2,12 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
+require 'vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 if(strlen($_SESSION['alogin'])==0)
 	{	
 header('location:index.php');
@@ -17,7 +23,39 @@ $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':eid',$eid, PDO::PARAM_STR);
 $query -> execute();
 
-$msg="Booking Successfully Cancelled";
+try {
+    $mail = new PHPMailer(true);
+
+    // SMTP configuration for canceled booking
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'rezeyan127@gmail.com';
+    $mail->Password = 'xsqrxtgggczblehv';
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = 465;
+
+    // Fetch the user's email from the database based on booking details
+    $getEmailQuery = "SELECT user.user_id, user.email, place_appointment.user_id, place_appointment.placebook_id FROM user JOIN place_appointment ON user.user_id = place_appointment.user_id WHERE place_appointment.placebook_id = :eid";
+    $getEmailStmt = $dbh->prepare($getEmailQuery);
+    $getEmailStmt->bindParam(':eid', $eid, PDO::PARAM_INT);
+    $getEmailStmt->execute();
+    $row = $getEmailStmt->fetch(PDO::FETCH_ASSOC);
+    $email = $row['email'];
+
+    // Email content for canceled booking
+    $mail->setFrom('rezeyan127@gmail.com', 'Admin');
+    $mail->addAddress($email);
+    $mail->isHTML(true);
+    $mail->Subject = 'Place Booking Cancellation';
+    $mail->Body = 'Your booking for place has been canceled.';
+
+    // Send the email for canceled booking
+    $mail->send();
+    $msg = "Booking Successfully Canceled and Email Sent";
+} catch (Exception $e) {
+    $msg = "Booking Canceled but Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
 }
 
 
@@ -32,7 +70,39 @@ $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
 $query -> execute();
 
-$msg="Booking Successfully Confirmed";
+try {
+    $mail = new PHPMailer(true);
+
+    // SMTP configuration for confirmeded booking
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'rezeyan127@gmail.com';
+    $mail->Password = 'xsqrxtgggczblehv';
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = 465;
+
+    // Fetch the user's email from the database based on booking details
+    $getEmailQuery1 = "SELECT user.user_id, user.email, place_appointment.user_id, place_appointment.placebook_id FROM user JOIN place_appointment ON user.user_id = place_appointment.user_id WHERE place_appointment.placebook_id = :aeid";
+    $getEmailStmt1 = $dbh->prepare($getEmailQuery1);
+	$getEmailStmt1->bindParam(':aeid', $aeid, PDO::PARAM_INT);
+    $getEmailStmt1->execute();
+    $row = $getEmailStmt1->fetch(PDO::FETCH_ASSOC);
+    $email = $row['email'];
+
+    // Email content for confirmed booking
+    $mail->setFrom('rezeyan127@gmail.com', 'Admin');
+    $mail->addAddress($email);
+    $mail->isHTML(true);
+    $mail->Subject = 'Place Booking Confirmation';
+    $mail->Body = 'Your booking for place has been confirmed.';
+
+    // Send the email for confirmed booking
+    $mail->send();
+    $msg = "Booking Successfully Confirmed and Email Sent";
+} catch (Exception $e) {
+    $msg = "Booking Confirmed but Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
 }
 
 
