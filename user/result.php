@@ -78,7 +78,6 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
 }
 
 
-
 ?>
 
 
