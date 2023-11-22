@@ -1,5 +1,4 @@
 <?php
-
 include_once('db.php');
 include_once('header.php');
 
@@ -21,20 +20,18 @@ if (isset($_REQUEST['place_book'])) {
         $start_time = date('H:i:s', strtotime($start_time));
         $end_time = date('H:i:s', strtotime($end_time));
 
-        $insertQuery = "INSERT INTO `place_appointment`(place_id, place_name, place_img, user_id, start_time, end_time, booking_date,  status) VALUES ('$place_id', '$place_name', '$place_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive')";
+        $insertQuery = "INSERT INTO `place_appointment` (place_id, place_name, place_img, user_id, start_time, end_time, booking_date, status) VALUES ('$place_id', '$place_name', '$place_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive')";
         $result = mysqli_query($conn, $insertQuery);
 
         if ($result) {
             $message = "Booking successful!";
-            echo "<script>window.location.href = 'place.php';
-            alert('Booking Sucessful.');</script>";
+            echo "<script>window.location.href = 'place.php'; alert('Booking Sucessful.');</script>";
             exit();
         } else {
             error_log("Error: " . mysqli_error($conn));
         }
     }
 }
-
 
 $records_per_page = 3;
 if (isset($_GET['place_page'])) {
@@ -45,8 +42,6 @@ if (isset($_GET['place_page'])) {
 $set2 = ($place_page - 1) * $records_per_page;
 $jj2 = "SELECT * FROM `place` LIMIT $set2,$records_per_page";
 $result2 = mysqli_query($conn, $jj2);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -55,24 +50,26 @@ $result2 = mysqli_query($conn, $jj2);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Page</title>
+    <link rel="stylesheet" href="bookingpage.css">
 </head>
 
 <body>
     <br>
-    <h1>Place Page</h1>
-    <a href="item.php">Back</a>
+    <div style="display: flex;">
+        <h1 style="font-family: Clarkson, Helvetica, sans-serif;">Place Page</h1>
+        <a class="button-1" href="item.php" role="button"><span class="text">Item</span></a>
+        <a class="button-1" href="place.php" role="button"><span class="text">Place</span></a>
+    </div>
+
     <div class="custom-table" id="clickable-div">
         <?php while ($row = mysqli_fetch_array($result2)) { ?>
             <div class="td">
-                <div class="place-row">
-                    <div class="place-container" id="none">
-                        <a href="place.php?id=<?= $row['place_id'] ?>">
-                            <img class="rounded-image" src="img/<?= $row['place_img'] ?>">
-                            <div class="place-name">
-                                <?= $row['place_name'] ?>
-                            </div>
-                        </a>
-                    </div>
+                <div class="place-container" id="none">
+                    <a href="place.php?id=<?= $row['place_id'] ?>">
+                        <img class="rounded-image" src="img/<?= $row['place_img'] ?>" alt="<?= $row['place_name'] ?>">
+                        <div class="place-name"><?= $row['place_name'] ?></div>
+                    </a>
                 </div>
             </div>
         <?php } ?>
@@ -80,7 +77,7 @@ $result2 = mysqli_query($conn, $jj2);
 
     <form action="place.php" method="post">
         <dialog id="place-dialog">
-            <button autofocus>Close</button>
+            <i class="fa fa-close" onclick="document.getElementById('place-dialog').close()"></i>
             <h2 id="place-dialog-title"></h2>
             <h2 id="place-dialog-item-name" style="text-align: center;"></h2>
             <img id="place-dialog-image" src="" alt="Place Image">
@@ -99,7 +96,6 @@ $result2 = mysqli_query($conn, $jj2);
         </dialog>
     </form>
 
-    </table>
     <div class="pagination justify-content-center">
         <?php
         $SQL = "SELECT COUNT(*) FROM place";
@@ -129,9 +125,6 @@ $result2 = mysqli_query($conn, $jj2);
         }
         ?>
     </div>
-    </table>
-
-
 </body>
 
 </html>
@@ -161,81 +154,4 @@ $result2 = mysqli_query($conn, $jj2);
             placeDialog.showModal();
         });
     });
-
-    placeDialog.querySelector("button").addEventListener("click", () => {
-        placeDialog.close();
-    });
 </script>
-
-<style>
-    .custom-table {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 16px;
-    }
-
-    .custom-table .td {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
-        text-align: center;
-    }
-
-    .place-row {
-        align-items: center;
-        justify-content: center;
-    }
-
-    .place-container img {
-        max-width: 300px;
-        max-height: 300px;
-    }
-
-    .place-name {
-        font-weight: bold;
-    }
-
-    #clickable-div:hover {
-        cursor: pointer;
-    }
-
-    a {
-        text-decoration: none;
-        color: black; 
-    }
-
-    .rounded-image {
-        border-radius: 20px;
-        width: 200px;
-        height: 200px;    
-    }
-
-    #place-dialog-image {
-        width: 400px;
-        height: 200px;
-    }
-
-    .pagination {
-        display: flex;
-        justify-content: center;
-        list-style: none;
-        padding: 0;
-        margin-top: 20px;
-    }
-
-    .pagination a {
-        color: black;
-        padding: 8px 16px;
-        text-decoration: none;
-        transition: background-color 0.3s;
-    }
-
-    .pagination a.active {
-        background-color: dodgerblue;
-        color: white;
-    }
-
-    .pagination a:hover:not(.active) {
-        background-color: #ddd;
-    }
-</style>
