@@ -61,6 +61,7 @@ if (isset($_POST['submit'])) {
                 <div class="btn-container">
                     <input type="submit" name="submit" value="Login" class="custom-button">
                 </div>
+                <p class="text-center"><a href="forgot_password.php">Froget Password?</a></p>
             </div>
         </form>
         <p class="text-center">Don't have an account? <a href="signup.php">Register here</a></p>
