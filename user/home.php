@@ -19,224 +19,107 @@ if (mysqli_num_rows($result) === 0) {
     header("location: unauthorized.php");
     exit;
 }
-
-$qry = "SELECT * FROM `item`";
-$item = mysqli_query($conn, $qry);
-
-if (isset($_REQUEST['item_book'])) {
-    if (isset($_POST["item_book"])) {
-        $item_id = $_POST['item_id'];
-        $user_id = $_POST['user_id'];
-        $item_name = trim($_POST['item_name']);
-        $item_img = $_POST['item_img'];
-
-        $booking_date = $_POST['booking_date'];
-        $start_time = $_POST['start_time'];
-        $end_time = $_POST['end_time'];
-
-        $booking_date = date('Y/m/d', strtotime($booking_date));
-        $start_time = date('H:i:s', strtotime($start_time));
-        $end_time = date('H:i:s', strtotime($end_time));
-
-        $insertQuery = "INSERT INTO `item_appointment` (item_id, item_name, item_img, user_id, start_time, end_time, booking_date, status) VALUES ('$item_id', '$item_name', '$item_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive')";
-        $result = mysqli_query($conn, $insertQuery);
-        if ($result) {
-            $message = "Booking successful!";
-            echo "<script>window.location.href = 'home.php';
-            alert('Booking Sucessful.');</script>";
-        } else {
-            echo "Error: " . mysqli_error($conn);
-        }
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>半透明框与背景图</title>
 </head>
-
 <body>
-<br>    
-
-<div class="home_page">
-<h1 class="home">Home Page</h1>
-<button class="show-all-button" onclick="showAllItems()">Show All</button>
-</div><br>
-
-<div class="custom-table" id="clickable-div">
-    <?php
-    $counter = 0;
-    while ($row = mysqli_fetch_array($item)) {
-        if ($counter >= 6) {
-            break; 
-        }
-    ?>
-        <div class="td">
-            <div class="item-row">
-                <div class="item-container" id="none">
-                    <a href="home.php?id=<?= $row['item_id'] ?>">
-                        <img class="rounded-image" src="img/<?= $row['item_img'] ?>">
-                        <div class="item-name">
-                            <?= $row['item_name'] ?>
-                        </div>
-                    </a>
-                </div>
-            </div>
+  <div class="body">
+    <div class="overlay-container">
+      <div class="transparent-box">
+        <div class="text-above">
+          <p>Welcome</p>
         </div>
-    <?php
-        $counter++;
+        <div class="content">
+          <div class="left-content" onclick="navigateTo('item.php')">
+            <p class="item">Item</p>
+          </div>
+          <div class="divider"></div>
+          <div class="right-content" onclick="navigateTo('place.php')">
+            <p class="place">Place</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function navigateTo(destination) {
+      window.location.href = destination;
     }
-    ?>
-  
-</div>
-
-<form action="home.php" method="post">
-    <dialog class="dialog" >
-      <i class="fa fa-close" style="float: right;"></i>
-        <h2 id="dialog-item-name" style="text-align: center;"></h2>
-      <h2 id="dialog-title"></h2>
-      <img id="dialog-image" src="" alt="Item Image">
-      <p id="dialog-description"></p>
-      <input type="hidden" name="item_id" id="item_id">
-      <input type="hidden" name="item_name" id="item_name">
-      <input type="hidden" name="item_img" id="item_img">
-      <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-      <label for="booking_date">Booking Date:</label>
-      <input type="date" name="booking_date" id="booking_date" required>
-      <label for="start_time">Start Time:</label>
-      <input type="time" name="start_time" id="start_time" required>
-      <label for="end_time">End Time:</label>
-      <input type="time" name="end_time" id="end_time" required>
-      <button name="item_book">Book</button>
-    </dialog>
-  </form>
-
-
+  </script>
 </body>
-
 </html>
 
-<script>
-    function showAllItems() {
-        window.location.href = 'item.php';
-    }
-</script>
-
-<script>
-    const dialog = document.querySelector("dialog");
-    const showButton = document.querySelector("dialog + button");
-    const closeButton = document.querySelector(".fa-close");
-    const dialogTitle = document.getElementById("dialog-title");
-    const dialogImage = document.getElementById("dialog-image");
-    const dialogDescription = document.getElementById("dialog-description");
-
-    document.querySelectorAll(".item-container a").forEach((link) => {
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-
-            const itemTitle = link.querySelector(".item-name").textContent;
-            const itemImageSrc = "img/" + link.querySelector("img").src.split('/').pop();
-
-            const itemUrl = link.getAttribute('href');
-            const item_id = itemUrl.split('=')[1];
-
-            document.getElementById("item_id").value = item_id;
-            document.getElementById("item_name").value = itemTitle;
-            document.getElementById("item_img").value = itemImageSrc;
-
-            dialogTitle.textContent = itemTitle;
-            dialogImage.src = itemImageSrc;
-            dialogDescription.textContent = "Description of the item";
-            dialog.showModal();
-        });
-    });
-
-    closeButton.addEventListener("click", () => {
-        dialog.close();
-    });
-
-    dialog.querySelector("*").addEventListener("click", (e) => {
-        e.stopPropagation();
-    });
-
-</script>
-
-
-
 <style>
-.home_page {
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center;"
-}
-
-/* 对话框样式 */
-.dialog {
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-
-button {
-  background-color: #8d8f8d;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-button:hover {
-  background-color: #525352;
-}
-
-/* 原有表格样式的改进 */
-.custom-table {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 16px;
-  justify-content: center; /* 居中对齐 */
-}
-
-
-.td {
-  text-align: center;
-}
-
-.item-container {
+.body {
+  margin: 0;
+  padding: 0;
+  background: url('img/home.jpg') center/cover no-repeat;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  transition: transform 0.3s ease; /* 添加移动效果 */
+  justify-content: center;
+  overflow-Y: hidden;
 }
 
-.item-container:hover {
-  transform: translateY(-10px); /* 悬停时上移一些 */
+.overlay-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.transparent-box {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 80px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.text-above {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.text-above p {
+  color: #fff;
+  font-size: 24px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+}
+
+.divider {
+  width: 2px;
+  height: 60px;
+  background-color: #fff;
+  margin: 0 20px;
+}
+
+.left-content,
+.right-content {
+  flex: 1;
+  text-align: center;
   cursor: pointer;
 }
 
-.item-container img {
-  max-width: 200px;
-  max-height: 200px;
-  border-radius: 20px;
+.item,
+.place {
+  color: #fff;
+  transition: font-size 0.3s ease;
 }
 
-.item-name {
-  font-weight: bold;
-  margin-top: 10px;
+.item:hover,
+.place:hover {
+  font-size: 18px;
 }
-
-#clickable-div:hover {
-  cursor: pointer;
-}
-
-        
 </style>

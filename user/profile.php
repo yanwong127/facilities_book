@@ -52,13 +52,11 @@ $sql = mysqli_query($conn, $user);
                         <span class="content-name">
                         Your New Password
                         </span>
-                    <button class="btn" type="submit" name="change_password">Change Password</button>
+                    
                     </label>
                     </form>
-                    <form method="post">
-                        <input class="" type="password" name="new_password" placeholder="New Password">
-                        
-                    </form>
+                    <button class="btn" type="submit" name="change_password" value="New Password">Change Password</button>
+
                 </div>
             </div>
         <?php } ?>
@@ -67,6 +65,18 @@ $sql = mysqli_query($conn, $user);
 
 </html>
 <style>
+    body {
+    background-image: url('img/profile.jpg'); /* 替换为您的图片路径 */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+}
+
+    .header {
+    position: relative;
+     z-index: 1; /* Set a value smaller than varbar's z-index */
+}
     .ctable {
     display: flex;
     justify-content: center;
@@ -115,7 +125,7 @@ $sql = mysqli_query($conn, $user);
 
 .profile-info {
     margin-bottom: 15px; /* Increased margin for spacing */
-    text-align: center; /* Center align profile info */
+    text-align: ; /* Center align profile info */
 }
 
 .profile-info label {
@@ -145,4 +155,63 @@ $sql = mysqli_query($conn, $user);
 .btn:hover {
     background-color: #525352;
 }
+
+
+.form {
+  width: 100%;
+  position: relative;
+  height: 60px;
+  overflow: hidden;
+}
+
+.form input {
+  width: 100%;
+  height: 100%;
+  color:;
+  padding-top: 20px;
+  border: none;
+}
+.form label {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-bottom: 1px solid white;
+}
+.form label::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  border-bottom: 3px solid #fce38a;
+  transform: translateX(-100%);
+  transition: all 0.3s ease;
+}
+
+.content-name {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  padding-bottom: 5px;
+  transition: all 0.3s ease;
+}
+.form input:focus {
+  outline: none;
+}
+.form input:focus + .label-name .content-name,
+.form input:valid + .label-name .content-name {
+  transform: translateY(-150%);
+  font-size: 14px;
+  left: 0px;
+  color: #fce38a;
+}
+.form input:focus + .label-name::after,
+.form input:valid + .label-name::after {
+  transform: translateX(0%);
+}
+
 </style>

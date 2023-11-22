@@ -1,0 +1,75 @@
+
+    .header {
+        position: relative;
+        z-index: 1; /* Set a value smaller than varbar's z-index */
+    }
+    .dialog {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    .dialog i {
+        margin-left: auto; /* 将 <i> 元素移动到右侧 */
+    }
+
+    button {
+        background-color: #8d8f8d;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background-color: #525352;
+    }
+
+    /* 共用的表格样式改进 */
+    .custom-table {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 16px;
+        justify-content: center; /* 居中对齐 */
+    }
+
+    .td {
+        text-align: center;
+    }
+
+    /* 对话框中容器样式 */
+    .item-container,
+    .place-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.3s ease; /* 添加移动效果 */
+    }
+
+    .item-container:hover,
+    .place-container:hover {
+        transform: translateY(-10px); /* 悬停时上移一些 */
+        cursor: pointer;
+    }
+
+    .item-container img,
+    .place-container img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 20px;
+    }
+
+    .item-name,
+    .place-name {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    #clickable-div:hover {
+        cursor: pointer;
+    }
