@@ -5,30 +5,49 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
-
     if (isset($_POST['submit'])) {
         $place_name = $_POST['place_name'];
         $place_overview = $_POST['place_overview'];
-        $place_img = $_FILES["place_img"]["name"];
         $availability = $_POST['availability'];
+        
+        $place_img = $_FILES["place_img"]["name"];
+        $temp_img = $_FILES["place_img"]["tmp_name"];
+        
+        $extension = pathinfo($place_img, PATHINFO_EXTENSION);
+        $destination1 = 'img/image/' . $place_img;  // First folder
+        $destination2 = '../user/img/' . $place_img;  // Second folder
 
-        move_uploaded_file($_FILES["place_img"]["tmp_name"], "img/image/" . $_FILES["place_img"]["name"]);
-
-        $sql = "INSERT INTO place(place_name,place_overview, place_img,availability) VALUES(:place_name, :place_overview, :place_img, :availability)";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':place_name', $place_name, PDO::PARAM_STR);
-        $query->bindParam(':place_overview', $place_overview, PDO::PARAM_STR);
-        $query->bindParam(':place_img', $place_img, PDO::PARAM_STR);
-        $query->bindParam(':availability', $availability, PDO::PARAM_STR);
-
-        $query->execute();
-        $lastInsertId = $dbh->lastInsertId();
-        if ($lastInsertId) {
-            $msg = "Facilities posted successfully";
+        if (!in_array($extension, ['jpg', 'png', 'jpeg'])) {
+            echo "Your file extension must be .jpg, .png, or .jpeg";
+        } elseif ($_FILES['place_img']['size'] > 100000000) {
+            echo "File too large!";
         } else {
-            $error = "Something went wrong. Please try again";
+            if (move_uploaded_file($temp_img, $destination1)) {
+                // Move to the second folder
+                if (file_exists($destination1)) {
+                    if (copy($destination1, $destination2)) {
+                        $sql = "INSERT INTO place(place_name, place_overview, place_img, availability) VALUES (:place_name, :place_overview, :place_img, :availability)";
+                        $query = $dbh->prepare($sql);
+                        $query->bindParam(':place_name', $place_name, PDO::PARAM_STR);
+                        $query->bindParam(':place_overview', $place_overview, PDO::PARAM_STR);
+                        $query->bindParam(':place_img', $place_img, PDO::PARAM_STR);
+                        $query->bindParam(':availability', $availability, PDO::PARAM_STR);
+                        
+                        if ($query->execute()) {
+                            $msg = "Facilities posted successfully";
+                        } else {
+                            $error = "Something went wrong. Please try again";
+                        }
+                    } else {
+                        echo "Failed to copy file to the second folder.";
+                    }
+                } else {
+                    echo "Source file does not exist in the first folder.";
+                }
+            } else {
+                echo "Failed to upload file.";
+            }
         }
-
     }
 
 
