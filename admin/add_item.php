@@ -5,32 +5,52 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
-
     if (isset($_POST['submit'])) {
         $item_name = $_POST['item_name'];
         $item_overview = $_POST['item_overview'];
-        $item_img = $_FILES["item_img"]["name"];
         $availability = $_POST['availability'];
+        
+        $item_img = $_FILES["item_img"]["name"];
+        $temp_img = $_FILES["item_img"]["tmp_name"];
+        
+        $extension = pathinfo($item_img, PATHINFO_EXTENSION);
+        $destination1 = 'img/image/' . $item_img;  // First folder
+        $destination2 = '../user/img/' . $item_img;  // Second folder
 
-        move_uploaded_file($_FILES["item_img"]["tmp_name"], "img/image/" . $_FILES["item_img"]["name"]);
-
-        $sql = "INSERT INTO item(item_name,item_overview, item_img, availability) VALUES(:item_name, :item_overview, :item_img, , :availability)";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':item_name', $item_name, PDO::PARAM_STR);
-        $query->bindParam(':item_overview', $item_overview, PDO::PARAM_STR);
-        $query->bindParam(':item_img', $item_img, PDO::PARAM_STR);
-        $query->bindParam(':availability', $availability, PDO::PARAM_STR);
-
-        $query->execute();
-        $lastInsertId = $dbh->lastInsertId();
-        if ($lastInsertId) {
-            $msg = "Item posted successfully";
+        if (!in_array($extension, ['jpg', 'png', 'jpeg'])) {
+            echo "Your file extension must be .jpg, .png, or .jpeg";
+        } elseif ($_FILES['item_img']['size'] > 100000000) {
+            echo "File too large!";
         } else {
-            $error = "Something went wrong. Please try again";
+            if (move_uploaded_file($temp_img, $destination1)) {
+                // Move to the second folder
+                if (file_exists($destination1)) {
+                    if (copy($destination1, $destination2)) {
+                        $sql = "INSERT INTO item(item_name, item_overview, item_img, availability) VALUES (:item_name, :item_overview, :item_img, :availability)";
+                        $query = $dbh->prepare($sql);
+                        $query->bindParam(':item_name', $item_name, PDO::PARAM_STR);
+                        $query->bindParam(':item_overview', $item_overview, PDO::PARAM_STR);
+                        $query->bindParam(':item_img', $item_img, PDO::PARAM_STR);
+                        $query->bindParam(':availability', $availability, PDO::PARAM_STR);
+                        
+                        if ($query->execute()) {
+                            $msg = "Facilities posted successfully";
+                        } else {
+                            $error = "Something went wrong. Please try again";
+                        }
+                    } else {
+                        echo "Failed to copy file to the second folder.";
+                    }
+                } else {
+                    echo "Source file does not exist in the first folder.";
+                }
+            } else {
+                echo "Failed to upload file.";
+            }
         }
-
     }
-
+   
+    
 
     ?>
     <!doctype html>
@@ -94,7 +114,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                     <div class="row">
                         <div class="col-md-12">
 
-                            <h2 class="page-title">Post An Item</h2>
+                            <h2 class="page-title">Post A Item</h2>
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -139,11 +159,11 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         </select>
                                                     </div>
 
-                                                   
+                                                  
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <div class="col-sm-10">
+                                                    <div class="col-sm-6">
                                                         <h4><b>Upload Images</b></h4>
                                                     </div>
                                                 </div>

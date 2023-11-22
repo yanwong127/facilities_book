@@ -23,7 +23,7 @@
 						<li><a href="booking_place.php">Place Booking</a></li>
 					</ul>
 				</li>
-				<li><a href="reg-users.php"><i class="fa fa-users"></i>Manage Users</a></li>
+				<li><a href="user_manage.php"><i class="fa fa-users"></i>Manage Users</a></li>
 				<li><a href="testimonials.php"><i class="fa fa-table"></i> Manage Testimonials</a></li>
 				<li><a href="manage-conactusquery.php"><i class="fa fa-desktop"></i> Manage Conatctus Query</a></li>
 
