@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $image_name = $_FILES['item_image']['name'];
         $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
         $new_image_name = uniqid() . '.' . $image_extension;
-        $image_path = 'img/image/' . $new_image_name;
+        $image_path = 'img/' . $new_image_name;
         $image_path2 = '../user/img/' . $new_image_name;
 
         if (move_uploaded_file($image_tmp, $image_path )) {
