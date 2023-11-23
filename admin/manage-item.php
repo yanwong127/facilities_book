@@ -127,7 +127,7 @@ foreach($results as $result)
                                         <td><?php echo htmlentities($cnt); ?></td>
                                                     <td><?php echo htmlentities($result->item_name); ?></td>
                                                     <td><?php echo htmlentities($result->item_overview); ?></td>
-                                                    <td><img src="img/image/<?php echo htmlentities($result->item_img); ?>" style="width:100px;"></td>
+                                                    <td><img src="img/<?php echo htmlentities($result->item_img); ?>" style="width:100px;"></td>
                                                     <td><?php echo htmlentities($result->availability); ?></td>
 		<td><a href="edit_item.php?item_id=<?php echo $result->item_id;?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
 <a href="manage-item.php?del=<?php echo $result->item_id;?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i></a></td>

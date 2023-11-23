@@ -13,7 +13,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         $temp_img = $_FILES["item_img"]["tmp_name"];
         
         $extension = pathinfo($item_img, PATHINFO_EXTENSION);
-        $destination1 = 'img/image/' . $item_img;  // First folder
+        $destination1 = 'img/' . $item_img;  // First folder
         $destination2 = '../user/img/' . $item_img;  // Second folder
 
         if (!in_array($extension, ['jpg', 'png', 'jpeg'])) {
