@@ -43,7 +43,7 @@ if (isset($_GET['place_page'])) {
     $place_page = 1;
 }
 $set2 = ($place_page - 1) * $records_per_page;
-$jj2 = "SELECT * FROM `place` LIMIT $set2,$records_per_page";
+$jj2 = "SELECT * FROM `place` WHERE availability <> 'Not Working' LIMIT $set2,$records_per_page";
 $result2 = mysqli_query($conn, $jj2);
 
 
