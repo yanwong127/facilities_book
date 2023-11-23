@@ -42,7 +42,7 @@ if (isset($_GET['item_page'])) {
 }
 
 $set = ($page - 1) * $records_per_page;
-$jj = "SELECT * FROM `item` LIMIT $set,$records_per_page";
+$jj = "SELECT * FROM `item` WHERE availability <> 'Not Working' LIMIT $set,$records_per_page";
 $result = mysqli_query($conn, $jj);
 
 ?>
