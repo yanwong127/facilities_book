@@ -58,7 +58,7 @@ if (isset($_POST['newImg'])) {
                     $sql = "UPDATE user SET user_img = '$filename' WHERE user_id = $user_id";
                     if (mysqli_query($conn, $sql)) {
                         // Echo the new image path to update the src attribute
-                        echo '<script>document.getElementById("profileImage").src = "' . $destination1 . '";</script>';
+                        header("Location: profile.php");
                     }
                 } else {
                     echo "Failed to copy file to the second folder.";
@@ -274,7 +274,7 @@ function triggerFileInput() {
   width: 100%;
   position: relative;
   height: 60px;
-  overflow: hidden;
+  overflow: hidden; 
 }
 
 .form input {
