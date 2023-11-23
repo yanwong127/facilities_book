@@ -38,7 +38,7 @@ if (isset($_POST['change_password'])) {
     }
 }
 
-if (isset($_POST['newImg'])) {  
+if (isset($_POST['newImg'])) {
     $filename = $_FILES['myfile']['name'];
 
     $destination1 = 'user_img/' . $filename;
@@ -92,14 +92,14 @@ if (isset($_POST['newImg'])) {
             <?php while ($row = mysqli_fetch_array($user_result)) { ?>
                 <div class="profile-details">
 
-                <form method="post" enctype="multipart/form-data">
-    <div class="profile-picture" onclick="triggerFileInput()">
-        <img class="rounded-image" id="profileImage" src="user_img/<?= $row['user_img'] ?>">
-        <input type="file" id="fileInput" name="myfile" style="display: none;"
-            accept=".jpg, .png, .jpeg" onchange="previewImage()">
-    </div>
-    <button type="submit" name="newImg">Update</button>
-</form>
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="profile-picture" onclick="triggerFileInput()">
+                            <img class="rounded-image" id="profileImage" src="user_img/<?= $row['user_img'] ?>">
+                            <input type="file" id="fileInput" name="myfile" style="display: none;"
+                                accept=".jpg, .png, .jpeg" onchange="previewImage()">
+                        </div>
+                        <button type="submit" name="newImg">Update</button>
+                    </form>
 
 
                     <div class="profile-name">
@@ -146,7 +146,7 @@ if (isset($_POST['newImg'])) {
 
 <script>
 
-function triggerFileInput() {
+    function triggerFileInput() {
         document.getElementById('fileInput').click();
     }
 
@@ -187,19 +187,19 @@ function triggerFileInput() {
         min-height: 50vh;
     }
 
-.profile-details {
-    height: fit-content;
-}
+    .profile-details {
+        height: fit-content;
+    }
 
-.profile-panel {
-    max-width: 400px;
-    height: fit-content;
-    margin: 0 auto;
-    border: 2px solid #525352;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    .profile-panel {
+        max-width: 400px;
+        height: fit-content;
+        margin: 0 auto;
+        border: 2px solid #525352;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
 
     }
 
@@ -236,106 +236,116 @@ function triggerFileInput() {
         /* Center align profile info */
     }
 
-.profile-info {
-    margin-bottom: 15px; /* Increased margin for spacing */
-    text-align: ; /* Center align profile info */
-    font-size: 12px;
-}
+    .profile-info {
+        margin-bottom: 15px;
+        /* Increased margin for spacing */
+        text-align: ;
+        /* Center align profile info */
+        font-size: 12px;
+    }
 
     .profile-info label {
         font-weight: bold;
     }
 
-.profile-info span {
-    margin-left: 5px; /* Adjusted margin for spacing */
-}
-.form {
-    width: 100%;
-    position: relative;
-    height: 100px;
-    overflow: hidden;
-    margin-top: 50px; /* 调整上外边距 */
-}
+    .profile-info span {
+        margin-left: 5px;
+        /* Adjusted margin for spacing */
+    }
 
-.form input {
-    border: none;
-}
+    .form {
+        width: 100%;
+        position: relative;
+        height: 100px;
+        overflow: hidden;
+        margin-top: 50px;
+        /* 调整上外边距 */
+    }
 
-.btn {
-    background-color: #525352;
-    width: 100%;
-    border: none;
-    margin-top: 20px; /* 调整上外边距 */
-    color: #fff;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
+    .form input {
+        border: none;
+    }
 
-/* .btn:hover {
+    .btn {
+        background-color: #525352;
+        width: 100%;
+        border: none;
+        margin-top: 20px;
+        /* 调整上外边距 */
+        color: #fff;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    /* .btn:hover {
     background-color: #525352;
 } */
 
 
     .form {
-  width: 100%;
-  position: relative;
-  height: 100px;
-  overflow: hidden;
-}
+        width: 100%;
+        position: relative;
+        height: 100px;
+        overflow: hidden;
+    }
 
-.form input {
-  width: 100%;
-  /* height: 100%; */
-  padding-top: 10px;
-  border: none;
-}
-.form label {
-  position: absolute;
-  /* bottom: 0px; */
-  left: 0px;
-  width: 100%;
-  /* height: 100%; */
-  pointer-events: none;
-  border-bottom: 1px solid white;
-}
-.form label::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  border-bottom: 3px solid #525352;
-  transform: translateX(-100%);
-  transition: all 0.3s ease;
-}
+    .form input {
+        width: 100%;
+        /* height: 100%; */
+        padding-top: 10px;
+        border: none;
+    }
 
-.content-name {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  padding-bottom: 5px;
-  transition: all 0.3s ease;
-}
-.form input:focus {
-  outline: none;
-}
-.form input:focus + .label-name .content-name,
-.form input:valid + .label-name .content-name {
-  transform: translateY(-150%);
-  font-size: 14px;
-  left: 0px;
-  color: #262624;
-}
-.form input:focus + .label-name::after,
-.form input:valid + .label-name::after {
-  transform: translateX(0%);
-}
+    .form label {
+        position: absolute;
+        /* bottom: 0px; */
+        left: 0px;
+        width: 100%;
+        /* height: 100%; */
+        pointer-events: none;
+        border-bottom: 1px solid white;
+    }
 
+    .form label::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        border-bottom: 3px solid #525352;
+        transform: translateX(-100%);
+        transition: all 0.3s ease;
+    }
+
+    .content-name {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        padding-bottom: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .form input:focus {
+        outline: none;
+    }
+
+    .form input:focus+.label-name .content-name,
+    .form input:valid+.label-name .content-name {
+        transform: translateY(-150%);
+        font-size: 14px;
+        left: 0px;
+        color: #262624;
+    }
+
+    .form input:focus+.label-name::after,
+    .form input:valid+.label-name::after {
+        transform: translateX(0%);
+    }
 </style>
