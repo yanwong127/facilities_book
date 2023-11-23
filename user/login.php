@@ -92,7 +92,7 @@ if (isset($_POST['submit'])) {
 <style>
     /* 添加半透明背景 */
     .login-container {
-        background-color: rgba(0, 0, 0, 0.5) !important; /* 设置背景颜色和透明度，使用 !important 以确保最高优先级 */
+        background-color: rgba(0, 0, 0, 0.8) !important; /* 设置背景颜色和透明度，使用 !important 以确保最高优先级 */
         padding: 20px;
         border-radius: 10px;
         max-width: 400px;

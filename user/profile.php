@@ -1,5 +1,4 @@
 <?php
-
 include_once('db.php');
 include_once('header.php');
 
@@ -11,10 +10,36 @@ if ($_SESSION['true'] != true) {
 
 $user_id = $_SESSION['user_id'];
 
-$user = "SELECT * FROM user WHERE `user_id` = $user_id";
-$sql = mysqli_query($conn, $user);
+$user_query = "SELECT * FROM user WHERE `user_id` = $user_id";
+$user_result = mysqli_query($conn, $user_query);
+
+if (!$user_result) {
+    die("Error: " . mysqli_error($conn));
+}
+
+// Server-side validation
+$error_message = '';
+if (isset($_POST['change_password'])) {
+    $new_password = $_POST['new_password'];
+
+    if (empty($new_password)) {
+        $error_message = 'Please enter a new password.';
+    } else {
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+        $update_query = "UPDATE user SET `password` = '$hashed_password' WHERE `user_id` = $user_id";
+        $update_result = mysqli_query($conn, $update_query);
+
+        if (!$update_result) {
+            die("Error: " . mysqli_error($conn));
+        }
+
+        echo '<script>alert("Password changed successfully!");</script>';
+    }
+}
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +47,6 @@ $sql = mysqli_query($conn, $user);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
- 
 </head>
 
 <body>
@@ -30,36 +54,44 @@ $sql = mysqli_query($conn, $user);
 <br>
 <div class="ctable">
     <div class="profile-panel">
-        <?php while ($row = mysqli_fetch_array($sql)) { ?>
+        <?php while ($row = mysqli_fetch_array($user_result)) { ?>
             <div class="profile-details">
                     <div class="profile-picture"><img  src="img/8TeOoJYXcFmL2x5jDuFdPwpsh351X9N_iphzhFVpJM8hLmuvVEyh-CCWkrVZHCD83BQ.webp"></div>
                     <div class="profile-name"><?= $row['username'] ?></div>
-                    <div class="profile-info email">
+                    <div class="profile-info">
                         <label>Email:</label>
-                        <span><?= $row['email'] ?></span>
+                        <span>
+                            <?= $row['email'] ?>
+                        </span>
                     </div>
-                    <div class="profile-info phone">
+                    <div class="profile-info">
                         <label>Phone:</label>
-                        <span><?= $row['phone'] ?></span>
+                        <span>
+                            <?= $row['phone'] ?>
+                        </span>
                     </div>
-                    <div class="profile-info address">
+                    <div class="profile-info">
                         <label>Address:</label>
-                        <span><?= $row['address'] ?></span>
+                        <span>
+                            <?= $row['address'] ?>
+                        </span>
                     </div>
                     <form method="post" class="form">
-                    <input type="text" name="text" autocomplete="off" required />
-                    <label for="text" class="label-name">
-                        <span class="content-name">
-                        Your New Password
+                    <input type="password" name="new_password" autocomplete="off" required />
+                  <label for="text" class="label-name" >
+                        <span class="content-name" >
+                         Your New Password
                         </span>
                     
-                    </label>
+                    </label>     
+                    <button class="btn" type="submit" name="change_password" >Change Password</button>
+
                     </form>
-                    <button class="btn" type="submit" name="change_password" value="New Password">Change Password</button>
+                    
 
                 </div>
-            </div>
-        <?php } ?>
+            <?php } ?>
+        </div>
     </div>
 </body>
 
@@ -84,8 +116,13 @@ $sql = mysqli_query($conn, $user);
     min-height: 50vh;
 }
 
+.profile-details {
+    height: fit-content;
+}
+
 .profile-panel {
     max-width: 400px;
+    height: fit-content;
     margin: 0 auto;
     border: 2px solid #525352;
     padding: 20px;
@@ -126,6 +163,7 @@ $sql = mysqli_query($conn, $user);
 .profile-info {
     margin-bottom: 15px; /* Increased margin for spacing */
     text-align: ; /* Center align profile info */
+    font-size: 12px;
 }
 
 .profile-info label {
@@ -135,48 +173,58 @@ $sql = mysqli_query($conn, $user);
 .profile-info span {
     margin-left: 5px; /* Adjusted margin for spacing */
 }
+.form {
+    width: 100%;
+    position: relative;
+    height: 100px;
+    overflow: hidden;
+    margin-top: 50px; /* 调整上外边距 */
+}
+
+.form input {
+    border: none;
+}
 
 .btn {
     background-color: #525352;
     width: 100%;
     border: none;
+    margin-top: 20px; /* 调整上外边距 */
     color: #fff;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin-top: 15px; /* Adjusted margin for spacing */
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s; /* Added transition for a smoother hover effect */
+    transition: background-color 0.3s;
 }
 
-.btn:hover {
+/* .btn:hover {
     background-color: #525352;
-}
+} */
 
 
 .form {
   width: 100%;
   position: relative;
-  height: 60px;
+  height: 100px;
   overflow: hidden;
 }
 
 .form input {
   width: 100%;
-  height: 100%;
-  color:;
-  padding-top: 20px;
+  /* height: 100%; */
+  padding-top: 10px;
   border: none;
 }
 .form label {
   position: absolute;
-  bottom: 0px;
+  /* bottom: 0px; */
   left: 0px;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   pointer-events: none;
   border-bottom: 1px solid white;
 }
@@ -187,7 +235,7 @@ $sql = mysqli_query($conn, $user);
   left: 0px;
   width: 100%;
   height: 100%;
-  border-bottom: 3px solid #fce38a;
+  border-bottom: 3px solid #525352;
   transform: translateX(-100%);
   transition: all 0.3s ease;
 }
@@ -207,7 +255,7 @@ $sql = mysqli_query($conn, $user);
   transform: translateY(-150%);
   font-size: 14px;
   left: 0px;
-  color: #fce38a;
+  color: #262624;
 }
 .form input:focus + .label-name::after,
 .form input:valid + .label-name::after {
