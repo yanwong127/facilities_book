@@ -33,7 +33,7 @@ if (isset($_REQUEST['place_book'])) {
     }
 }
 
-$records_per_page = 3;
+$records_per_page = 6;
 if (isset($_GET['place_page'])) {
     $place_page = $_GET['place_page'];
 } else {
@@ -57,9 +57,8 @@ $result2 = mysqli_query($conn, $jj2);
 <body>
     <br>
     <div style="display: flex;">
-        <h1 style="font-family: Clarkson, Helvetica, sans-serif;">Place Page</h1>
-        <a class="button-1" href="item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-1" href="place.php" role="button"><span class="text">Place</span></a>
+        <a class="button-48" href="item.php" role="button"><span class="text">Item</span></a>
+        <a class="button-48" href="place.php" role="button"><span class="text">Place</span></a>
     </div>
 
     <div class="custom-table" id="clickable-div">
@@ -76,10 +75,10 @@ $result2 = mysqli_query($conn, $jj2);
     </div>
 
     <form action="place.php" method="post">
-        <dialog id="place-dialog">
-            <i class="fa fa-close" onclick="document.getElementById('place-dialog').close()"></i>
+        <dialog id="place-dialog" class="dialog">
+            <i class="fa fa-close" style="float: right;" autofocus></i>
             <h2 id="place-dialog-title"></h2>
-            <h2 id="place-dialog-item-name" style="text-align: center;"></h2>
+            <h2 id="place-dialog-item-name"></h2>
             <img id="place-dialog-image" src="" alt="Place Image">
             <p id="place-dialog-description"></p>
             <input type="hidden" name="place_id" id="place_id">
@@ -131,6 +130,7 @@ $result2 = mysqli_query($conn, $jj2);
 
 <script>
     const placeDialog = document.querySelector("#place-dialog");
+    const closeButton = document.querySelector(".fa-close");
     const placeDialogTitle = document.getElementById("place-dialog-title");
     const placeDialogImage = document.getElementById("place-dialog-image");
     const placeDialogDescription = document.getElementById("place-dialog-description");
@@ -154,4 +154,12 @@ $result2 = mysqli_query($conn, $jj2);
             placeDialog.showModal();
         });
     });
+    closeButton.addEventListener("click", () => {
+        placeDialog.close();
+    });
+
+    placeDialog.querySelector("*").addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
 </script>
+

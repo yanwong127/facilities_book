@@ -3,17 +3,13 @@
         position: relative;
         z-index: 1; /* Set a value smaller than varbar's z-index */
     }
-    .dialog {
+    dialog {
         flex-direction: column;
         align-items: center;
         padding: 20px;
         background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-    }
-
-    .dialog i {
-        margin-left: auto; /* 将 <i> 元素移动到右侧 */
+        border: 2px solid #0f0e0e;
+        border-radius: 10px;
     }
 
     button {
@@ -35,34 +31,42 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 16px;
-        justify-content: center; /* 居中对齐 */
+        justify-content: center; /* Center alignment */
     }
 
     .td {
         text-align: center;
     }
 
-    /* 对话框中容器样式 */
     .item-container,
     .place-container {
         display: flex;
         flex-direction: column;
         align-items: center;
-        transition: transform 0.3s ease; /* 添加移动效果 */
+        transition: transform 0.3s ease;
+        /* border: 1px solid #ccc; */
+        border-radius: 10px;
+        margin-bottom: 16px;
+        height: 200px;
+        overflow: hidden; /* 隐藏溢出的内容 */
     }
-
+    
     .item-container:hover,
     .place-container:hover {
-        transform: translateY(-10px); /* 悬停时上移一些 */
+        transform: translateY(-10px);
         cursor: pointer;
     }
+    
 
     .item-container img,
     .place-container img {
-        max-width: 200px;
-        max-height: 200px;
+        width: 300px;
+        height: 250px;
         border-radius: 20px;
+        object-fit: cover; /* 尝试使用scale-down */
     }
+    
+    
 
     .item-name,
     .place-name {
@@ -73,3 +77,69 @@
     #clickable-div:hover {
         cursor: pointer;
     }
+
+
+    
+    /* 添加额外的样式，使其在底部显示时保持与页面内容的距离 */
+    body {
+        margin-bottom: 50px; /* 调整底部边距以避免分页部分遮挡页面内容 */
+    }
+    
+.button-48 {
+  appearance: none;
+  background-color: #FFFFFF;
+  border-width: 0;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Clarkson,Helvetica,sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1em;
+  margin: 0;
+  opacity: 1;
+  outline: 0;
+  padding: 1.5em 2.2em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-rendering: geometricprecision;
+  text-transform: uppercase;
+  transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),background-color 100ms cubic-bezier(.694, 0, 0.335, 1),color 100ms cubic-bezier(.694, 0, 0.335, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.button-48:before {
+  animation: opacityFallbackOut .5s step-end forwards;
+  backface-visibility: hidden;
+  background-color: #EBEBEB;
+  clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: translateZ(0);
+  transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+  width: 100%;
+}
+
+.button-48:hover:before {
+  animation: opacityFallbackIn 0s step-start forwards;
+  clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+}
+
+.button-48:after {
+  background-color: #FFFFFF;
+}
+
+.button-48 span {
+  z-index: 1;
+  position: relative;
+}

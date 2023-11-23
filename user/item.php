@@ -33,7 +33,7 @@ if (isset($_REQUEST['item_book'])) {
     }
 }
 
-$records_per_page = 3;
+$records_per_page = 6;
 if (isset($_GET['item_page'])) {
     $page = $_GET['item_page'];
 } else {
@@ -58,9 +58,8 @@ $result = mysqli_query($conn, $jj);
 <body>
     <br>
     <div style="display: flex;">
-        <h1 style="font-family: Clarkson, Helvetica, sans-serif;">Item Page</h1>
-        <a class="button-1" href="item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-1" href="place.php" role="button"><span class="text">Place</span></a>
+        <a class="button-48" href="item.php" role="button"><span class="text">Item</span></a>
+        <a class="button-48" href="place.php" role="button"><span class="text">Place</span></a>
     </div>
 
     <div class="custom-table" id="clickable-div">
@@ -77,10 +76,10 @@ $result = mysqli_query($conn, $jj);
     </div>
 
     <form action="item.php" method="post">
-        <dialog>
+        <dialog class="dialog">
             <i class="fa fa-close" style="float: right;" autofocus></i>
             <h2 id="dialog-title"></h2>
-            <h2 id="dialog-item-name" style="text-align: center;"></h2>
+            <h2 id="dialog-item-name"></h2>
             <img id="dialog-image" src="" alt="Item Image">
             <p id="dialog-description"></p>
             <input type="hidden" name="item_id" id="item_id">
@@ -133,6 +132,9 @@ $result = mysqli_query($conn, $jj);
 <script>
     const dialog = document.querySelector("dialog");
     const closeButton = document.querySelector(".fa-close");
+    const dialogTitle = document.getElementById("dialog-title");
+    const dialogImage = document.getElementById("dialog-image");
+    const dialogDescription = document.getElementById("dialog-description");
 
     document.querySelectorAll(".item-container a").forEach((link) => {
         link.addEventListener("click", (e) => {

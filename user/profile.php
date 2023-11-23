@@ -105,19 +105,19 @@ if (isset($_POST['newImg'])) {
                     <div class="profile-name">
                         <?= $row['username'] ?>
                     </div>
-                    <div class="profile-info email">
+                    <div class="profile-info">
                         <label>Email:</label>
                         <span>
                             <?= $row['email'] ?>
                         </span>
                     </div>
-                    <div class="profile-info phone">
+                    <div class="profile-info">
                         <label>Phone:</label>
                         <span>
                             <?= $row['phone'] ?>
                         </span>
                     </div>
-                    <div class="profile-info address">
+                    <div class="profile-info">
                         <label>Address:</label>
                         <span>
                             <?= $row['address'] ?>
@@ -131,7 +131,7 @@ if (isset($_POST['newImg'])) {
                             </span>
 
                         </label>
-                        <button type="submit" name="change_password">Change Password</button>
+                        <button class="btn" type="submit" name="change_password">Change Password</button>
 
                     </form>
 
@@ -187,14 +187,19 @@ function triggerFileInput() {
         min-height: 50vh;
     }
 
-    .profile-panel {
-        max-width: 400px;
-        margin: 0 auto;
-        border: 2px solid #525352;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+.profile-details {
+    height: fit-content;
+}
+
+.profile-panel {
+    max-width: 400px;
+    height: fit-content;
+    margin: 0 auto;
+    border: 2px solid #525352;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
 
     }
 
@@ -231,103 +236,106 @@ function triggerFileInput() {
         /* Center align profile info */
     }
 
-    .profile-info {
-        margin-bottom: 15px;
-        /* Increased margin for spacing */
-        text-align: ;
-        /* Center align profile info */
-    }
+.profile-info {
+    margin-bottom: 15px; /* Increased margin for spacing */
+    text-align: ; /* Center align profile info */
+    font-size: 12px;
+}
 
     .profile-info label {
         font-weight: bold;
     }
 
-    .profile-info span {
-        margin-left: 5px;
-        /* Adjusted margin for spacing */
-    }
+.profile-info span {
+    margin-left: 5px; /* Adjusted margin for spacing */
+}
+.form {
+    width: 100%;
+    position: relative;
+    height: 100px;
+    overflow: hidden;
+    margin-top: 50px; /* 调整上外边距 */
+}
 
-    .btn {
-        background-color: #525352;
-        width: 100%;
-        border: none;
-        color: #fff;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin-top: 15px;
-        /* Adjusted margin for spacing */
-        cursor: pointer;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-        /* Added transition for a smoother hover effect */
-    }
+.form input {
+    border: none;
+}
 
-    .btn:hover {
-        background-color: #525352;
-    }
+.btn {
+    background-color: #525352;
+    width: 100%;
+    border: none;
+    margin-top: 20px; /* 调整上外边距 */
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/* .btn:hover {
+    background-color: #525352;
+} */
 
 
     .form {
   width: 100%;
   position: relative;
-  height: 60px;
-  overflow: hidden; 
+  height: 100px;
+  overflow: hidden;
 }
 
 .form input {
   width: 100%;
-  height: 100%;
-  color:;
-  padding-top: 20px;
+  /* height: 100%; */
+  padding-top: 10px;
   border: none;
 }
-    .form label {
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        border-bottom: 1px solid white;
-    }
+.form label {
+  position: absolute;
+  /* bottom: 0px; */
+  left: 0px;
+  width: 100%;
+  /* height: 100%; */
+  pointer-events: none;
+  border-bottom: 1px solid white;
+}
+.form label::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  border-bottom: 3px solid #525352;
+  transform: translateX(-100%);
+  transition: all 0.3s ease;
+}
 
-    .form label::after {
-        content: "";
-        position: absolute;
-        bottom: -1px;
-        left: 0px;
-        width: 100%;
-        height: 100%;
-        border-bottom: 3px solid #fce38a;
-        transform: translateX(-100%);
-        transition: all 0.3s ease;
-    }
+.content-name {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  padding-bottom: 5px;
+  transition: all 0.3s ease;
+}
+.form input:focus {
+  outline: none;
+}
+.form input:focus + .label-name .content-name,
+.form input:valid + .label-name .content-name {
+  transform: translateY(-150%);
+  font-size: 14px;
+  left: 0px;
+  color: #262624;
+}
+.form input:focus + .label-name::after,
+.form input:valid + .label-name::after {
+  transform: translateX(0%);
+}
 
-    .content-name {
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        padding-bottom: 5px;
-        transition: all 0.3s ease;
-    }
-
-    .form input:focus {
-        outline: none;
-    }
-
-    .form input:focus+.label-name .content-name,
-    .form input:valid+.label-name .content-name {
-        transform: translateY(-150%);
-        font-size: 14px;
-        left: 0px;
-        color: #fce38a;
-    }
-
-    .form input:focus+.label-name::after,
-    .form input:valid+.label-name::after {
-        transform: translateX(0%);
-    }
 </style>
