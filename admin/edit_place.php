@@ -1,13 +1,11 @@
 <?php
 session_start();
+error_reporting();
 include('includes/config.php');
 
-error_reporting(E_ALL);
-
-if (empty($_SESSION['alogin'])) {
+if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
-    exit;
-}
+} else {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $place_name = $_POST['place_name'];
@@ -35,9 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
         $new_image_name = uniqid() . '.' . $image_extension;
         $image_path = 'img/image/' . $new_image_name;
+        $image_path2 = '../user/img/' . $new_image_name;
 
         if (move_uploaded_file($image_tmp, $image_path)) {
-            // Update the image path in the database
+            if (copy($image_path, $image_path2)){
             $sql = "UPDATE place SET place_img = :place_img WHERE place_id = :place_id";
             $query = $dbh->prepare($sql);
             $query->bindParam(':place_img', $new_image_name, PDO::PARAM_STR);
@@ -49,7 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
+}
+}
 $place_id = intval($_GET['place_id']);
 $sql = "SELECT * FROM place WHERE place_id = :place_id";
 $stmt = $dbh->prepare($sql);

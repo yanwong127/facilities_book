@@ -9,7 +9,6 @@ if (strlen($_SESSION['alogin']) == 0) {
         $place_name = $_POST['place_name'];
         $place_overview = $_POST['place_overview'];
         $availability = $_POST['availability'];
-        
         $place_img = $_FILES["place_img"]["name"];
         $temp_img = $_FILES["place_img"]["tmp_name"];
         
