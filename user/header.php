@@ -14,7 +14,7 @@
         <li><a href="home.php">Home</a></li>
         <li><a href="profile.php">User Profile</a></li>
         <li><a href="booking_item.php">Booking Progress</a></li>
-        <li><a href="result.php">Booking Result</a></li>
+        <li><a href="result_item.php">Booking Result</a></li>
         <li><a href="logout.php">Logout</a></li>
     </ul>
 </div>

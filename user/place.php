@@ -97,7 +97,7 @@ $result2 = mysqli_query($conn, $jj2);
 
     <div class="pagination justify-content-center">
         <?php
-        $SQL = "SELECT COUNT(*) FROM place";
+        $SQL = "SELECT COUNT(*) FROM place WHERE availability = 'Still Working' ";
         $result_count = mysqli_query($conn, $SQL);
         $row = mysqli_fetch_row($result_count);
         $records = $row[0];
