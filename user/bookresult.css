@@ -1,0 +1,43 @@
+    .header {
+        position: relative;
+        z-index: 1; /* Set a value smaller than varbar's z-index */
+    }
+    .ctable {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 500px;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+        margin-top: 500px;
+        
+    }
+    
+    .pagination a {
+        color: black;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+    
+    .pagination a.active {
+        background-color: dodgerblue;
+        color: white;
+    }
+    
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
+    
+    .rounded-image {
+        border-radius: 20px;
+        width: 100px;
+        height: 70px;
+    }

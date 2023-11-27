@@ -10,7 +10,7 @@ if ($_SESSION['true'] != true) {
 
 $user_id = $_SESSION['user_id'];
 
-$records_per_page = 3;
+$records_per_page = 5;
 
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
@@ -90,16 +90,22 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Status</title>
+    <link rel="stylesheet" href="bookresult.css">
 </head>
 
 <body>
-
-    <br>
-    <br>
-
     <div class="ctable">
-        <table>
+        <table class="w3-table w3-striped w3-bordered w3-table-all w3-hoverable">
+                <tr class="w3-light-grey">
+                    <th>Image</th>
+                    <th>Place/Item</th>
+                    <th>Booking Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Status</th>
+                </tr>
             <?php while ($row = mysqli_fetch_array($result)) { ?>
+
                 <tr>
                     <td>
                         <img class="rounded-image" src="<?= $row['img'] ?>">
@@ -351,45 +357,3 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
 </body>
 
 </html>
-
-
-
-<style>
-    .ctable {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-height: 50vh;
-    }
-
-    .rounded-image {
-        border-radius: 20px;
-        width: 200px;
-        height: auto;
-    }
-
-    .pagination {
-        display: flex;
-        justify-content: center;
-        list-style: none;
-        padding: 0;
-        margin-top: 20px;
-    }
-
-    .pagination a {
-        color: black;
-        padding: 8px 16px;
-        text-decoration: none;
-        transition: background-color 0.3s;
-    }
-
-    .pagination a.active {
-        background-color: dodgerblue;
-        color: white;
-    }
-
-    .pagination a:hover:not(.active) {
-        background-color: #ddd;
-    }
-</style>

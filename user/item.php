@@ -75,7 +75,7 @@ $result = mysqli_query($conn, $jj);
         <?php } ?>
     </div>
 
-    <form action="item.php" method="post">
+    <form action="item.php" method="post" class="dialog-form">
         <dialog class="dialog">
             <i class="fa fa-close" style="float: right;" autofocus></i>
             <h2 id="dialog-title"></h2>
