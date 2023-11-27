@@ -36,123 +36,42 @@ if (isset($_POST['signup'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="home.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&subset=greek-ext');
-
-        body {
-            background-color: rgba(121, 120, 120, 0.221);
-            background-position: center;
-            background-origin: content-box;
-            background-repeat: no-repeat;
-            background-size: cover;
-            min-height: 100vh;
-            font-family: 'Noto Sans', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-        }
-
-        .fa-user-circle {
-            font-size: 46px;
-        }
-
-        .signup-container {
-            background-color: rgba(0, 0, 0, 0.221);
-            border-radius: 3px;
-            padding: 70px 100px;
-            display: inline-block;
-            text-align: center;
-            margin: 50px;
-            /* Adjust the margin as needed */
-        }
-
-        .input-container {
-            position: relative;
-            margin-bottom: 25px;
-            padding: 20px 0px 0px 0px;
-        }
-
-        .input-container label {
-            font-size: 16px;
-            color: #090707;
-            pointer-events: none;
-            transition: all 0.5s ease-in-out;
-            float: left;
-        }
-
-        .input-container input {
-            border: 0;
-            border-bottom: 1px solid #131111;
-            background: transparent;
-            width: 100%;
-            padding: 8px 0 5px 0;
-            font-size: 16px;
-            color: #120e0e;
-            outline: none;
-        }
-
-        .input-container input:focus {
-            border-bottom: 1px solid #eae0df;
-        }
-
-        .btn-container {
-            margin-top: 50px;
-        }
-
-        .custom-button {
-            color: #ede5e5;
-            background-color: #454343;
-            outline: none;
-            border: 0;
-            padding: 10px 20px;
-            text-transform: uppercase;
-            border-radius: 2px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .text-center {
-            color: #0b0a0a;
-            text-transform: uppercase;
-            font-size: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="loginsignup.css">
     <title>SignUp</title>
 </head>
 
 <body>
+    <div class="login-container">
     <form action="signup.php" method='post'>
-        <div class="signup-container">
+        <div class="box">
             <i class="fa fa-user-circle" id="user" aria-hidden="true"></i>
             <div class="input-container">
-                <label for="username">Name:</label>
-                <input type="text" name="username" class="signup-text" required>
+                <label for="username" class="fa">Name:</label>
+                <input type="text" name="username" class="text" required>
             </div>
             <div class="input-container">
-                <label for="username">Password:</label>
-                <input type="password" name="password" class="signup-text" required pattern="^(?=.*[A-Z]).{8,}$"
+                <label for="username" class="fa">Password:</label>
+                <input type="password" name="password" class="text" required pattern="^(?=.*[A-Z]).{8,}$"
                     title="Password must be at least 8 characters long and contain at least one uppercase letter">
             </div>
             <div class="input-container">
-                <label for="username">Address:</label>
-                <input type="text" name="address" class="signup-text" required>
+                <label for="username" class="fa">Address:</label>
+                <input type="text" name="address" class="text" required>
             </div>
             <div class="input-container">
-                <label for="email">Email:</label>
-                <input type="email" name="email" class="signup-text" required
+                <label for="email" class="fa">Email:</label>
+                <input type="email" name="email" class="text" required
                     pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
                     title="Please enter a valid email address (e.g., yourname@example.com)">
             </div>
             <div class="input-container">
-                <label for="phone">Phone Number:</label>
-                <input type="tel" name="phone" id="phone" class="signup-text" required
+                <label for="phone" class="fa">Phone Number:</label>
+                <input type="tel" name="phone" id="phone" class="text" required
                     title="Please enter a valid Malaysian mobile phone number" oninput="formatPhoneNumber(this.value)">
             </div>
 
             <div>
-                <p class="loginpage">Click here to login. <a href="login.php">Login here</a></p>
+                <p class="fa">Click here to login. <a href="login.php">Login here</a></p>
             </div>
 
             <div class="btn-container">
@@ -160,6 +79,7 @@ if (isset($_POST['signup'])) {
             </div>
         </div>
     </form>
+    </div>
 
 
 </body>
