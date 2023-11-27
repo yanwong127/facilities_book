@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 include('includes/config.php');
 require 'vendor/autoload.php';
-
+//yes
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -18,7 +18,7 @@ if(isset($_REQUEST['eid']))
 	{
 $eid=intval($_GET['eid']);
 $status="Cancelled";
-$sql = "UPDATE item_appointment SET status=:status WHERE  itembook_id=:eid";
+$sql = "UPDATE item_appointment SET status=:status WHERE itembook_id=:eid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':eid',$eid, PDO::PARAM_INT);
@@ -37,7 +37,7 @@ try {
     $mail->Port = 465;
 
     // Fetch the user's email from the database based on booking details
-    $getEmailQuery = "SELECT user.user_id, user.email, item_appointment.user_id, item_appointment.itembook_id FROM user JOIN item_appointment ON user.user_id = item_appointment.user_id WHERE item_appointment.itembook_id = :eid";
+    echo $getEmailQuery = "SELECT user.user_id, user.email, item_appointment.user_id, item_appointment.itembook_id FROM user JOIN item_appointment ON user.user_id = item_appointment.user_id WHERE item_appointment.itembook_id = :eid";
     $getEmailStmt = $dbh->prepare($getEmailQuery);
     $getEmailStmt->bindParam(':eid', $eid, PDO::PARAM_INT);
     $getEmailStmt->execute();
@@ -65,7 +65,7 @@ if(isset($_REQUEST['aeid']))
 $aeid=intval($_GET['aeid']);
 $status="Approve";
 
-$sql = "UPDATE item_appointment SET status=:status WHERE  itembook_id=:aeid";
+$sql = "UPDATE item_appointment SET status=:status WHERE itembook_id=:aeid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':aeid',$aeid, PDO::PARAM_INT);

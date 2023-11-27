@@ -2,7 +2,7 @@
 			<ul class="ts-sidebar-menu">
 			
 				<li class="ts-label">Main</li>
-				<li><a href="add_item.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+				<li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 			
 <li><a href="#"><i class="fa fa-files-o"></i> Item </a>
 <ul>
@@ -24,8 +24,7 @@
 					</ul>
 				</li>
 				<li><a href="user_manage.php"><i class="fa fa-users"></i>Manage Users</a></li>
-				<li><a href="testimonials.php"><i class="fa fa-table"></i> Manage Testimonials</a></li>
-				<li><a href="manage-conactusquery.php"><i class="fa fa-desktop"></i> Manage Conatctus Query</a></li>
+
 
 
 

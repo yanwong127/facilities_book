@@ -1,20 +1,18 @@
 <?php
 session_start();
+error_reporting();
 include('includes/config.php');
-// Set error reporting to report all errors and warnings
-error_reporting(E_ALL);
-// Check if user is logged in
-if (empty($_SESSION['alogin'])) {
+
+if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
-    exit;
-}
-// Handle form submission
+} else {
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item_name = $_POST['item_name'];
     $item_overview = $_POST['item_overview'];
     $availability = $_POST['availability'];
     $item_id = intval($_GET['item_id']);
-    // Use prepared statement to update item info
+
     $sql = "UPDATE item SET item_name = :item_name, item_overview = :item_overview, availability = :availability WHERE item_id = :item_id";
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':item_name', $item_name, PDO::PARAM_STR);
@@ -33,10 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $image_name = $_FILES['item_image']['name'];
         $image_extension = pathinfo($image_name, PATHINFO_EXTENSION);
         $new_image_name = uniqid() . '.' . $image_extension;
-        $image_path = 'img/image/' . $new_image_name;
+        $image_path = 'img/' . $new_image_name;
+        $image_path2 = '../user/img/' . $new_image_name;
 
-        if (move_uploaded_file($image_tmp, $image_path)) {
-            // Update the image path in the database
+        if (move_uploaded_file($image_tmp, $image_path )) {
+            if (copy($image_path, $image_path2)){
             $sql = "UPDATE item SET item_img = :item_img WHERE item_id = :item_id";
             $query = $dbh->prepare($sql);
             $query->bindParam(':item_img', $new_image_name, PDO::PARAM_STR);
@@ -47,6 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $msg .= " Error uploading image.";
         }
     }
+}
+}
 }
 // Retrieve item info
 $item_id = intval($_GET['item_id']);

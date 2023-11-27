@@ -9,12 +9,11 @@ if (strlen($_SESSION['alogin']) == 0) {
         $item_name = $_POST['item_name'];
         $item_overview = $_POST['item_overview'];
         $availability = $_POST['availability'];
-        
         $item_img = $_FILES["item_img"]["name"];
         $temp_img = $_FILES["item_img"]["tmp_name"];
         
         $extension = pathinfo($item_img, PATHINFO_EXTENSION);
-        $destination1 = 'img/image/' . $item_img;  // First folder
+        $destination1 = 'img/' . $item_img;  // First folder
         $destination2 = '../user/img/' . $item_img;  // Second folder
 
         if (!in_array($extension, ['jpg', 'png', 'jpeg'])) {

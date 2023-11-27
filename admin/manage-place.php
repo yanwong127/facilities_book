@@ -127,7 +127,7 @@ foreach($results as $result)
                                         <td><?php echo htmlentities($cnt); ?></td>
                                                     <td><?php echo htmlentities($result->place_name); ?></td>
                                                     <td><?php echo htmlentities($result->place_overview); ?></td>
-                                                    <td><img src="img/image/<?php echo htmlentities($result->place_img); ?>" style="width:100px;"></td>
+                                                    <td><img src="img/<?php echo htmlentities($result->place_img); ?>" style="width:100px;"></td>
                                                     <td><?php echo htmlentities($result->availability); ?></td>
 		<td><a href="edit_place.php?place_id=<?php echo $result->place_id;?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
 <a href="manage-place.php?del=<?php echo $result->place_id;?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i></a></td>

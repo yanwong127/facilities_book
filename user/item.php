@@ -20,12 +20,31 @@ if (isset($_REQUEST['item_book'])) {
         $start_time = date('H:i:s', strtotime($start_time));
         $end_time = date('H:i:s', strtotime($end_time));
 
+        // Check availability before inserting the booking
+        $availabilityCheckQuery = "SELECT * FROM `item_appointment` WHERE item_id = '$item_id' AND 
+(
+    ('$start_time' >= start_time AND '$start_time' < end_time) OR 
+    ('$end_time' > start_time AND '$end_time' <= end_time) OR
+    ('$start_time' <= start_time AND '$end_time' >= end_time)
+) AND
+booking_date = '$booking_date'";
+        $availabilityCheckResult = mysqli_query($conn, $availabilityCheckQuery);
+
+        if (mysqli_num_rows($availabilityCheckResult) > 0) {
+            // Item is already booked at the selected date and time
+            $message = "Sorry, the item is not available at the selected date and time.";
+            echo "<script>alert('$message'); window.location.href = 'item.php';</script>";
+            exit();
+        }
+
+
+        // Proceed with the booking
         $insertQuery = "INSERT INTO `item_appointment` (item_id, item_name, item_img, user_id, start_time, end_time, booking_date, status) VALUES ('$item_id', '$item_name', '$item_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive')";
         $result = mysqli_query($conn, $insertQuery);
 
         if ($result) {
             $message = "Booking successful!";
-            echo "<script>window.location.href = 'item.php'; alert('Booking Sucessful.');</script>";
+            echo "<script>alert('$message'); window.location.href = 'item.php';</script>";
             exit();
         } else {
             error_log("Error: " . mysqli_error($conn));
@@ -41,7 +60,7 @@ if (isset($_GET['item_page'])) {
 }
 
 $set = ($page - 1) * $records_per_page;
-$jj = "SELECT * FROM `item` LIMIT $set,$records_per_page";
+$jj = "SELECT * FROM `item` WHERE availability <> 'Not Working' LIMIT $set,$records_per_page";
 $result = mysqli_query($conn, $jj);
 ?>
 
@@ -63,12 +82,15 @@ $result = mysqli_query($conn, $jj);
     </div>
 
     <div class="custom-table" id="clickable-div">
+
         <?php while ($row = mysqli_fetch_array($result)) { ?>
             <div class="td">
                 <div class="item-container" id="none">
                     <a href="place.php?id=<?= $row['item_id'] ?>">
                         <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
-                        <div class="item-name"><?= $row['item_name'] ?></div>
+                        <div class="item-name">
+                            <?= $row['item_name'] ?>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -98,7 +120,7 @@ $result = mysqli_query($conn, $jj);
 
     <div class="pagination justify-content-center">
         <?php
-        $SQL = "SELECT COUNT(*) FROM item";
+        $SQL = "SELECT COUNT(*) FROM item WHERE availability = 'Still Working'";
         $result_count = mysqli_query($conn, $SQL);
         $row = mysqli_fetch_row($result_count);
         $records = $row[0];
@@ -164,4 +186,3 @@ $result = mysqli_query($conn, $jj);
         e.stopPropagation();
     });
 </script>
-
