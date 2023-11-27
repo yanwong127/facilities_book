@@ -162,7 +162,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                 <div>
                     <div>
                         <button type="submit" name="edit_place" value="edit_place">Submit</button>
-                        <button type="button" onclick="window.location.href='booking.php'">Back</button>
+                        <!-- <button type="button" onclick="window.location.href='booking_place.php'">Back</button> -->
                     </div>
                 </div>
             </form>

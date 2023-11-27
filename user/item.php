@@ -22,8 +22,12 @@ if (isset($_REQUEST['item_book'])) {
 
         // Check availability before inserting the booking
         $availabilityCheckQuery = "SELECT * FROM `item_appointment` WHERE item_id = '$item_id' AND 
-            (('$start_time' >= start_time AND '$start_time' < end_time) OR ('$end_time' > start_time AND '$end_time' <= end_time)) AND
-            booking_date = '$booking_date'";
+(
+    ('$start_time' >= start_time AND '$start_time' < end_time) OR 
+    ('$end_time' > start_time AND '$end_time' <= end_time) OR
+    ('$start_time' <= start_time AND '$end_time' >= end_time)
+) AND
+booking_date = '$booking_date'";
         $availabilityCheckResult = mysqli_query($conn, $availabilityCheckQuery);
 
         if (mysqli_num_rows($availabilityCheckResult) > 0) {
@@ -32,6 +36,7 @@ if (isset($_REQUEST['item_book'])) {
             echo "<script>alert('$message'); window.location.href = 'item.php';</script>";
             exit();
         }
+
 
         // Proceed with the booking
         $insertQuery = "INSERT INTO `item_appointment` (item_id, item_name, item_img, user_id, start_time, end_time, booking_date, status) VALUES ('$item_id', '$item_name', '$item_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive')";
@@ -77,13 +82,15 @@ $result = mysqli_query($conn, $jj);
     </div>
 
     <div class="custom-table" id="clickable-div">
-        
+
         <?php while ($row = mysqli_fetch_array($result)) { ?>
             <div class="td">
                 <div class="item-container" id="none">
                     <a href="place.php?id=<?= $row['item_id'] ?>">
                         <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
-                        <div class="item-name"><?= $row['item_name'] ?></div>
+                        <div class="item-name">
+                            <?= $row['item_name'] ?>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -179,4 +186,3 @@ $result = mysqli_query($conn, $jj);
         e.stopPropagation();
     });
 </script>
-

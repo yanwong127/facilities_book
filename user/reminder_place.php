@@ -16,7 +16,7 @@ $userResult = $conn->query($userQuery);
 
 if ($userResult && $userResult->num_rows > 0) {
     while ($userRow = $userResult->fetch_assoc()) {
-        $qry = "SELECT * FROM item_appointment
+        $qry = "SELECT * FROM place_appointment
         WHERE email_sent IS NULL AND status = 'Approve'
         AND DATE(booking_date) = CURDATE()
         ORDER BY start_time ASC";
@@ -53,12 +53,12 @@ if ($userResult && $userResult->num_rows > 0) {
                             $mail->isHTML(true);    
                             $mail->Subject = 'Booking Confirmation';
                             $mail->Body = 'Testing' . '<br>';
-                            $mail->Body .= 'Item: ' . $row['item_name'] . '<br>';
+                            $mail->Body .= 'Place: ' . $row['place_name'] . '<br>';
 
                             $mail->send();
                                         
                             // 更新预约记录，标记为已发送邮件
-                            $updateStmt = $conn->prepare("UPDATE item_appointment SET email_sent = NOW()");
+                            $updateStmt = $conn->prepare("UPDATE place_appointment SET email_sent = NOW()");
                             $updateStmt->bindParam('i', $row['id']);
                             $updateStmt->execute();
                         } catch (Exception $e) {

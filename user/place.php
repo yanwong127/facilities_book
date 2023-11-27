@@ -20,6 +20,24 @@ if (isset($_REQUEST['place_book'])) {
         $start_time = date('H:i:s', strtotime($start_time));
         $end_time = date('H:i:s', strtotime($end_time));
 
+        // Check availability before inserting the booking
+        $availabilityCheckQuery = "SELECT * FROM `place_appointment` WHERE place_id = '$place_id' AND 
+             (
+                 ('$start_time' >= start_time AND '$start_time' < end_time) OR 
+                 ('$end_time' > start_time AND '$end_time' <= end_time) OR
+                 ('$start_time' <= start_time AND '$end_time' >= end_time)
+             ) AND
+             booking_date = '$booking_date'";
+        $availabilityCheckResult = mysqli_query($conn, $availabilityCheckQuery);
+
+        if (mysqli_num_rows($availabilityCheckResult) > 0) {
+            // Item is already booked at the selected date and time
+            $message = "Sorry, the item is not available at the selected date and time.";
+            echo "<script>alert('$message'); window.location.href = 'place.php';</script>";
+            exit();
+        }
+
+
         $insertQuery = "INSERT INTO `place_appointment` (place_id, place_name, place_img, user_id, start_time, end_time, booking_date, status) VALUES ('$place_id', '$place_name', '$place_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive')";
         $result = mysqli_query($conn, $insertQuery);
 
@@ -67,7 +85,9 @@ $result2 = mysqli_query($conn, $jj2);
                 <div class="place-container" id="none">
                     <a href="place.php?id=<?= $row['place_id'] ?>">
                         <img class="rounded-image" src="img/<?= $row['place_img'] ?>" alt="<?= $row['place_name'] ?>">
-                        <div class="place-name"><?= $row['place_name'] ?></div>
+                        <div class="place-name">
+                            <?= $row['place_name'] ?>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -162,4 +182,3 @@ $result2 = mysqli_query($conn, $jj2);
         e.stopPropagation();
     });
 </script>
-

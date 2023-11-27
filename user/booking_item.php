@@ -164,7 +164,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
                 <div>
                     <div>
                         <button type="submit" name="edit" value="edit">Submit</button>
-                        <button type="button" onclick="window.location.href='booking.php'">Back</button>
+                        <!-- <button type="button" onclick="window.location.href='booking_item.php'">Back</button> -->
                     </div>
                 </div>
             </form>
