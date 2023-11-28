@@ -28,12 +28,12 @@ if ($userResult && $userResult->num_rows > 0) {
             while ($row = $sttr->fetch_assoc()) {
                 $appointmentTime = strtotime($row['start_time']);
                 $currentTime = time(); // 获取当前时间的时间戳
-                $halfHourBefore = strtotime("-30 minutes", $appointmentTime);
+                $eightHoursBefore = strtotime("-8 hours", $appointmentTime);
                 
                 echo 'Appointment Time: ' . date('Y-m-d H:i:s', $appointmentTime) . "<br>";
                 echo 'Current Time: ' . date('Y-m-d H:i:s', $currentTime) . "<br>";
-                echo 'Half Hour Before: ' . date('Y-m-d H:i:s', $halfHourBefore) . "<br>";
-                if (time() >= $halfHourBefore && time() <= $appointmentTime) {
+                echo 'Half Hour Before: ' . date('Y-m-d H:i:s', $eightHoursBefore) . "<br>";
+                if (time() >= $eightHoursBefore && time() <= $appointmentTime) {
                     // 进行邮件提醒等操作
                     $mail = new PHPMailer(true);
                     try {
@@ -58,7 +58,7 @@ if ($userResult && $userResult->num_rows > 0) {
                             $mail->send();
                                         
                             // 更新预约记录，标记为已发送邮件
-                            $updateStmt = $conn->prepare("UPDATE item_appointment SET email_sent = NOW()");
+                            echo $updateStmt = $conn->prepare("UPDATE item_appointment SET email_sent = NOW()");
                             $updateStmt->bindParam('i', $row['id']);
                             $updateStmt->execute();
                         } catch (Exception $e) {
