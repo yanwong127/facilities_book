@@ -32,18 +32,17 @@ if (isset($_REQUEST['place_book'])) {
 
         if (mysqli_num_rows($availabilityCheckResult) > 0) {
             // Item is already booked at the selected date and time
-            $message = "Sorry, the item is not available at the selected date and time.";
+            $message = "Sorry, the place is not available at the selected date and time.";
             echo "<script>alert('$message'); window.location.href = 'place.php';</script>";
             exit();
         }
-
 
         $insertQuery = "INSERT INTO `place_appointment` (place_id, place_name, place_img, user_id, start_time, end_time, booking_date, status) VALUES ('$place_id', '$place_name', '$place_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive')";
         $result = mysqli_query($conn, $insertQuery);
 
         if ($result) {
             $message = "Booking successful!";
-            echo "<script>window.location.href = 'place.php'; alert('Booking Sucessful.');</script>";
+            echo "<script>window.location.href = 'place.php'; alert('Booking Successful.');</script>";
             exit();
         } else {
             error_log("Error: " . mysqli_error($conn));
@@ -83,7 +82,7 @@ $result2 = mysqli_query($conn, $jj2);
         <?php while ($row = mysqli_fetch_array($result2)) { ?>
             <div class="td">
                 <div class="place-container" id="none">
-                    <a href="place.php?id=<?= $row['place_id'] ?>">
+                    <a href="place.php?id=<?= $row['place_id'] ?>" data-place-overview="<?= $row['place_overview'] ?>">
                         <img class="rounded-image" src="img/<?= $row['place_img'] ?>" alt="<?= $row['place_name'] ?>">
                         <div class="place-name">
                             <?= $row['place_name'] ?>
@@ -100,7 +99,7 @@ $result2 = mysqli_query($conn, $jj2);
             <h2 id="place-dialog-title"></h2>
             <h2 id="place-dialog-item-name"></h2>
             <img id="place-dialog-image" src="" alt="Place Image">
-            <p id="place-dialog-description"></p>
+            <p id="place-dialog-overview"></p>
             <input type="hidden" name="place_id" id="place_id">
             <input type="hidden" name="place_name" id="place_name">
             <input type="hidden" name="place_img" id="place_img">
@@ -153,7 +152,7 @@ $result2 = mysqli_query($conn, $jj2);
     const closeButton = document.querySelector(".fa-close");
     const placeDialogTitle = document.getElementById("place-dialog-title");
     const placeDialogImage = document.getElementById("place-dialog-image");
-    const placeDialogDescription = document.getElementById("place-dialog-description");
+    const placeDialogOverview = document.getElementById("place-dialog-overview");
 
     document.querySelectorAll(".place-container a").forEach((link) => {
         link.addEventListener("click", (e) => {
@@ -163,6 +162,7 @@ $result2 = mysqli_query($conn, $jj2);
             const placeImageSrc = "img/" + link.querySelector("img").src.split('/').pop();
             const placeUrl = link.getAttribute('href');
             const place_id = placeUrl.split('=')[1];
+            const placeOverview = link.getAttribute('data-place-overview');
 
             document.getElementById("place_id").value = place_id;
             document.getElementById("place_name").value = placeTitle;
@@ -170,7 +170,7 @@ $result2 = mysqli_query($conn, $jj2);
 
             placeDialogTitle.textContent = placeTitle;
             placeDialogImage.src = placeImageSrc;
-            placeDialogDescription.textContent = "Description of the place";
+            placeDialogOverview.textContent =  placeOverview;
             placeDialog.showModal();
         });
     });
