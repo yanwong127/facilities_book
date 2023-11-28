@@ -94,7 +94,7 @@ $result2 = mysqli_query($conn, $jj2);
         <?php } ?>
     </div>
 
-    <form action="place.php" method="post">
+    <form action="place.php" method="post" class="dialog-form">
         <dialog id="place-dialog" class="dialog">
             <i class="fa fa-close" style="float: right;" autofocus></i>
             <h2 id="place-dialog-title"></h2>
