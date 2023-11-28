@@ -3,10 +3,11 @@ session_start();
 error_reporting(0);
 include('includes/config.php');
 require 'vendor/autoload.php';
-//yes
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
 
 if(strlen($_SESSION['alogin'])==0)
 	{	

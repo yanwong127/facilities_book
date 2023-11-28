@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting();
+error_reporting(0);
 include('includes/config.php');
 
 if (strlen($_SESSION['alogin']) == 0) {
@@ -176,7 +176,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
                                                     <label class="col-sm-2 control-label">Item Image</label>
                                                     <div class="col-sm-4">
                                                         <input type="file" name="item_image">
-                                                        <img src="img/image/<?php echo htmlentities($result['item_img']); ?>" width="300" height="200" style="border:solid 1px #000">
+                                                        <img src="img/<?php echo htmlentities($result['item_img']); ?>" width="300" height="200" style="border:solid 1px #000">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
