@@ -41,14 +41,14 @@ if ($userResult && $userResult->num_rows > 0) {
                             $mail->isSMTP();
                             $mail->Host = 'smtp.gmail.com';
                             $mail->SMTPAuth = true;
-                            $mail->Username = 'chankelvin53@gmail.com';
-                            $mail->Password = 'iiezptdcgwhjteyy';
-                            $mail->SMTPSecure = 'tls';
-                            $mail->Port = 587;
+                            $mail->Username = 'rezeyan127@gmail.com';
+                            $mail->Password = 'xsqrxtgggczblehv';
+                            $mail->SMTPSecure = 'ssl';
+                            $mail->Port = 465;
                                         
                             // 发送邮件
                             $userEmail = $userRow['email'];
-                            $mail->setFrom('chankelvin53@gmail.com', 'Chan');
+                            $mail->setFrom('rezeyan127@gmail.com', 'Admin');
                             $mail->addAddress($userEmail);
                             $mail->isHTML(true);    
                             $mail->Subject = 'Booking Confirmation';
