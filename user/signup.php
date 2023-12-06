@@ -2,20 +2,21 @@
 include_once('db.php');
 
 if (isset($_POST['signup'])) {
+    $name = $_POST['name']; // New line for the name
     $username = $_POST['username'];
     $password = $_POST['password'];
     $address = $_POST['address'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
 
-    if (empty($username) || empty($password) || empty($address) || empty($email) || empty($phone)) {
+    if (empty($name) || empty($username) || empty($password) || empty($address) || empty($email) || empty($phone)) {
         echo "<script>alert('Please fill in all the fields.');</script>";
     } else {
         $hashed = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = "INSERT INTO `user` (`username`, `password`, `address`, `email`, `phone`) VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO `user` (`name`, `username`, `password`, `address`, `email`, `phone`) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_bind_param($stmt, "sssss", $username, $hashed, $address, $email, $phone);
+        mysqli_stmt_bind_param($stmt, "ssssss", $name, $username, $hashed, $address, $email, $phone);
 
         if (mysqli_stmt_execute($stmt)) {
             echo "<script>window.location.href = 'login.php';
@@ -25,7 +26,7 @@ if (isset($_POST['signup'])) {
         }
     }
 }
-?>
+?>      
 
 
 <!DOCTYPE html>
@@ -46,7 +47,7 @@ if (isset($_POST['signup'])) {
         <div class="box">
             <i class="fa fa-user-circle" id="user" aria-hidden="true"></i>
             <div class="input-container">
-                <label for="username" class="fa">Name:</label>
+                <label for="username" class="fa">Userame:</label>
                 <input type="text" name="username" class="text" required>
             </div>
             <div class="input-container">
@@ -57,6 +58,10 @@ if (isset($_POST['signup'])) {
             <div class="input-container">
                 <label for="username" class="fa">Address:</label>
                 <input type="text" name="address" class="text" required>
+            </div>
+            <div class="input-container">
+                <label for="username" class="fa">Full Name:</label>
+                <input type="text" name="name" class="text" required>
             </div>
             <div class="input-container">
                 <label for="email" class="fa">Email:</label>
