@@ -1,54 +1,56 @@
 <?php
 include_once('db.php');
 include_once('header.php');
+// ... (Your existing code for including files and session check)
 
 $user_id = $_SESSION['user_id'];
 $records_per_page = 3;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $records_per_page;
 
-$statusUpdated = false;  // Flag to check if statuses are updated
-
-$current_time = date('Y-m-d H:i:s');
 // Query for items
-$item_query = "
+echo $item_query = "
     SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status
     FROM `item_appointment` ia
-    WHERE ia.`user_id` = $user_id AND ia.`status` = 'Approve'
+    WHERE ia.`user_id` = $user_id AND ia.`status` = 'Expired'
     LIMIT $offset, $records_per_page
 ";
 
 $item_result = mysqli_query($conn, $item_query);
 
-// Check and update status for expired items
-while ($row = mysqli_fetch_array($item_result)) {
-    $start_time = $row['start_time'];
-
-    if ($start_time < $current_time) {
-        // Update status to "Expired"
-        $itembook_id = $row['book_id'];
-        $update_query = "UPDATE `item_appointment` SET `status` = 'Expired' WHERE `itembook_id` = $itembook_id";
-        mysqli_query($conn, $update_query);
-
-        // Display alert
-        echo "<script>alert('Appointment with ID $itembook_id has expired.');</script>";
-    }
-}
-
-// Reload the page only if statuses are updated
-if ($statusUpdated) {
-    echo '<script>location.reload();</script>';
-}
-
-// Fetch items again after updating statuses
-$item_result = mysqli_query($conn, $item_query);
-
 // Calculate total pages for items
-$item_count_query = "SELECT COUNT(*) FROM `item_appointment` WHERE `user_id` = $user_id AND `status` = 'Approve'";
+$item_count_query = "SELECT COUNT(*) FROM `item_appointment` WHERE `user_id` = $user_id AND `status` = 'Expired'";
 $item_count_result = mysqli_query($conn, $item_count_query);
 $item_row = mysqli_fetch_row($item_count_result);
 $item_records = $item_row[0];
 $total_item_pages = ceil($item_records / $records_per_page);
+
+
+
+
+if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
+    $itembook_id = $_POST['itembook_id'];
+    $booking_date = $_POST['booking_date'];
+    $start_time = $_POST['start_time'];
+    $end_time = $_POST['end_time'];
+
+    $query1 = "UPDATE `item_appointment` SET booking_date=?, start_time=?, end_time=? WHERE itembook_id=?";
+
+    $stmt = mysqli_prepare($conn, $query1);
+    mysqli_stmt_bind_param($stmt, "sssi", $booking_date, $start_time, $end_time, $itembook_id);
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo "<script>window.location.href = 'result_item.php';alert('Record Successfully Edited');</script>";
+    } else {
+        echo "<script>alert('Record Fails to Edit')</script>";
+    }
+
+    mysqli_stmt_close($stmt);
+}
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -61,8 +63,8 @@ $total_item_pages = ceil($item_records / $records_per_page);
     <br>
 
     <div style="display: flex;">
-        <a class="button-48" href="result_item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-48" href="result_place.php" role="button"><span class="text">Place</span></a>
+        <a class="button-48" href="history_item.php" role="button"><span class="text">Item</span></a>
+        <a class="button-48" href="history_place.php" role="button"><span class="text">Place</span></a>
     </div>
 
     <!-- Display Items Table -->
@@ -80,27 +82,6 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
         <table>
             <?php while ($row = mysqli_fetch_array($item_result)) { ?>
-                <?php
-                
-                // Check if end_time has passed
-                $currentTime = date('Y-m-d H:i:s');
-                $endTime = $row['booking_date'] . ' ' . $row['end_time'];
-
-                if ($endTime < $currentTime) {
-                    // End time has passed, show alert
-                    ?>
-                    <script>
-                        if (confirm('The end time for the appointment with ID <?= $row['book_id'] ?> has already passed. Do you want to view it in history?')) {
-                            window.location.href = 'history_item.php';
-                        }
-                    </script>
-                    <?php
-            
-                    // Update status to "Expired" in the database
-                    $updateStatusQuery = "UPDATE `item_appointment` SET `status` = 'Expired' WHERE `itembook_id` = {$row['book_id']}";
-                    mysqli_query($conn, $updateStatusQuery);
-                }
-            ?>
                 <tr>
                     <td>
                         <img class="rounded-image" src="<?= $row['img'] ?>">
@@ -176,7 +157,10 @@ $total_item_pages = ceil($item_records / $records_per_page);
                 </div>
                 <br />
                 <div>
-
+                    <div>
+                        <button type="submit" name="edit" value="edit">Submit</button>
+                        <button type="button" onclick="window.location.href='booking.php'">Back</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -189,9 +173,36 @@ $total_item_pages = ceil($item_records / $records_per_page);
 </html>
 
 <script>
+    const editLinks = document.querySelectorAll(".edit-link");
+    const dialog = document.getElementById('editDialog');
+    const dialogTitle = document.getElementById('editDialogTitle');
+    const itembookIdInput = document.getElementById('editItembookId');
+    const bookingDateInput = document.getElementById('editBookingDate');
+    const startTimeInput = document.getElementById('editStartTime');
+    const endTimeInput = document.getElementById('editEndTime');
+
+    editLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            const itembook_id = link.getAttribute('data-itembook-id');
+            const booking_date = link.getAttribute('data-booking-date');
+            const start_time = link.getAttribute('data-start-time');
+            const end_time = link.getAttribute('data-end-time');
 
 
-    
+            itembookIdInput.value = itembook_id;
+            bookingDateInput.value = booking_date;
+            startTimeInput.value = start_time;
+            endTimeInput.value = end_time;
+
+            dialog.showModal();
+        });
+    });
+
+    dialog.querySelector("button").addEventListener("click", () => {
+        dialog.close();
+    });
 </script>
 
 
@@ -249,4 +260,4 @@ $total_item_pages = ceil($item_records / $records_per_page);
         font-size: 18px;
         color: #555;
     }
-</style> 
+</style>
