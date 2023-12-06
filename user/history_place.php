@@ -12,14 +12,14 @@ $offset = ($page - 1) * $records_per_page;
 $place_query = "
     SELECT 'place' as type, pa.placebook_id as book_id, pa.place_img as img, pa.place_name as name, pa.booking_date, pa.start_time, pa.end_time, pa.status
     FROM `place_appointment` pa
-    WHERE pa.`user_id` = $user_id AND pa.`status` = 'Approve'
+    WHERE pa.`user_id` = $user_id AND pa.`status` = 'Expired'
     LIMIT $offset, $records_per_page
 ";
 
 $place_result = mysqli_query($conn, $place_query);
 
 // Calculate total pages for places
-$place_count_query = "SELECT COUNT(*) FROM `place_appointment` WHERE `user_id` = $user_id AND `status` = 'Approve'";
+$place_count_query = "SELECT COUNT(*) FROM `place_appointment` WHERE `user_id` = $user_id AND `status` = 'Expired'";
 $place_count_result = mysqli_query($conn, $place_count_query);
 $place_row = mysqli_fetch_row($place_count_result);
 $place_records = $place_row[0];
@@ -37,7 +37,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     mysqli_stmt_bind_param($stmt2, "sssi", $booking_date2, $start_time2, $end_time2, $placebook_id);
 
     if (mysqli_stmt_execute($stmt2)) {
-        echo "<script>window.location.href = 'booking_place.php';alert('Record Successfully Edited');</script>";
+        echo "<script>window.location.href = 'history_place.php';alert('Record Successfully Edited');</script>";
     } else {
         echo "<script>alert('Record Fails to Edit')</script>";
     }
@@ -64,8 +64,8 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     <br>
     <br>
     <div style="display: flex;">
-        <a class="button-48" href="result_item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-48" href="result_place.php" role="button"><span class="text">Place</span></a>
+        <a class="button-48" href="history_item.php" role="button"><span class="text">Item</span></a>
+        <a class="button-48" href="history_place.php" role="button"><span class="text">Place</span></a>
     </div>
 
 
@@ -84,26 +84,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
 
         <table>
             <?php while ($row = mysqli_fetch_array($place_result)) { ?>
-                <?php
-                // Check if end_time has passed
-                $currentTime = date('Y-m-d H:i:s');
-                $endTime = $row['booking_date'] . ' ' . $row['end_time'];
-
-                if ($endTime < $currentTime) {
-                    // End time has passed, show alert
-                    ?>
-                    <script>
-                        if (confirm('The end time for the appointment with ID <?= $row['book_id'] ?> has already passed. Do you want to view it in history?')) {
-                            window.location.href = 'history_place.php';
-                        }
-                    </script>
-                    <?php
-            
-                    // Update status to "Expired" in the database
-                    $updateStatusQuery = "UPDATE `place_appointment` SET `status` = 'Expired' WHERE `placebook_id` = {$row['book_id']}";
-                    mysqli_query($conn, $updateStatusQuery);
-                }
-            ?>
+             
                 <tr>
                     <td>
                         <img class="rounded-image" src="<?= $row['img'] ?>">
@@ -131,18 +112,18 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
         <div class="pagination justify-content-center">
             <?php
             if ($page > 1) {
-                echo "<a href='result_place.php?page=" . ($page - 1) . "&type=item'>Prev</a>";
+                echo "<a href='history_place.php?page=" . ($page - 1) . "&type=item'>Prev</a>";
             }
 
             for ($i = 1; $i <= $total_place_pages; $i++) {
-                echo "<a " . ($i == $page ? "class='active'" : "") . " href='result_place.php?page=" . $i . "&type=item'>" . $i . "</a>";
+                echo "<a " . ($i == $page ? "class='active'" : "") . " href='history_place.php?page=" . $i . "&type=item'>" . $i . "</a>";
             }
 
             // Check if there are records in the next page
             $hasNextPage = ($page < $total_place_pages);
 
             if ($hasNextPage) {
-                echo "<a href='result_place.php?page=" . ($page + 1) . "&type=item'>Next</a>";
+                echo "<a href='history_place.php?page=" . ($page + 1) . "&type=item'>Next</a>";
             } elseif ($page >= $total_place_pages && $total_place_pages > 0) {
                 echo "<a class='disabled'>Next</a>";
             }
@@ -154,7 +135,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
         <button autofocus>Close</button>
         <h2 id="editPlaceDialogTitle"></h2>
         <div class="container">
-            <form class="form-horizontal" action="result_place.php" method="post">
+            <form class="form-horizontal" action="history_place.php" method="post">
                 <input type="hidden" name="placebook_id" id="editPlacebookId">
                 <div>
                     <label>Booking Date:</label>
@@ -190,7 +171,41 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
 </html>
 
 <script>
- 
+    const editPlaceLinks = document.querySelectorAll(".edit-place-link");
+    const placeDialog = document.getElementById('editPlaceDialog');
+    const placeDialogTitle = document.getElementById('editPlaceDialogTitle');
+    const placebookIdInput = document.getElementById('editPlacebookId');
+    const placeBookingDateInput = document.getElementById('editPlaceBookingDate');
+    const placeStartTimeInput = document.getElementById('editPlaceStartTime');
+    const placeEndTimeInput = document.getElementById('editPlaceEndTime');
+
+    editPlaceLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            const placebook_id = link.getAttribute('data-placebook-id');
+            const place_booking_date = link.getAttribute('data-place-booking-date');
+            const place_start_time = link.getAttribute('data-place-start-time');
+            const place_end_time = link.getAttribute('data-place-end-time');
+
+            if (placebook_id) {
+            } else {
+                placeDialogTitle.textContent = '';
+            }
+
+            placebookIdInput.value = placebook_id;
+            placeBookingDateInput.value = place_booking_date;
+            placeStartTimeInput.value = place_start_time;
+            placeEndTimeInput.value = place_end_time;
+
+            placeDialog.showModal();
+        });
+    });
+
+    placeDialog.querySelector("button[autofocus]").addEventListener("click", () => {
+        placeDialog.close();
+    });
+
 
 </script>
 

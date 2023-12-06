@@ -28,7 +28,7 @@ if ($userResult && $userResult->num_rows > 0) {
             while ($row = $sttr->fetch_assoc()) {
                 $appointmentTime = strtotime($row['start_time']);
                 $currentTime = time(); // 获取当前时间的时间戳
-                $eightHoursBefore = strtotime("-8 hours", $appointmentTime);
+                $eightHoursBefore = strtotime("-1 hours", $appointmentTime);
                 
                 echo 'Appointment Time: ' . date('Y-m-d H:i:s', $appointmentTime) . "<br>";
                 echo 'Current Time: ' . date('Y-m-d H:i:s', $currentTime) . "<br>";
@@ -70,7 +70,7 @@ if ($userResult && $userResult->num_rows > 0) {
                 }
             }
         } else {
-            echo 'No appointments within the half-hour range.';
+            echo 'No appointments within the one-hour range.';
         }
         
     }
