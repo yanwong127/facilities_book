@@ -7,9 +7,10 @@ $records_per_page = 3;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $records_per_page;
 
-$statusUpdated = false;  // Flag to check if statuses are updated
+// $statusUpdated = false;  
 
 $current_time = date('Y-m-d H:i:s');
+
 // Query for items
 $item_query = "
     SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status
@@ -19,36 +20,33 @@ $item_query = "
 ";
 
 $item_result = mysqli_query($conn, $item_query);
+$alertShown = false; 
 
-// Check and update status for expired items
 while ($row = mysqli_fetch_array($item_result)) {
-    $start_time = $row['start_time'];
+    $end_time = $row['end_time'];
+    $expiration_time = strtotime($end_time);
 
-    if ($start_time < $current_time) {
-        // Update status to "Expired"
+    if ($current_time > $expiration_time) {
         $itembook_id = $row['book_id'];
         $update_query = "UPDATE `item_appointment` SET `status` = 'Expired' WHERE `itembook_id` = $itembook_id";
         mysqli_query($conn, $update_query);
 
-        // Display alert
-        echo "<script>alert('Appointment with ID $itembook_id has expired.');</script>";
+        if (!$alertShown) {
+            echo "<script>alert('Appointment with item has expired.'); location.reload();</script>";
+            $alertShown = true; 
+        }
     }
 }
 
-// Reload the page only if statuses are updated
-if ($statusUpdated) {
-    echo '<script>location.reload();</script>';
-}
 
-// Fetch items again after updating statuses
-$item_result = mysqli_query($conn, $item_query);
-
-// Calculate total pages for items
+mysqli_data_seek($item_result, 0);
 $item_count_query = "SELECT COUNT(*) FROM `item_appointment` WHERE `user_id` = $user_id AND `status` = 'Approve'";
 $item_count_result = mysqli_query($conn, $item_count_query);
 $item_row = mysqli_fetch_row($item_count_result);
 $item_records = $item_row[0];
 $total_item_pages = ceil($item_records / $records_per_page);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -65,11 +63,10 @@ $total_item_pages = ceil($item_records / $records_per_page);
         <a class="button-48" href="result_place.php" role="button"><span class="text">Place</span></a>
     </div>
 
-    <!-- Display Items Table -->
     <div class="ctable">
         <?php if (mysqli_num_rows($item_result) > 0) { ?>
             <table>
-                <!-- ... (Your existing table rows) -->
+
             </table>
         <?php } else { ?>
             <div class="no-appointments">
@@ -80,27 +77,7 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
         <table>
             <?php while ($row = mysqli_fetch_array($item_result)) { ?>
-                <?php
-                
-                // Check if end_time has passed
-                $currentTime = date('Y-m-d H:i:s');
-                $endTime = $row['booking_date'] . ' ' . $row['end_time'];
-
-                if ($endTime < $currentTime) {
-                    // End time has passed, show alert
-                    ?>
-                    <script>
-                        if (confirm('The end time for the appointment with ID <?= $row['book_id'] ?> has already passed. Do you want to view it in history?')) {
-                            window.location.href = 'history_item.php';
-                        }
-                    </script>
-                    <?php
             
-                    // Update status to "Expired" in the database
-                    $updateStatusQuery = "UPDATE `item_appointment` SET `status` = 'Expired' WHERE `itembook_id` = {$row['book_id']}";
-                    mysqli_query($conn, $updateStatusQuery);
-                }
-            ?>
                 <tr>
                     <td>
                         <img class="rounded-image" src="<?= $row['img'] ?>">
@@ -136,7 +113,6 @@ $total_item_pages = ceil($item_records / $records_per_page);
                 echo "<a " . ($i == $page ? "class='active'" : "") . " href='result_item.php?page=" . $i . "&type=item'>" . $i . "</a>";
             }
 
-            // Check if there are records in the next page
             $hasNextPage = ($page < $total_item_pages);
 
             if ($hasNextPage) {
