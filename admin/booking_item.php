@@ -11,19 +11,7 @@ use PHPMailer\PHPMailer\Exception;
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
-    // Update status to "Expired" for past bookings
-    $expiredStatus = "Expired";
-    $expiredSql = "UPDATE item_appointment SET status=:expiredStatus WHERE NOW() >= CONCAT(booking_date, ' ', end_time) AND status != :expiredStatus";
-    $expiredQuery = $dbh->prepare($expiredSql);
-    $expiredQuery->bindParam(':expiredStatus', $expiredStatus, PDO::PARAM_STR);
-    $expiredQuery->execute();
-    
-    // Update status to "Expired" for bookings where the current time is greater than or equal to the end time
-    $expiredNowStatus = "Expired";
-    $expiredNowSql = "UPDATE item_appointment SET status=:expiredNowStatus WHERE NOW() >= CONCAT(booking_date, ' ', end_time) AND status != :expiredNowStatus";
-    $expiredNowQuery = $dbh->prepare($expiredNowSql);
-    $expiredNowQuery->bindParam(':expiredNowStatus', $expiredNowStatus, PDO::PARAM_STR);
-    $expiredNowQuery->execute();
+	
 if(isset($_REQUEST['eid']))
 	{
 $eid=intval($_GET['eid']);
