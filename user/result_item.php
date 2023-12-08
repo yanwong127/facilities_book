@@ -7,10 +7,6 @@ $records_per_page = 3;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $records_per_page;
 
-// $statusUpdated = false;  
-
-$current_time = date('Y-m-d H:i:s');
-
 // Query for items
 $item_query = "
     SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status
@@ -21,23 +17,25 @@ $item_query = "
 
 $item_result = mysqli_query($conn, $item_query);
 $alertShown = false; 
+$current_datetime = date('Y-m-d H:i:s');
 
 while ($row = mysqli_fetch_array($item_result)) {
-    $end_time = $row['end_time'];
-    $expiration_time = strtotime($end_time);
+    $end_datetime = $row['end_time'];
+    
+    // Combine booking_date and end_time to create a datetime string for comparison
+    $appointment_datetime = $row['booking_date'] . ' ' . $end_datetime;
 
-    if ($current_time > $expiration_time) {
+    if ($current_datetime > $appointment_datetime) {
         $itembook_id = $row['book_id'];
         $update_query = "UPDATE `item_appointment` SET `status` = 'Expired' WHERE `itembook_id` = $itembook_id";
         mysqli_query($conn, $update_query);
 
         if (!$alertShown) {
-            echo "<script>alert('Appointment with item has expired.'); location.reload();</script>";
+            echo "<script>alert('Appointment with item booked on " . $row['booking_date'] . " has expired.'); location.reload();</script>";
             $alertShown = true; 
         }
     }
 }
-
 
 mysqli_data_seek($item_result, 0);
 $item_count_query = "SELECT COUNT(*) FROM `item_appointment` WHERE `user_id` = $user_id AND `status` = 'Approve'";
@@ -45,9 +43,9 @@ $item_count_result = mysqli_query($conn, $item_count_query);
 $item_row = mysqli_fetch_row($item_count_result);
 $item_records = $item_row[0];
 $total_item_pages = ceil($item_records / $records_per_page);
-
-
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -125,38 +123,6 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
 
     </div>
-
-    <dialog id="editDialog">
-        <button autofocus>Close</button>
-        <h2 id="editDialogTitle"></h2>
-        <div class="container">
-            <form class="form-horizontal" action="result_item.php" method="post">
-                <input type="hidden" name="itembook_id" id="editItembookId">
-                <div>
-                    <label>Booking Date:</label>
-                    <div>
-                        <input type="date" name="booking_date" id="editBookingDate" required>
-                    </div>
-                </div>
-                <div>
-                    <label>Start Time:</label>
-                    <div>
-                        <input type="time" name="start_time" id="editStartTime" required>
-                    </div>
-                </div>
-                <div>
-                    <label>End Time:</label>
-                    <div>
-                        <input type="time" name="end_time" id="editEndTime" required>
-                    </div>
-                </div>
-                <br />
-                <div>
-
-                </div>
-            </form>
-        </div>
-    </dialog>
 
 
 
