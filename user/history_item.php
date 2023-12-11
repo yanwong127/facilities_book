@@ -110,18 +110,18 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
         <div class="pagination justify-content-center">
             <?php
             if ($page > 1) {
-                echo "<a href='result_item.php?page=" . ($page - 1) . "&type=item'>Prev</a>";
+                echo "<a href='history_item.php?page=" . ($page - 1) . "&type=item'>Prev</a>";
             }
 
             for ($i = 1; $i <= $total_item_pages; $i++) {
-                echo "<a " . ($i == $page ? "class='active'" : "") . " href='result_item.php?page=" . $i . "&type=item'>" . $i . "</a>";
+                echo "<a " . ($i == $page ? "class='active'" : "") . " href='history_item.php?page=" . $i . "&type=item'>" . $i . "</a>";
             }
 
             // Check if there are records in the next page
             $hasNextPage = ($page < $total_item_pages);
 
             if ($hasNextPage) {
-                echo "<a href='result_item.php?page=" . ($page + 1) . "&type=item'>Next</a>";
+                echo "<a href='history_item.php?page=" . ($page + 1) . "&type=item'>Next</a>";
             } elseif ($page >= $total_item_pages && $total_item_pages > 0) {
                 echo "<a class='disabled'>Next</a>";
             }
