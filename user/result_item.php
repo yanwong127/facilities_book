@@ -31,7 +31,7 @@ while ($row = mysqli_fetch_array($item_result)) {
         mysqli_query($conn, $update_query);
 
         if (!$alertShown) {
-            echo "<script>alert('Appointment with item booked on " . $row['booking_date'] . " has expired.'); location.reload();</script>";
+            echo "<script>alert('Items in your booking have expired.'); location.reload();</script>";
             $alertShown = true; 
         }
     }

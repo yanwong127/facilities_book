@@ -31,7 +31,7 @@ while ($row = mysqli_fetch_array($place_result)) {
         mysqli_query($conn, $update_query);
 
         if (!$alertShown) {
-            echo "<script>alert('Appointment with place booked on " . $row['booking_date'] . " has expired.'); location.reload();</script>";
+            echo "<script>alert('The venue you had booked has expired.'); location.reload();</script>";
             $alertShown = true; 
         }
     }
