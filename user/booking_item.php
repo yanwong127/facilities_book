@@ -1,7 +1,6 @@
 <?php
 include_once('db.php');
 include_once('header.php');
-// ... (Your existing code for including files and session check)
 
 $user_id = $_SESSION['user_id'];
 $records_per_page = 3;
@@ -10,7 +9,7 @@ $offset = ($page - 1) * $records_per_page;
 
 // Query for items
 $item_query = "
-    SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status
+    SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status ,  ia.quantity
     FROM `item_appointment` ia
     WHERE ia.`user_id` = $user_id AND ia.`status` = 'unactive'
     LIMIT $offset, $records_per_page
@@ -97,6 +96,9 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
                     </td>
                     <td>
                         <?= $row['end_time'] ?>
+                    </td>
+                    <td>
+                        <?= $row['quantity'] ?>
                     </td>
                     <td>
                         <?= $row['status'] ?>

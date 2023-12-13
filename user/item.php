@@ -2,8 +2,12 @@
 include_once('db.php');
 include_once('header.php');
 
-$item = "SELECT * FROM `item`";
+$item = "SELECT `item`.*, `item_appointment`.`quantity`
+         FROM `item`
+         INNER JOIN `item_appointment` ON `item`.`quantity` = `item_appointment`.`quantity`";
+
 $qry = mysqli_query($conn, $item);
+$num = mysqli_num_rows($qry);
 
 if (isset($_REQUEST['item_book'])) {
     if (isset($_POST["item_book"])) {
@@ -97,7 +101,8 @@ $result = mysqli_query($conn, $jj);
         <?php while ($row = mysqli_fetch_array($result)) { ?>
             <div class="td">
                 <div class="item-container" id="none">
-                <a href="place.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_overview'] ?>" data-item-quantity="<?= $row['quantity'] ?>">
+                    <a href="place.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_overview'] ?>"
+                        data-item-quantity="<?= $row['quantity'] - $num?>">
                         <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
                         <div class="item-name">
                             <?= $row['item_name'] ?>
@@ -126,17 +131,15 @@ $result = mysqli_query($conn, $jj);
             <input type="time" name="start_time" id="start_time" required>
             <label for="end_time">End Time:</label>
             <input type="time" name="end_time" id="end_time" required>
-         
+
             <label for="quantity">Quantity:</label>
-<input type="number" name="quantity" id="quantity" value="1" min="1" required>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" required>
+
             <button name="item_book">Book</button>
         </dialog>
     </form>
 
-<!-- 
-    <label for="quantity">Quantity:</label>
-            <input type="number" name="quantity" id="quantity" value="1" min="1" required>
-             -->
+
     <div class="pagination justify-content-center">
         <?php
         $SQL = "SELECT COUNT(*) FROM item WHERE availability = 'Still Working'";
@@ -194,7 +197,13 @@ $result = mysqli_query($conn, $jj);
             document.getElementById("item_name").value = itemTitle;
             document.getElementById("item_img").value = itemImageSrc;
             document.getElementById("item_overview").value = itemOverview;
-            document.getElementById("quantity").value = itemQuantity;
+            // document.getElementById("quantity").value = itemQuantity;
+
+            document.getElementById("quantity").setAttribute("max", itemQuantity);
+
+            // Set the quantity input value to 1 or the available quantity, whichever is smaller
+            document.getElementById("quantity").value = Math.min(1, itemQuantity);
+
 
             dialogTitle.textContent = itemTitle;
             dialogImage.src = itemImageSrc;

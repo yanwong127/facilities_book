@@ -9,14 +9,14 @@ $offset = ($page - 1) * $records_per_page;
 
 // Query for items
 $item_query = "
-    SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status
+    SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status ,  ia.quantity
     FROM `item_appointment` ia
     WHERE ia.`user_id` = $user_id AND ia.`status` = 'Approve'
     LIMIT $offset, $records_per_page
 ";
 
 $item_result = mysqli_query($conn, $item_query);
-// $alertShown = false; 
+$alertShown = false; 
 // $alertShown1 = false; 
 $current_datetime = date('Y-m-d H:i:s');
 
@@ -131,6 +131,9 @@ $total_item_pages = ceil($item_records / $records_per_page);
                     </td>
                     <td>
                         <?= $row['end_time'] ?>
+                    </td>
+                    <td>
+                        <?= $row['quantity']?>
                     </td>
                     <td>
                         <?= $row['status'] ?>
