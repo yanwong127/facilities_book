@@ -7,52 +7,37 @@ if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
     if (isset($_POST['submit'])) {
-        $item_name = $_POST['item_name'];
-        $item_overview = $_POST['item_overview'];
-        $availability = $_POST['availability'];
-        $item_img = $_FILES["item_img"]["name"];
-        $temp_img = $_FILES["item_img"]["tmp_name"];
-        $quantity = $_POST['quantity']; // New field
+        $username = $_POST['username'];
+        $raw_password = $_POST['password']; // Raw password
+        $password = password_hash($raw_password, PASSWORD_DEFAULT); // Hashed password
+        $address = $_POST['address'];
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
 
-        $extension = pathinfo($item_img, PATHINFO_EXTENSION);
-        $destination1 = 'img/' . $item_img;  // First folder
-        $destination2 = '../user/img/' . $item_img;  // Second folder
-
-        if (!in_array($extension, ['jpg', 'png', 'jpeg'])) {
-            echo "Your file extension must be .jpg, .png, or .jpeg";
-        } elseif ($_FILES['item_img']['size'] > 100000000) {
-            echo "File too large!";
+        // Validation for user-related fields
+        if (empty($username) || empty($raw_password) || empty($address) || empty($name) || empty($email) || empty($phone)) {
+            $error = "All fields are required.";
         } else {
-            if (move_uploaded_file($temp_img, $destination1)) {
-                // Move to the second folder
-                if (file_exists($destination1)) {
-                    if (copy($destination1, $destination2)) {
-                        $sql = "INSERT INTO item(item_name, item_overview, item_img, availability, quantity) VALUES (:item_name, :item_overview, :item_img, :availability, :quantity)";
-                        $query = $dbh->prepare($sql);
-                        $query->bindParam(':item_name', $item_name, PDO::PARAM_STR);
-                        $query->bindParam(':item_overview', $item_overview, PDO::PARAM_STR);
-                        $query->bindParam(':item_img', $item_img, PDO::PARAM_STR);
-                        $query->bindParam(':availability', $availability, PDO::PARAM_STR);
-                        $query->bindParam(':quantity', $quantity, PDO::PARAM_INT); // Bind quantity
+            $sql = "INSERT INTO user(username, password, address, name, email, phone) VALUES (:username, :password, :address, :name, :email, :phone)";
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':username', $username, PDO::PARAM_STR);
+            $query->bindParam(':password', $password, PDO::PARAM_STR);
+            $query->bindParam(':address', $address, PDO::PARAM_STR);
+            $query->bindParam(':name', $name, PDO::PARAM_STR);
+            $query->bindParam(':email', $email, PDO::PARAM_STR);
+            $query->bindParam(':phone', $phone, PDO::PARAM_STR);
 
-                        if ($query->execute()) {
-                            $msg = "Facilities posted successfully";
-                        } else {
-                            $error = "Something went wrong. Please try again";
-                        }
-                    } else {
-                        echo "Failed to copy file to the second folder.";
-                    }
-                } else {
-                    echo "Source file does not exist in the first folder.";
-                }
+            if ($query->execute()) {
+                $msg = "User added successfully";
             } else {
-                echo "Failed to upload file.";
+                $error = "Something went wrong. Please try again";
             }
         }
     }
 }
 ?>
+
 
 <!doctype html>
 <html lang="en" class="no-js">
@@ -65,22 +50,12 @@ if (strlen($_SESSION['alogin']) == 0) {
     <meta name="author" content="">
     <meta name="theme-color" content="#3e454c">
 
-    <title>College | Admin Post Item</title>
+    <title>College | Admin Add User</title>
 
     <!-- Font awesome -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Sandstone Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- Bootstrap Datatables -->
-    <link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
-    <!-- Bootstrap social button library -->
-    <link rel="stylesheet" href="css/bootstrap-social.css">
-    <!-- Bootstrap select -->
-    <link rel="stylesheet" href="css/bootstrap-select.css">
-    <!-- Bootstrap file input -->
-    <link rel="stylesheet" href="css/fileinput.min.css">
-    <!-- Awesome Bootstrap checkbox -->
-    <link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
     <!-- Admin Stye -->
     <link rel="stylesheet" href="css/style.css">
     <style>
@@ -110,12 +85,9 @@ if (strlen($_SESSION['alogin']) == 0) {
         <?php include('includes/leftbar.php'); ?>
         <div class="content-wrapper">
             <div class="container-fluid">
-
                 <div class="row">
                     <div class="col-md-12">
-
-                        <h2 class="page-title">Post An Item</h2>
-
+                        <h2 class="page-title">Add A User</h2>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="panel panel-default">
@@ -130,63 +102,62 @@ if (strlen($_SESSION['alogin']) == 0) {
                                         </div>
                                     <?php } ?>
                                     <div class="panel-body">
-                                        <form method="post" class="form-horizontal" enctype="multipart/form-data">
+                                        <form method="post" class="form-horizontal">
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">Item Name<span
+                                                <label class="col-sm-2 control-label">Full Name<span
                                                         style="color:red">*</span></label>
                                                 <div class="col-sm-4">
-                                                    <input type="text" name="item_name" class="form-control" required>
+                                                    <input type="text" name="name" class="form-control" required>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">Item Overview<span
+                                                <label class="col-sm-2 control-label">Username<span
                                                         style="color:red">*</span></label>
-                                                <div class="col-sm-10">
-                                                    <textarea class="form-control" name="item_overview" rows="3"
+                                                <div class="col-sm-4">
+                                                    <input type="text" name="username" class="form-control" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Password<span
+                                                        style="color:red">*</span></label>
+                                                <div class="col-sm-4">
+                                                    <input type="password" name="password" class="form-control"
+                                                        required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Email<span
+                                                        style="color:red">*</span></label>
+                                                <div class="col-sm-4">
+                                                    <input type="email" name="email" class="form-control" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">Address<span
+                                                        style="color:red">*</span></label>
+                                                <div class="col-sm-4">
+                                                    <textarea class="form-control" name="address" rows="3"
                                                         required></textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">Availability<span
+                                                <label class="col-sm-2 control-label">Phone<span
                                                         style="color:red">*</span></label>
                                                 <div class="col-sm-4">
-                                                    <select class="form-control" name="availability" required>
-                                                        <option value="">Select</option>
-                                                        <option value="Still Working">Still Working</option>
-                                                        <option value="Not Working">Not Working</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">Quantity<span
-                                                        style="color:red">*</span></label>
-                                                <div class="col-sm-4">
-                                                    <input type="number" name="quantity" class="form-control" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-sm-6">
-                                                    <h4><b>Upload Images</b></h4>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">Image 1<span
-                                                        style="color:red">*</span></label>
-                                                <div class="col-sm-4">
-                                                    <input type="file" name="item_img" class="form-control" required>
+                                                    <input type="text" name="phone" class="form-control" required>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <div class="col-sm-8 col-sm-offset-2">
                                                     <button class="btn btn-default" type="reset">Cancel</button>
-                                                    <button class="btn btn-primary" name="submit" type="submit">Save
-                                                        changes</button>
+                                                    <button class="btn btn-primary" name="submit" type="submit">Add
+                                                        User</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -202,13 +173,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
     <!-- Loading Scripts -->
     <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap-select.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.dataTables.min.js"></script>
-    <script src="js/dataTables.bootstrap.min.js"></script>
-    <script src="js/Chart.min.js"></script>
-    <script src="js/fileinput.js"></script>
-    <script src="js/chartData.js"></script>
     <script src="js/main.js"></script>
 </body>
 

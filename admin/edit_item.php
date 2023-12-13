@@ -11,13 +11,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item_name = $_POST['item_name'];
     $item_overview = $_POST['item_overview'];
     $availability = $_POST['availability'];
+    $quantity = $_POST['quantity']; // Added line
     $item_id = intval($_GET['item_id']);
 
-    $sql = "UPDATE item SET item_name = :item_name, item_overview = :item_overview, availability = :availability WHERE item_id = :item_id";
+    $sql = "UPDATE item SET item_name = :item_name, item_overview = :item_overview, availability = :availability, quantity = :quantity WHERE item_id = :item_id";
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':item_name', $item_name, PDO::PARAM_STR);
     $stmt->bindParam(':item_overview', $item_overview, PDO::PARAM_STR);
     $stmt->bindParam(':availability', $availability, PDO::PARAM_STR);
+    $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
     $stmt->bindParam(':item_id', $item_id, PDO::PARAM_INT);
     if ($stmt->execute()) {
         $msg = "Data updated successfully";
@@ -170,6 +172,12 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
                                                             <option value="Still Working" <?php if ($result['availability'] == "Still Working") echo "selected"; ?>>Still Working</option>
                                                             <option value="Not Working" <?php if ($result['availability'] == "Not Working") echo "selected"; ?>>Not Working</option>
                                                         </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Quantity<span style="color:red">*</span></label>
+                                                    <div class="col-sm-4">
+                                                        <input type="number" name="quantity" class="form-control" value="<?php echo htmlentities($result['quantity']) ?>" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">

@@ -47,7 +47,7 @@ echo "<script type='text/javascript'> document.location = 'dashboard.php'; </scr
 
 <body>
 
-	<div class="login-page bk-img" style="background-colour:red;">
+<div class="login-page bk-img" style="background-image: url(aimg/adminlogin.jpg);">
 		<div class="form-content">
 			<div class="container">
 				<div class="row">
