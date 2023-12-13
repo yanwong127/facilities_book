@@ -12,7 +12,7 @@ if (isset($_REQUEST['item_book'])) {
         $item_name = trim($_POST['item_name']);
         $item_img = $_POST['item_img'];
         $item_overview = trim($_POST['item_overview']);
-
+        $quantity = $_POST['quantity'];
         $booking_date = $_POST['booking_date'];
         $start_time = $_POST['start_time'];
         $end_time = $_POST['end_time'];
@@ -36,7 +36,18 @@ if (isset($_REQUEST['item_book'])) {
             exit();
         }
 
-        $insertQuery = "INSERT INTO `item_appointment` (item_id, item_name, item_img, user_id, start_time, end_time, booking_date, status) VALUES ('$item_id', '$item_name', '$item_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive')";
+        // Update the item table quantity
+        // $updateQuantityQuery = "UPDATE `item` SET quantity = quantity - $quantity WHERE item_id = '$item_id'";
+        // $updateQuantityResult = mysqli_query($conn, $updateQuantityQuery);
+
+        // if (!$updateQuantityResult) {
+        //     // Handle error if the quantity update fails
+        //     error_log("Error updating quantity: " . mysqli_error($conn));
+        //     // Optionally, you can roll back the previous insert operation here
+        // }
+
+        // Insert the appointment
+        $insertQuery = "INSERT INTO `item_appointment` (item_id, item_name, item_img, user_id, start_time, end_time, booking_date, status, quantity) VALUES ('$item_id', '$item_name', '$item_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive', '$quantity')";
         $result = mysqli_query($conn, $insertQuery);
 
         if ($result) {
@@ -44,10 +55,13 @@ if (isset($_REQUEST['item_book'])) {
             echo "<script>alert('$message'); window.location.href = 'item.php';</script>";
             exit();
         } else {
-            error_log("Error: " . mysqli_error($conn));
+            // Handle error if the insert fails
+            error_log("Error inserting appointment: " . mysqli_error($conn));
+            // Optionally, you can roll back the previous quantity update here
         }
     }
 }
+
 
 $records_per_page = 6;
 if (isset($_GET['item_page'])) {
@@ -83,7 +97,7 @@ $result = mysqli_query($conn, $jj);
         <?php while ($row = mysqli_fetch_array($result)) { ?>
             <div class="td">
                 <div class="item-container" id="none">
-                    <a href="place.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_overview'] ?>">
+                <a href="place.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_overview'] ?>" data-item-quantity="<?= $row['quantity'] ?>">
                         <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
                         <div class="item-name">
                             <?= $row['item_name'] ?>
@@ -112,10 +126,17 @@ $result = mysqli_query($conn, $jj);
             <input type="time" name="start_time" id="start_time" required>
             <label for="end_time">End Time:</label>
             <input type="time" name="end_time" id="end_time" required>
+         
+            <label for="quantity">Quantity:</label>
+<input type="number" name="quantity" id="quantity" value="1" min="1" required>
             <button name="item_book">Book</button>
         </dialog>
     </form>
 
+<!-- 
+    <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" required>
+             -->
     <div class="pagination justify-content-center">
         <?php
         $SQL = "SELECT COUNT(*) FROM item WHERE availability = 'Still Working'";
@@ -155,6 +176,8 @@ $result = mysqli_query($conn, $jj);
     const dialogTitle = document.getElementById("dialog-title");
     const dialogImage = document.getElementById("dialog-image");
     const dialogOverview = document.getElementById("dialog-overview");
+    // const quantity = document.getElementById("quantity").value;
+
 
     document.querySelectorAll(".item-container a").forEach((link) => {
         link.addEventListener("click", (e) => {
@@ -165,11 +188,13 @@ $result = mysqli_query($conn, $jj);
             const itemUrl = link.getAttribute('href');
             const item_id = itemUrl.split('=')[1];
             const itemOverview = link.getAttribute('data-item-overview');
+            const itemQuantity = link.getAttribute('data-item-quantity');
 
             document.getElementById("item_id").value = item_id;
             document.getElementById("item_name").value = itemTitle;
             document.getElementById("item_img").value = itemImageSrc;
             document.getElementById("item_overview").value = itemOverview;
+            document.getElementById("quantity").value = itemQuantity;
 
             dialogTitle.textContent = itemTitle;
             dialogImage.src = itemImageSrc;

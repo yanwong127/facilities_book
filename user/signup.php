@@ -2,7 +2,7 @@
 include_once('db.php');
 
 if (isset($_POST['signup'])) {
-    $name = $_POST['name']; // New line for the name
+    $name = $_POST['name']; 
     $username = $_POST['username'];
     $password = $_POST['password'];
     $address = $_POST['address'];
