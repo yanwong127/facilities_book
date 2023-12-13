@@ -2,12 +2,19 @@
 include_once('db.php');
 include_once('header.php');
 
-$item = "SELECT `item`.*, `item_appointment`.`quantity`
+$item = "SELECT `item`.*, SUM( `item_appointment`.`quantity`) AS subtotal
          FROM `item`
-         INNER JOIN `item_appointment` ON `item`.`quantity` = `item_appointment`.`quantity`";
+         INNER JOIN `item_appointment` ON `item`.`item_id` = `item_appointment`.`item_id`
+         WHERE item_appointment.status= 'Approve' GROUP BY item.item_id ";
 
 $qry = mysqli_query($conn, $item);
 $num = mysqli_num_rows($qry);
+$aray = array();
+while ($at = mysqli_fetch_array($qry)) {
+    $total = $at['quantity'] - $at['subtotal'];
+    $aray[] = $total;
+}
+
 
 if (isset($_REQUEST['item_book'])) {
     if (isset($_POST["item_book"])) {
@@ -98,11 +105,15 @@ $result = mysqli_query($conn, $jj);
 
     <div class="custom-table" id="clickable-div">
 
-        <?php while ($row = mysqli_fetch_array($result)) { ?>
+        <?php
+        $i = 0;
+        while ($row = mysqli_fetch_array($result)) {
+
+            ?>
             <div class="td">
                 <div class="item-container" id="none">
                     <a href="place.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_overview'] ?>"
-                        data-item-quantity="<?= $row['quantity'] - $num?>">
+                        data-item-quantity="<?= $aray[$i] ?>">
                         <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
                         <div class="item-name">
                             <?= $row['item_name'] ?>
@@ -110,7 +121,8 @@ $result = mysqli_query($conn, $jj);
                     </a>
                 </div>
             </div>
-        <?php } ?>
+            <?php $i++;
+        } ?>
     </div>
 
     <form action="item.php" method="post" class="dialog-form">
