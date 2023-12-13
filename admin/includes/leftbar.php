@@ -23,10 +23,12 @@
 						<li><a href="booking_place.php">Place Booking</a></li>
 					</ul>
 				</li>
-				<li><a href="user_manage.php"><i class="fa fa-users"></i>Manage Users</a></li>
-
-
-
+				<li><a href="#"><i class="fa fa-table"></i>Users</a>
+					<ul>
+						<li><a href="user_manage.php">View Users</a></li>
+						<li><a href="add_user.php">Add Users</a></li>
+					</ul>
+				</li>
 
 			</ul>
 		</nav>

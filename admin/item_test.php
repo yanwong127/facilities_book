@@ -116,7 +116,20 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     <tbody>
 
                                         <?php
-                                        $sql = "SELECT item_id, item_name, item_overview, item_img, availability, quantity FROM item";
+                                        $sql = "SELECT
+                                        i.item_id,
+                                        i.item_name,
+                                        i.item_overview,
+                                        i.item_img,
+                                        i.availability,
+                                        i.quantity AS item_quantity,
+                                        COALESCE(i.quantity, 0) - COALESCE(SUM(CASE WHEN ia.status = 'approve' THEN ia.quantity ELSE 0 END), 0) AS quantity
+                                    FROM
+                                        item i
+                                    LEFT JOIN
+                                        item_appointment ia ON i.item_id = ia.item_id
+                                    GROUP BY
+                                        i.item_id, i.item_name, i.item_overview, i.item_img, i.availability, i.quantity;";
                                         $query = $dbh->prepare($sql);
                                         $query->execute();
                                         $results = $query->fetchAll(PDO::FETCH_OBJ);

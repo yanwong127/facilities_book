@@ -9,11 +9,10 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 
-if(strlen($_SESSION['alogin'])==0)
-	{	
-header('location:index.php');
-}
-else{
+if (strlen($_SESSION['alogin']) == 0) {
+    header('location:index.php');
+} else {
+
 if(isset($_REQUEST['eid']))
 	{
 $eid=intval($_GET['eid']);
