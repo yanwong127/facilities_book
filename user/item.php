@@ -2,9 +2,6 @@
 include_once('db.php');
 include_once('header.php');
 
-
-
-
 if (isset($_REQUEST['item_book'])) {
     if (isset($_POST["item_book"])) {
         $item_id = $_POST['item_id'];
@@ -14,27 +11,27 @@ if (isset($_REQUEST['item_book'])) {
         $item_overview = trim($_POST['item_overview']);
         $quantity = $_POST['quantity'];
         $booking_date = $_POST['booking_date'];
-        $start_time = $_POST['start_time'];
-        $end_time = $_POST['end_time'];
+        // $start_time = $_POST['start_time'];
+        // $end_time = $_POST['end_time'];
 
-        $booking_date = date('Y/m/d', strtotime($booking_date));
-        $start_time = date('H:i:s', strtotime($start_time));
-        $end_time = date('H:i:s', strtotime($end_time));
+        // $booking_date = date('Y/m/d', strtotime($booking_date));
+        // $start_time = date('H:i:s', strtotime($start_time));
+        // $end_time = date('H:i:s', strtotime($end_time));
 
-        $availabilityCheckQuery = "SELECT * FROM `item_appointment` WHERE item_id = '$item_id' AND 
-            (
-                ('$start_time' >= start_time AND '$start_time' < end_time) OR 
-                ('$end_time' > start_time AND '$end_time' <= end_time) OR
-                ('$start_time' <= start_time AND '$end_time' >= end_time)
-            ) AND
-            booking_date = '$booking_date'";
-        $availabilityCheckResult = mysqli_query($conn, $availabilityCheckQuery);
+        // $availabilityCheckQuery = "SELECT * FROM `item_appointment` WHERE item_id = '$item_id' AND 
+        //     (
+        //         ('$start_time' >= start_time AND '$start_time' < end_time) OR 
+        //         ('$end_time' > start_time AND '$end_time' <= end_time) OR
+        //         ('$start_time' <= start_time AND '$end_time' >= end_time)
+        //     ) AND
+        //     booking_date = '$booking_date'";
+        // $availabilityCheckResult = mysqli_query($conn, $availabilityCheckQuery);
 
-        if (mysqli_num_rows($availabilityCheckResult) > 0) {
-            $message = "Sorry, the item is not available at the selected date and time.";
-            echo "<script>alert('$message'); window.location.href = 'item.php';</script>";
-            exit();
-        }
+        // if (mysqli_num_rows($availabilityCheckResult) > 0) {
+        //     $message = "Sorry, the item is not available at the selected date and time.";
+        //     echo "<script>alert('$message'); window.location.href = 'item.php';</script>";
+        //     exit();
+        // }
 
         // Update the item table quantity
         // $updateQuantityQuery = "UPDATE `item` SET quantity = quantity - $quantity WHERE item_id = '$item_id'";
@@ -110,7 +107,6 @@ $result = mysqli_query($conn, $jj);
             }
             $total=$row["quantity"]-$sub;
             
-
             ?>
             <div class="td">
                 <div class="item-container" id="none">
