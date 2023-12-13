@@ -259,7 +259,6 @@ if (isset($_POST['newImg'])) {
         height: 100px;
         overflow: hidden;
         margin-top: 50px;
-        /* 调整上外边距 */
     }
 
     .form input {

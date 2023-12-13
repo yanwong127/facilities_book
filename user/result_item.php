@@ -16,13 +16,53 @@ $item_query = "
 ";
 
 $item_result = mysqli_query($conn, $item_query);
-$alertShown = false; 
+// $alertShown = false; 
+// $alertShown1 = false; 
 $current_datetime = date('Y-m-d H:i:s');
 
+// $start_time = $row['start_time'];
+// $reminder = $row['bookind_date'] . '' . $start_time;
+// If ($current_datetime > $reminder) {
+//     $itembook_id = $row['book_id'];
+//     // echo "<script>alert('You have booking time is coming after 1 hours'); location.reload();</script>";
+//     if (!$alertShown1) {
+//         echo "<script>alert('You have booking time is coming after 1 hours');</script>";
+//         $alertShown1 = true; 
+//     }
+// }
+
+// $alertShown = false; // Initialize outside the loop
+
+// while ($row = mysqli_fetch_array($item_result)) {
+//     $end_datetime = $row['end_time'];
+//     $appointment_datetime = $row['booking_date'] . ' ' . $end_datetime;
+
+//     // Convert strings to DateTime objects for proper comparison
+//     $current_datetime = new DateTime();
+//     $appointment_datetime = new DateTime($appointment_datetime);
+
+//     if ($current_datetime > $appointment_datetime) {
+//         $itembook_id = $row['book_id'];
+
+//         // Use prepared statements to prevent SQL injection
+//         $update_query = "UPDATE `item_appointment` SET `status` = 'Expired' WHERE `itembook_id` = ?";
+//         $stmt = mysqli_prepare($conn, $update_query);
+//         mysqli_stmt_bind_param($stmt, "i", $itembook_id);
+//         mysqli_stmt_execute($stmt);
+//         mysqli_stmt_close($stmt);
+
+//         if (!$alertShown) {
+//             echo "<script>alert('Items in your booking have expired.'); location.reload();</script>";
+//             $alertShown = true; 
+//         }
+//     }
+// }
+
+
+
 while ($row = mysqli_fetch_array($item_result)) {
+
     $end_datetime = $row['end_time'];
-    
-    // Combine booking_date and end_time to create a datetime string for comparison
     $appointment_datetime = $row['booking_date'] . ' ' . $end_datetime;
 
     if ($current_datetime > $appointment_datetime) {
@@ -31,7 +71,7 @@ while ($row = mysqli_fetch_array($item_result)) {
         mysqli_query($conn, $update_query);
 
         if (!$alertShown) {
-            echo "<script>alert('Appointment with item booked on " . $row['booking_date'] . " has expired.'); location.reload();</script>";
+            echo "<script>alert('Items in your booking have expired.'); location.reload();</script>";
             $alertShown = true; 
         }
     }
