@@ -2,18 +2,7 @@
 include_once('db.php');
 include_once('header.php');
 
-$item = "SELECT `item`.*, SUM( `item_appointment`.`quantity`) AS subtotal
-         FROM `item`
-         INNER JOIN `item_appointment` ON `item`.`item_id` = `item_appointment`.`item_id`
-         WHERE item_appointment.status= 'Approve' GROUP BY item.item_id ";
 
-$qry = mysqli_query($conn, $item);
-$num = mysqli_num_rows($qry);
-$aray = array();
-while ($at = mysqli_fetch_array($qry)) {
-    $total = $at['quantity'] - $at['subtotal'];
-    $aray[] = $total;
-}
 
 
 if (isset($_REQUEST['item_book'])) {
@@ -108,12 +97,25 @@ $result = mysqli_query($conn, $jj);
         <?php
         $i = 0;
         while ($row = mysqli_fetch_array($result)) {
+            $item = "SELECT SUM(quantity) FROM `item_appointment` WHERE item_id='$row[item_id]' AND status='Approve' GROUP BY item_id";
+
+            $qry = mysqli_query($conn, $item);
+            $num = mysqli_num_rows($qry);
+            $at=mysqli_fetch_array($qry);
+            $sub=0;
+            if($num!==0){
+                $sub=$at[0];
+            }else{
+                $sub=0;
+            }
+            $total=$row["quantity"]-$sub;
+            
 
             ?>
             <div class="td">
                 <div class="item-container" id="none">
                     <a href="place.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_overview'] ?>"
-                        data-item-quantity="<?= $aray[$i] ?>">
+                        data-item-quantity="<?=$total?>">
                         <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
                         <div class="item-name">
                             <?= $row['item_name'] ?>
@@ -145,7 +147,7 @@ $result = mysqli_query($conn, $jj);
             <input type="time" name="end_time" id="end_time" required>
 
             <label for="quantity">Quantity:</label>
-            <input type="number" name="quantity" id="quantity" value="1" min="1" required>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" max="10" required>
 
             <button name="item_book">Book</button>
         </dialog>
