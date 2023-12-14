@@ -1,14 +1,12 @@
 <?php
 include_once('db.php');
 include_once('header.php');
-// ... (Your existing code for including files and session check)
 
 $user_id = $_SESSION['user_id'];
 $records_per_page = 3;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $records_per_page;
 
-// Query for items
 echo $item_query = "
     SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status ,  ia.quantity
     FROM `item_appointment` ia
@@ -18,7 +16,6 @@ echo $item_query = "
 
 $item_result = mysqli_query($conn, $item_query);
 
-// Calculate total pages for items
 $item_count_query = "SELECT COUNT(*) FROM `item_appointment` WHERE `user_id` = $user_id AND `status` = 'Expired'";
 $item_count_result = mysqli_query($conn, $item_count_query);
 $item_row = mysqli_fetch_row($item_count_result);
@@ -26,29 +23,22 @@ $item_records = $item_row[0];
 $total_item_pages = ceil($item_records / $records_per_page);
 
 
+if (isset($_POST['return']) && isset($_POST['itembook_id'])) {
+    $returnedItembookId = $_POST['itembook_id'];
 
+    // Update the database status to indicate that the item has been returned
+    $updateQuery = "UPDATE `item_appointment` SET `status` = 'Returned' WHERE `itembook_id` = $returnedItembookId";
+    $updateResult = mysqli_query($conn, $updateQuery);
 
-if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
-    $itembook_id = $_POST['itembook_id'];
-    $booking_date = $_POST['booking_date'];
-    $start_time = $_POST['start_time'];
-    $end_time = $_POST['end_time'];
-
-    $query1 = "UPDATE `item_appointment` SET booking_date=?, start_time=?, end_time=? WHERE itembook_id=?";
-
-    $stmt = mysqli_prepare($conn, $query1);
-    mysqli_stmt_bind_param($stmt, "sssi", $booking_date, $start_time, $end_time, $itembook_id);
-
-    if (mysqli_stmt_execute($stmt)) {
-        echo "<script>window.location.href = 'result_item.php';alert('Record Successfully Edited');</script>";
+    if ($updateResult) {
+        // Redirect to the same page after the update
+        header("Location: history_item.php?page=$page&type=item");
+        exit();
     } else {
-        echo "<script>alert('Record Fails to Edit')</script>";
+        // Handle the error, if any
+        echo "Error updating database: " . mysqli_error($conn);
     }
-
-    mysqli_stmt_close($stmt);
 }
-
-
 
 
 ?>
@@ -104,6 +94,12 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
                     <td>
                         <?= $row['status'] ?>
                     </td>
+                    <td>
+                    <form method="post">
+                        <input type="hidden" name="itembook_id" value="<?= $row['book_id'] ?>">
+                        <button type="submit" name="return">Return</button>
+                    </form>
+                    </td>
                 </tr>
             <?php } ?>
 
@@ -134,48 +130,11 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 
     </div>
 
-    <dialog id="editDialog">
-        <button autofocus>Close</button>
-        <h2 id="editDialogTitle"></h2>
-        <div class="container">
-            <form class="form-horizontal" action="result_item.php" method="post">
-                <input type="hidden" name="itembook_id" id="editItembookId">
-                <div>
-                    <label>Booking Date:</label>
-                    <div>
-                        <input type="date" name="booking_date" id="editBookingDate" required>
-                    </div>
-                </div>
-                <div>
-                    <label>Start Time:</label>
-                    <div>
-                        <input type="time" name="start_time" id="editStartTime" required>
-                    </div>
-                </div>
-                <div>
-                    <label>End Time:</label>
-                    <div>
-                        <input type="time" name="end_time" id="editEndTime" required>
-                    </div>
-                </div>
-                <br />
-                <div>
-                    <div>
-                        <button type="submit" name="edit" value="edit">Submit</button>
-                        <button type="button" onclick="window.location.href='booking.php'">Back</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </dialog>
-
-
-
 </body>
 
 </html>
 
-<script>
+<!-- <script>
     const editLinks = document.querySelectorAll(".edit-link");
     const dialog = document.getElementById('editDialog');
     const dialogTitle = document.getElementById('editDialogTitle');
@@ -206,7 +165,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
     dialog.querySelector("button").addEventListener("click", () => {
         dialog.close();
     });
-</script>
+</script> -->
 
 
 
