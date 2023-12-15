@@ -83,7 +83,12 @@ if (isset($_POST['newImg'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
 </head>
+<header class="w3-container w3-xlarge">
+    <p class="w3-left">PROFILE</p>
+    <p class="w3-right">
 
+    </p>
+  </header>
 <body>
     <br>
     <br>
@@ -166,12 +171,22 @@ if (isset($_POST['newImg'])) {
 
 <style>
     body {
+        margin: 0;
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
         background-image: url('img/profile.jpg');
-        /* 替换为您的图片路径 */
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
-        margin: 0;
+        filter: blur(5px); /* 调整模糊程度，单位是像素 */
     }
 
     .header {

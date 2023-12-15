@@ -54,18 +54,14 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place result</title>
  </head>
+ <header class="w3-container w3-xlarge">
+    <p class="w3-left">Result (Place)</p>
+    <p class="w3-right">
+        <a href="result_item.php">Item</a>
+        <a href="resutlt_place.php">Place</a>
+    </p>
+  </header>
  <body>
-
-
- <br>
-    <br>
-<br>
-<br>    
- <div style="display: flex;">
-        <a class="button-48" href="result_item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-48" href="result_place.php" role="button"><span class="text">Place</span></a>
-    </div>
-
     
  <!-- Display Places Table -->
  <div class="ctable">

@@ -55,17 +55,14 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
+<header class="w3-container w3-xlarge">
+    <p class="w3-left">Result (Item)</p>
+    <p class="w3-right">
+        <a href="result_item.php">Item</a>
+        <a href="result_place.php">Place</a>
+    </p>
+  </header>
 <body>
-<br>
-    <br>
-<br>
-<br>  
-
-    <div style="display: flex;">
-        <a class="button-48" href="result_item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-48" href="result_place.php" role="button"><span class="text">Place</span></a>
-    </div>
 
     <!-- Display Items Table -->
     <div class="ctable">
