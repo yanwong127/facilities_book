@@ -59,7 +59,7 @@ $total_place_pages = ceil($place_records / $records_per_page);
     <p class="w3-left">Result (Place)</p>
     <p class="w3-right">
         <a href="result_item.php">Item</a>
-        <a href="resutlt_place.php">Place</a>
+        <a href="result_place.php">Place</a>
     </p>
   </header>
  <body>

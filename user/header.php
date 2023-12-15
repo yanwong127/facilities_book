@@ -27,6 +27,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     <a href="profile.php" class="w3-bar-item w3-button">User Profile</a>
     <a href="booking_item.php" class="w3-bar-item w3-button">Your Booking</a>
     <a href="result_item.php" class="w3-bar-item w3-button">Booking Result</a>
+    <a href="history_item.php" class="w3-bar-item w3-button">History</a>
     <a href="logout.php" class="w3-bar-item w3-button w3-padding">Logout</a>  
   </div>
 </nav>

@@ -4,7 +4,7 @@ session_start();
 
 $server = "localhost";
 $user   = "root";
-$pass   = "ak6403012";
+$pass   = "";
 $data   ="facilities_book";
 
 $conn =mysqli_connect($server,$user,$pass,$data);

@@ -7,7 +7,7 @@ $records_per_page = 3;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $records_per_page;
 
-echo $item_query = "
+$item_query = "
     SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status ,  ia.quantity
     FROM `item_appointment` ia
     WHERE ia.`user_id` = $user_id AND ia.`status` = 'Expired'
