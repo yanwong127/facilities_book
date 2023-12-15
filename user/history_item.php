@@ -31,14 +31,18 @@ if (isset($_POST['return']) && isset($_POST['itembook_id'])) {
     $updateResult = mysqli_query($conn, $updateQuery);
 
     if ($updateResult) {
+        // Alert box JavaScript code
+        echo "<script>alert('Item returned successfully!');";
         // Redirect to the same page after the update
-        header("Location: history_item.php?page=$page&type=item");
+        echo "window.location.href = 'history_item.php?page=$page&type=item';";
+        echo "</script>";
         exit();
     } else {
         // Handle the error, if any
         echo "Error updating database: " . mysqli_error($conn);
     }
 }
+
 
 
 ?>
