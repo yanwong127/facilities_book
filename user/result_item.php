@@ -89,7 +89,13 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
 <!DOCTYPE html>
 <html lang="en">
-
+<header class="w3-container w3-xlarge">
+    <p class="w3-left">Result (Item)</p>
+    <p class="w3-right">
+        <a href="result_item.php">Item</a>
+        <a href="result_place.php">Place</a>
+    </p>
+  </header>
 <body>
     <br>
     <br>

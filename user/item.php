@@ -81,14 +81,14 @@ $result = mysqli_query($conn, $jj);
     <title>Item Page</title>
     <link rel="stylesheet" href="bookingpage.css">
 </head>
-
+<header class="w3-container w3-xlarge">
+    <p class="w3-left">ITEM</p>
+    <p class="w3-right">
+        <a href="item.php">Item</a>
+        <a href="place.php">Place</a>
+    </p>
+  </header>
 <body>
-    <br>
-    <div style="display: flex;">
-        <a class="button-48" href="item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-48" href="place.php" role="button"><span class="text">Place</span></a>
-    </div>
-
     <div class="custom-table" id="clickable-div">
 
         <?php

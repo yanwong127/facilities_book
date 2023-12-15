@@ -54,17 +54,15 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<header class="w3-container w3-xlarge">
+    <p class="w3-left">YOUR BOOKING (ITEM)</p>
+    <p class="w3-right">
+        <a href="booking_item.php">Item</a>
+        <a href="booking_place.php">Place</a>
+    </p>
+  </header>
 <body>
-<br>
-    <br>
-<br>
-<br>  
-
-    <div style="display: flex;">
-        <a class="button-48" href="booking_item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-48" href="booking_place.php" role="button"><span class="text">Place</span></a>
-    </div>
 
     <!-- Display Items Table -->
     <div class="ctable">
@@ -79,9 +77,21 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
         </div>
     <?php } ?>
 
-        <table>
+        <table class="w3-table-all">
+            <thead>
+                <tr class="w3-grey">
+                    <th>Image</th>
+                    <th>Place Name</th>
+                    <th>Booking Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Status</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
             <?php while ($row = mysqli_fetch_array($item_result)) { ?>
-                <tr>
+                <tr class="<?= $row['status'] === 'unactive' ? 'unactive-row' : 'active-row' ?>">
                     <td>
                         <img class="rounded-image" src="<?= $row['img'] ?>">
                     </td>
@@ -210,11 +220,20 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
         dialog.querySelector("button").addEventListener("click", () => {
             dialog.close();
         });
+
+        function redirectToURL(url) {
+        window.location.href = url;
+        }
     </script>
 
    
 
 <style>
+    .header {
+        position: relative;
+        z-index: 1;
+        /* Set a value smaller than varbar's z-index */
+    }
     .ctable {
         display: flex;
         flex-direction: column;
@@ -226,7 +245,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
     .rounded-image {
         border-radius: 20px;
         width: 200px;
-        height: auto;
+        height: 120px;
     }
 
     .pagination {
@@ -266,5 +285,8 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
         font-size: 18px;
         color: #555;
     }
+
+
+
 
 </style>

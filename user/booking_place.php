@@ -53,20 +53,16 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place result</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
  </head>
+ <header class="w3-container w3-xlarge">
+    <p class="w3-left">YOUR BOOKING (PLACE)</p>
+    <p class="w3-right">
+        <a href="booking_item.php">Item</a>
+        <a href="booking_place.php">Place</a>
+    </p>
+  </header>
  <body>
-
-
- <br>
-    <br>
-<br>
-<br>    
- <div style="display: flex;">
-        <a class="button-48" href="booking_item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-48" href="booking_place.php" role="button"><span class="text">Place</span></a>
-    </div>
-
-    
  <!-- Display Places Table -->
  <div class="ctable">
  <?php if (mysqli_num_rows($place_result) > 0) { ?>
@@ -80,7 +76,19 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
         </div>
     <?php } ?>
 
-        <table>
+        <table class="w3-table-all">
+            <thead>
+                <tr class="w3-grey">
+                    <th>Image</th>
+                    <th>Place Name</th>
+                    <th>Booking Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Status</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
             <?php while ($row = mysqli_fetch_array($place_result)) { ?>
                 <tr>
                     <td>
@@ -208,10 +216,19 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
             placeDialog.close();
         });
 
+        function redirectToURL(url) {
+        window.location.href = url;
+        }
+
         
     </script>
 
 <style>
+    .header {
+        position: relative;
+        z-index: 1;
+        /* Set a value smaller than varbar's z-index */
+    }
     .ctable {
         display: flex;
         flex-direction: column;
@@ -223,7 +240,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     .rounded-image {
         border-radius: 20px;
         width: 200px;
-        height: auto;
+        height: 120px;
     }
 
     .pagination {

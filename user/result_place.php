@@ -54,33 +54,28 @@ $total_place_pages = ceil($place_records / $records_per_page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place result</title>
-</head>
-
-<body>
-
-
-    <br>
-    <br>
-    <br>
-    <br>
-    <div style="display: flex;">
-        <a class="button-48" href="result_item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-48" href="result_place.php" role="button"><span class="text">Place</span></a>
-    </div>
-
-
-    <!-- Display Places Table -->
-    <div class="ctable">
-        <?php if (mysqli_num_rows($place_result) > 0) { ?>
-            <table>
-                <!-- ... (Your existing table rows) -->
-            </table>
-        <?php } else { ?>
-            <div class="no-appointments">
-                <p>No appointments found.</p>
-                <p>Feel free to schedule new appointments!</p>
-            </div>
-        <?php } ?>
+ </head>
+ <header class="w3-container w3-xlarge">
+    <p class="w3-left">Result (Place)</p>
+    <p class="w3-right">
+        <a href="result_item.php">Item</a>
+        <a href="resutlt_place.php">Place</a>
+    </p>
+  </header>
+ <body>
+    
+ <!-- Display Places Table -->
+ <div class="ctable">
+ <?php if (mysqli_num_rows($place_result) > 0) { ?>
+        <table>
+            <!-- ... (Your existing table rows) -->
+        </table>
+    <?php } else { ?>
+        <div class="no-appointments">
+            <p>No appointments found.</p>
+            <p>Feel free to schedule new appointments!</p>
+        </div>
+    <?php } ?>
 
         <table>
             <?php while ($row = mysqli_fetch_array($place_result)) { ?>

@@ -1,66 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <title>Facilities Book</title>
+<title>Facilities Booking System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.w3-sidebar a {font-family: "Roboto", sans-serif}
+body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
+</style>
 </head>
-<body>
+<body class="w3-content" style="max-width:1200px">
 
-<div class="header">
-    <h3>Facilities Book</h3>
-    <ul>
-        <li><a href="home.php">Home</a></li>
-        <li><a href="profile.php">User Profile</a></li>
-        <li><a href="booking_item.php">Booking Progress</a></li>
-        <li><a href="result_item.php">Booking Result</a></li>
-        <li><a href="history_item.php">History</a></li>
-        <li><a href="logout.php">Logout</a></li>
-    </ul>
-</div>
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:200px" id="mySidebar">
+  <div class="w3-container w3-display-container w3-padding-16">
+    <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
+    <h3 class="w3-wide"><b>SBooking</b></h3>
+  </div>
+  <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+    <a href="home.php" class="w3-bar-item w3-button">Home</a>
+    <a href="item.php" class="w3-bar-item w3-button">Booking</a> 
+    <a href="profile.php" class="w3-bar-item w3-button">User Profile</a>
+    <a href="booking_item.php" class="w3-bar-item w3-button">Your Booking</a>
+    <a href="result_item.php" class="w3-bar-item w3-button">Booking Result</a>
+    <a href="logout.php" class="w3-bar-item w3-button w3-padding">Logout</a>  
+  </div>
+</nav>
+
+<!-- Top menu on small screens -->
+<header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+  <div class="w3-bar-item w3-padding-24 w3-wide">LOGO</div>
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:250px">
+  <!-- Push down content on small screens -->
+  <div class="w3-hide-large" style="margin-top:83px"></div>
+  <!-- Top header -->
+
+
+ 
+<script>
+// Accordion 
+function myAccFunc() {
+  var x = document.getElementById("demoAcc");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// Click on the "Jeans" link on page load to open the accordion for demo purposes
+document.getElementById("myBtn").click();
+
+
+// Open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+ 
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+</script>
 
 </body>
 </html>
-
-<style>
-/* Your existing styles */
-
-.header {
-  background-color: #333;
-  color: #fff;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  width: 100%;
-  z-index: 1000; /* Set a higher value to ensure it's on top */
-}
-
-.header h3 {
-  margin-right: auto;
-}
-
-.header ul {
-  list-style-type: none;
-  display: flex;
-  gap: 20px;
-  margin: 0;
-  padding: 0; /* 添加这行以移除默认的内边距 */
-}
-
-.header a {
-  text-decoration: none;
-  color: #fff;
-}
-
-.header a:hover {
-  color: #FFA500; 
-}
-
-/* Your button styles */
-
-.button-1 {
-  /* Your existing styles */
-}
-</style>
