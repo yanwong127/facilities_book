@@ -2,6 +2,9 @@
 include_once('db.php');
 include_once('header.php');
 
+// Set the timezone to Malaysia
+date_default_timezone_set('Asia/Kuala_Lumpur');
+
 $user_id = $_SESSION['user_id'];
 $records_per_page = 3;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
@@ -16,49 +19,11 @@ $item_query = "
 ";
 
 $item_result = mysqli_query($conn, $item_query);
-$alertShown = false; 
-// $alertShown1 = false; 
+$alertShown = false;
 $current_datetime = date('Y-m-d H:i:s');
+$one_hour_before_current_time = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime($current_datetime)));
 
-// $start_time = $row['start_time'];
-// $reminder = $row['bookind_date'] . '' . $start_time;
-// If ($current_datetime > $reminder) {
-//     $itembook_id = $row['book_id'];
-//     // echo "<script>alert('You have booking time is coming after 1 hours'); location.reload();</script>";
-//     if (!$alertShown1) {
-//         echo "<script>alert('You have booking time is coming after 1 hours');</script>";
-//         $alertShown1 = true; 
-//     }
-// }
-
-// $alertShown = false; // Initialize outside the loop
-
-// while ($row = mysqli_fetch_array($item_result)) {
-//     $end_datetime = $row['end_time'];
-//     $appointment_datetime = $row['booking_date'] . ' ' . $end_datetime;
-
-//     // Convert strings to DateTime objects for proper comparison
-//     $current_datetime = new DateTime();
-//     $appointment_datetime = new DateTime($appointment_datetime);
-
-//     if ($current_datetime > $appointment_datetime) {
-//         $itembook_id = $row['book_id'];
-
-//         // Use prepared statements to prevent SQL injection
-//         $update_query = "UPDATE `item_appointment` SET `status` = 'Expired' WHERE `itembook_id` = ?";
-//         $stmt = mysqli_prepare($conn, $update_query);
-//         mysqli_stmt_bind_param($stmt, "i", $itembook_id);
-//         mysqli_stmt_execute($stmt);
-//         mysqli_stmt_close($stmt);
-
-//         if (!$alertShown) {
-//             echo "<script>alert('Items in your booking have expired.'); location.reload();</script>";
-//             $alertShown = true; 
-//         }
-//     }
-// }
-
-
+$expiredFound = false;
 
 while ($row = mysqli_fetch_array($item_result)) {
 
@@ -67,14 +32,36 @@ while ($row = mysqli_fetch_array($item_result)) {
 
     if ($current_datetime > $appointment_datetime) {
         $itembook_id = $row['book_id'];
-        $update_query = "UPDATE `item_appointment` SET `status` = 'Expired' WHERE `itembook_id` = $itembook_id";
+        $update_query = "UPDATE item_appointment SET status = 'Expired' WHERE itembook_id = $itembook_id";
         mysqli_query($conn, $update_query);
 
         if (!$alertShown) {
             echo "<script>alert('Items in your booking have expired.'); location.reload();</script>";
-            $alertShown = true; 
+            $alertShown = true;
+        }
+
+        if ($expiredFound) {
+            break;
         }
     }
+
+    // Check if the start_time is within the previous hour of the current time
+    $start_datetime = $row['start_time'];
+    $reminder_datetime = $row['booking_date'] . ' ' . $start_datetime;
+
+    "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
+    "Reminder Datetime (Malaysia): $reminder_datetime<br>";
+    "One Hour Before Current Datetime (Malaysia): " . date('Y-m-d H:i:s', strtotime('-1 hour')) . "<br>";
+
+    if ($current_datetime > $reminder_datetime && $reminder_datetime > $one_hour_before_current_time) {
+        echo "<script>alert('Reminder: Your item booking is starting soon.');</script>";
+    }
+
+
+    if ($expiredFound) {
+        break;
+    }
+
 }
 
 mysqli_data_seek($item_result, 0);
@@ -87,6 +74,7 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <header class="w3-container w3-xlarge">
@@ -95,7 +83,8 @@ $total_item_pages = ceil($item_records / $records_per_page);
         <a href="result_item.php">Item</a>
         <a href="result_place.php">Place</a>
     </p>
-  </header>
+</header>
+
 <body>
     <br>
     <br>
@@ -121,7 +110,7 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
         <table>
             <?php while ($row = mysqli_fetch_array($item_result)) { ?>
-            
+
                 <tr>
                     <td>
                         <img class="rounded-image" src="<?= $row['img'] ?>">
@@ -139,7 +128,7 @@ $total_item_pages = ceil($item_records / $records_per_page);
                         <?= $row['end_time'] ?>
                     </td>
                     <td>
-                        <?= $row['quantity']?>
+                        <?= $row['quantity'] ?>
                     </td>
                     <td>
                         <?= $row['status'] ?>
@@ -182,7 +171,7 @@ $total_item_pages = ceil($item_records / $records_per_page);
 <script>
 
 
-    
+
 </script>
 
 
@@ -240,4 +229,4 @@ $total_item_pages = ceil($item_records / $records_per_page);
         font-size: 18px;
         color: #555;
     }
-</style> 
+</style>
