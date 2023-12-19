@@ -8,6 +8,17 @@ if ($_SESSION['true'] != true) {
     exit;
 }
 
+include_once('db.php');
+include_once('header.php');
+
+if (isset($_SESSION['image_updated']) && $_SESSION['image_updated']) {
+    echo '<script>alert("Image changed successfully!");</script>';
+    unset($_SESSION['image_updated']);
+}
+
+
+
+
 $user_id = $_SESSION['user_id'];
 
 $user_query = "SELECT * FROM user WHERE `user_id` = $user_id";
@@ -57,9 +68,10 @@ if (isset($_POST['newImg'])) {
                 if (copy($destination1, $destination2)) {
                     $sql = "UPDATE user SET user_img = '$filename' WHERE user_id = $user_id";
                     if (mysqli_query($conn, $sql)) {
-                        // Echo the new image path to update the src attribute
+                        $_SESSION['image_updated'] = true;
                         header("Location: profile.php");
                     }
+
                 } else {
                     echo "Failed to copy file to the second folder.";
                 }
@@ -88,7 +100,8 @@ if (isset($_POST['newImg'])) {
     <p class="w3-right">
 
     </p>
-  </header>
+</header>
+
 <body>
     <br>
     <br>
@@ -103,6 +116,7 @@ if (isset($_POST['newImg'])) {
                             <input type="file" id="fileInput" name="myfile" style="display: none;"
                                 accept=".jpg, .png, .jpeg" onchange="previewImage()">
                         </div>
+
                         <button type="submit" name="newImg">Update</button>
                     </form>
 
@@ -128,16 +142,15 @@ if (isset($_POST['newImg'])) {
                             <?= $row['address'] ?>
                         </span>
                     </div>
-                    <form method="post" class="form">
-                        <input type="password" name="new_password" autocomplete="off" required />
-                        <label for="text" class="label-name">
+                    <form method="post" class="form" onsubmit="return validatePassword()">
+                        <!-- Your existing form code -->
+                        <input type="password" name="new_password" id="new_password" autocomplete="off" required />
+                        <label for="new_password" class="label-name">
                             <span class="content-name">
                                 Your New Password
                             </span>
-
                         </label>
                         <button class="btn" type="submit" name="change_password">Change Password</button>
-
                     </form>
 
 
@@ -167,6 +180,22 @@ if (isset($_POST['newImg'])) {
         reader.readAsDataURL(input.files[0]);
     }
 
+
+
+    function validatePassword() {
+        var newPasswordInput = document.getElementById('new_password');
+        var newPassword = newPasswordInput.value;
+
+        // Check if the password has at least 8 characters and at least one uppercase letter
+        if (newPassword.length < 8 || !/[A-Z]/.test(newPassword)) {
+            alert('Password must have at least 8 characters and include at least one uppercase letter.');
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission
+    }
+
+
 </script>
 
 <style>
@@ -186,7 +215,8 @@ if (isset($_POST['newImg'])) {
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
-        filter: blur(5px); /* 调整模糊程度，单位是像素 */
+        filter: blur(5px);
+        /* 调整模糊程度，单位是像素 */
     }
 
     .header {
