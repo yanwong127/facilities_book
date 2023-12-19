@@ -10,9 +10,10 @@ $offset = ($page - 1) * $records_per_page;
 $item_query = "
     SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status ,  ia.quantity
     FROM `item_appointment` ia
-    WHERE ia.`user_id` = $user_id AND ia.`status` = 'Expired'
+    WHERE ia.`user_id` = $user_id AND (ia.`status` = 'Expired' OR ia.`status` = 'Returned')
     LIMIT $offset, $records_per_page
 ";
+
 
 $item_result = mysqli_query($conn, $item_query);
 
