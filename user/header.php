@@ -13,10 +13,10 @@
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
 </head>
-<body class="w3-content" style="max-width:1200px">
+<body class="w3-content" style="max-width:1200px;">
 
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:200px" id="mySidebar">
+<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:200px;" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
     <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
     <h3 class="w3-wide"><b>SBooking</b></h3>
@@ -41,7 +41,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:250px">
+<div class="w3-main" style="margin-left:200px">
   <!-- Push down content on small screens -->
   <div class="w3-hide-large" style="margin-top:83px"></div>
   <!-- Top header -->

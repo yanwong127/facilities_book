@@ -90,22 +90,13 @@ $total_item_pages = ceil($item_records / $records_per_page);
 <!DOCTYPE html>
 <html lang="en">
 <header class="w3-container w3-xlarge">
-    <p class="w3-left">Result (Item)</p>
+    <p class="w3-left">Result Item</p>
     <p class="w3-right">
-        <a href="result_item.php">Item</a>
-        <a href="result_place.php">Place</a>
+        <button class="btn" onclick="location.href='result_item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='result_place.php'">PLACE</button>
     </p>
   </header>
 <body>
-    <br>
-    <br>
-    <br>
-    <br>
-
-    <div style="display: flex;">
-        <a class="button-48" href="result_item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-48" href="result_place.php" role="button"><span class="text">Place</span></a>
-    </div>
 
     <div class="ctable">
         <?php if (mysqli_num_rows($item_result) > 0) { ?>
@@ -194,6 +185,9 @@ $total_item_pages = ceil($item_records / $records_per_page);
         justify-content: center;
         align-items: center;
         min-height: 50vh;
+    }
+    .btn {
+        background-color: #fff;
     }
 
     .rounded-image {

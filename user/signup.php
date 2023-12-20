@@ -38,7 +38,6 @@ if (isset($_POST['signup'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="loginsignup.css">
-    <link rel="stylesheet" href="loginsignup.css">
     <title>SignUp</title>
 </head>
 
@@ -47,37 +46,38 @@ if (isset($_POST['signup'])) {
     <form action="signup.php" method='post'>
         <div class="box">
             <i class="fa fa-user-circle" id="user" aria-hidden="true"></i>
+            <br>
             <div class="input-container">
-                <label for="username" class="fa">Userame:</label>
+                <label for="username">Userame:</label>
                 <input type="text" name="username" class="text" required>
             </div>
             <div class="input-container">
-                <label for="username" class="fa">Password:</label>
+                <label for="username">Password:</label>
                 <input type="password" name="password" class="text" required pattern="^(?=.*[A-Z]).{8,}$"
                     title="Password must be at least 8 characters long and contain at least one uppercase letter">
             </div>
             <div class="input-container">
-                <label for="username" class="fa">Address:</label>
+                <label for="username">Address:</label>
                 <input type="text" name="address" class="text" required>
             </div>
             <div class="input-container">
-                <label for="username" class="fa">Full Name:</label>
+                <label for="username">Full Name:</label>
                 <input type="text" name="name" class="text" required>
             </div>
             <div class="input-container">
-                <label for="email" class="fa">Email:</label>
+                <label for="email">Email:</label>
                 <input type="email" name="email" class="text" required
                     pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
                     title="Please enter a valid email address (e.g., yourname@example.com)">
             </div>
             <div class="input-container">
-                <label for="phone" class="fa">Phone Number:</label>
+                <label for="phone">Phone Number:</label>
                 <input type="tel" name="phone" id="phone" class="text" required
                     title="Please enter a valid Malaysian mobile phone number" oninput="formatPhoneNumber(this.value)">
             </div>
 
             <div>
-                <p class="fa">Click here to login. <a href="login.php">Login here</a></p>
+                <p>Click here to login. <a href="login.php">Login here</a></p>
             </div>
 
             <div class="btn-container">

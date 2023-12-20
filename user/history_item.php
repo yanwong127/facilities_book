@@ -51,15 +51,13 @@ if (isset($_POST['return']) && isset($_POST['itembook_id'])) {
 <html lang="en">
 
 <body>
-    <br>
-    <br>
-    <br>
-    <br>
-
-    <div style="display: flex;">
-        <a class="button-48" href="history_item.php" role="button"><span class="text">Item</span></a>
-        <a class="button-48" href="history_place.php" role="button"><span class="text">Place</span></a>
-    </div>
+<header class="w3-container w3-xlarge">
+    <p class="w3-left">Place History</p>
+    <p class="w3-right">
+        <button class="btn" onclick="location.href='history_item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='history_place.php'">PLACE</button>
+    </p>
+  </header>
 
     <!-- Display Items Table -->
     <div class="ctable">
@@ -181,7 +179,9 @@ if (isset($_POST['return']) && isset($_POST['itembook_id'])) {
         align-items: center;
         min-height: 50vh;
     }
-
+    .btn {
+        background-color: #fff;
+    }
     .rounded-image {
         border-radius: 20px;
         width: 200px;
