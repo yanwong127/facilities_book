@@ -11,9 +11,10 @@ $offset = ($page - 1) * $records_per_page;
 $place_query = "
     SELECT 'place' as type, ia.placebook_id as book_id, ia.place_img as img, ia.place_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status
     FROM `place_appointment` ia
-    WHERE ia.`user_id` = $user_id AND ia.`status` = 'Approve'
+    WHERE ia.`user_id` = $user_id AND (ia.`status` = 'Approve' OR ia.`status` = 'Cancelled')
     LIMIT $offset, $records_per_page
 ";
+
 
 $place_result = mysqli_query($conn, $place_query);
 $alertShown = false; 

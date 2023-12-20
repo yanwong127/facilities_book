@@ -11,8 +11,8 @@ if (isset($_REQUEST['item_book'])) {
         $item_overview = trim($_POST['item_overview']);
         $quantity = $_POST['quantity'];
         $booking_date = $_POST['booking_date'];
-        // $start_time = $_POST['start_time'];
-        // $end_time = $_POST['end_time'];
+        $start_time = $_POST['start_time'];
+        $end_time = $_POST['end_time'];
 
         // $booking_date = date('Y/m/d', strtotime($booking_date));
         // $start_time = date('H:i:s', strtotime($start_time));

@@ -12,7 +12,7 @@ $offset = ($page - 1) * $records_per_page;
 $place_query = "
     SELECT 'place' as type, pa.placebook_id as book_id, pa.place_img as img, pa.place_name as name, pa.booking_date, pa.start_time, pa.end_time, pa.status
     FROM `place_appointment` pa
-    WHERE pa.`user_id` = $user_id AND pa.`status` = 'Expired'
+    WHERE pa.`user_id` = $user_id AND (pa.`status` = 'Expired' OR pa.`status` = 'Returned' OR pa.`status` = 'Cancelled')
     LIMIT $offset, $records_per_page
 ";
 
