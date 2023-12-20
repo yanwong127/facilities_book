@@ -72,7 +72,7 @@ if (isset($_POST['return']) && isset($_POST['itembook_id'])) {
             </div>
         <?php } ?>
 
-        <table>
+        <table class="w3-table-all">
             <?php while ($row = mysqli_fetch_array($item_result)) { ?>
                 <tr>
                     <td>

@@ -159,6 +159,10 @@ mysqli_data_seek($placeResult, 0);
 </body>
 </html>
 <style>
+
+a {
+        text-decoration: none !important;
+    }
  .w3-content-container {
     border: 2px solid #ccc;
     object-fit:cover;

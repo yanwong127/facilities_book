@@ -117,7 +117,13 @@
         background-color: #484848;
     }
 
-
+    .pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
 
     .pagination a {
         color: #6d6f6d;

@@ -78,7 +78,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
             </div>
         <?php } ?>
 
-        <table>
+        <table class="w3-table-all">
             <?php while ($row = mysqli_fetch_array($place_result)) { ?>
              
                 <tr>
