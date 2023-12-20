@@ -39,32 +39,30 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="loginsignup.css">
     <title>Login</title>
 </head>
 <body>
-    <div class="login-container">
+    <div>
         <form action="login.php" method="post">
-            <div class="box">
+            <div>
             <i class="fa fa-user-circle" id="user" aria-hidden="true"></i>
-                <br>
+            <br>
                 <div class="input-container">
-                    <label for="username" class="fa"> Name: </label>
+                    <label for="username"> Name: </label>
                     <input type="text" name="username" class="text" required>
                 </div>
-                <br>
                 <div class="input-container">
-                    <label for="userpass" class="fa"> Password: </label>
-                    <input type="password" class="text" name="password" required>
+                    <label for="userpass"> Password: </label>
+                    <input type="password" name="password" required>
                 </div>
-            
-                <div class="btn-container">
-                    <input type="submit" name="submit" value="Login" class="custom-button">
+                <div>
+                    <input type="submit" name="submit" value="Login">
                 </div>
-                <p class="fa"><a href="forgot_password.php">Froget Password?</a></p>
+                <p><a href="forgot_password.php">Forget Password?</a></p>
             </div>
         </form>
-        <p class="fa">Don't have an account? <a href="signup.php">Register here</a></p>
     </div>
 
     <script>
