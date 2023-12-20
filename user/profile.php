@@ -3,7 +3,7 @@ include_once('db.php');
 include_once('header.php');
 
 if ($_SESSION['true'] != true) {
-    echo 'not gg';
+     'not gg';
     header("location:logout.php");
     exit;
 }
@@ -12,7 +12,7 @@ include_once('db.php');
 include_once('header.php');
 
 if (isset($_SESSION['image_updated']) && $_SESSION['image_updated']) {
-    echo '<script>alert("Image changed successfully!");</script>';
+     '<script>alert("Image changed successfully!");</script>';
     unset($_SESSION['image_updated']);
 }
 
@@ -59,7 +59,8 @@ if (isset($_POST['newImg'])) {
     $file = $_FILES['myfile']['tmp_name'];
 
     if (!in_array($extension, ['jpg', 'png', 'jpeg'])) {
-        echo "You file extension must be .jpg, .png or .jpeg";
+        // echo "You file extension must be .jpg, .png or .jpeg";
+        echo '<script>alert("You file extension must be .jpg, .png or .jpeg");</script>';
     } elseif ($_FILES['myfile']['size'] > 100000000) {
         echo "File too large!";
     } else {
