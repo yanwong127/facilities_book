@@ -3,7 +3,7 @@ include_once('db.php');
 include_once('header.php');
 
 if ($_SESSION['true'] != true) {
-    echo 'not gg';
+     'not gg';
     header("location:logout.php");
     exit;
 }
@@ -12,7 +12,7 @@ include_once('db.php');
 include_once('header.php');
 
 if (isset($_SESSION['image_updated']) && $_SESSION['image_updated']) {
-    echo '<script>alert("Image changed successfully!");</script>';
+     '<script>alert("Image changed successfully!");</script>';
     unset($_SESSION['image_updated']);
 }
 
@@ -59,7 +59,8 @@ if (isset($_POST['newImg'])) {
     $file = $_FILES['myfile']['tmp_name'];
 
     if (!in_array($extension, ['jpg', 'png', 'jpeg'])) {
-        echo "You file extension must be .jpg, .png or .jpeg";
+        // echo "You file extension must be .jpg, .png or .jpeg";
+        echo '<script>alert("You file extension must be .jpg, .png or .jpeg");</script>';
     } elseif ($_FILES['myfile']['size'] > 100000000) {
         echo "File too large!";
     } else {
@@ -117,7 +118,7 @@ if (isset($_POST['newImg'])) {
                                 accept=".jpg, .png, .jpeg" onchange="previewImage()">
                         </div>
 
-                        <button type="submit" name="newImg">Update</button>
+                        <button class="bta" type="submit" name="newImg">Update <br> Your Image</button>
                     </form>
 
 
@@ -211,7 +212,7 @@ if (isset($_POST['newImg'])) {
         width: 100%;
         height: 100%;
         z-index: -1;
-        background-image: url('img/profile.jpg');
+
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -255,14 +256,16 @@ if (isset($_POST['newImg'])) {
         margin: auto;
         background-color: #ddd;
         overflow: hidden;
+
         /* Ensure the image doesn't overflow the container */
     }
 
     .profile-picture img {
         width: 100%;
         /* Make the image fill the container */
-        height: auto;
+        height: 100%;
         border-radius: 50%;
+        object-fit: cover;
     }
 
     .profile-name {
@@ -324,6 +327,16 @@ if (isset($_POST['newImg'])) {
         font-size: 16px;
         cursor: pointer;
         border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    .bta {
+        background-color: #fff;
+        color: #010101;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 2px;
         transition: background-color 0.3s;
     }
 

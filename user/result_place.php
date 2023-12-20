@@ -11,9 +11,10 @@ $offset = ($page - 1) * $records_per_page;
 $place_query = "
     SELECT 'place' as type, ia.placebook_id as book_id, ia.place_img as img, ia.place_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status
     FROM `place_appointment` ia
-    WHERE ia.`user_id` = $user_id AND ia.`status` = 'Approve'
+    WHERE ia.`user_id` = $user_id AND (ia.`status` = 'Approve' OR ia.`status` = 'Cancelled')
     LIMIT $offset, $records_per_page
 ";
+
 
 $place_result = mysqli_query($conn, $place_query);
 $alertShown = false; 
@@ -56,10 +57,10 @@ $total_place_pages = ceil($place_records / $records_per_page);
     <title>Place result</title>
  </head>
  <header class="w3-container w3-xlarge">
-    <p class="w3-left">Result (Place)</p>
+    <p class="w3-left">Place Result</p>
     <p class="w3-right">
-        <a href="result_item.php">Item</a>
-        <a href="result_place.php">Place</a>
+        <button class="btn" onclick="location.href='result_item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='result_place.php'">PLACE</button>
     </p>
   </header>
  <body>
@@ -143,6 +144,9 @@ $total_place_pages = ceil($place_records / $records_per_page);
         justify-content: center;
         align-items: center;
         min-height: 50vh;
+    }
+    .btn {
+        background-color: #fff;
     }
 
     .rounded-image {

@@ -55,27 +55,18 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="booking_page.css">
 <header class="w3-container w3-xlarge">
     <p class="w3-left">YOUR BOOKING (ITEM)</p>
     <p class="w3-right">
-        <a href="booking_item.php">Item</a>
-        <a href="booking_place.php">Place</a>
+        <button class="btn" onclick="location.href='booking_item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='booking_place.php'">PLACE</button>
     </p>
   </header>
 <body>
 
     <!-- Display Items Table -->
     <div class="ctable">
-    <?php if (mysqli_num_rows($item_result) > 0) { ?>
-        <table>
-            <!-- ... (Your existing table rows) -->
-        </table>
-    <?php } else { ?>
-        <div class="no-appointments">
-            <p>No appointments found.</p>
-            <p>Feel free to schedule new appointments!</p>
-        </div>
-    <?php } ?>
 
         <table class="w3-table-all">
             <thead>
@@ -85,6 +76,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
                     <th>Booking Date</th>
                     <th>Start Time</th>
                     <th>End Time</th>
+                    <th>Quantity</th>
                     <th>Status</th>
                     <th></th>
                     <th></th>
@@ -123,6 +115,17 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
             <?php } ?>
         </table>
 
+        <?php if (mysqli_num_rows($item_result) > 0) { ?>
+        <table>
+            <!-- ... (Your existing table rows) -->
+        </table>
+    <?php } else { ?>
+        <div class="no-appointments">
+            <p>No appointments found.</p>
+            <p>Feel free to schedule new appointments!</p>
+        </div>
+    <?php } ?>
+
         <!-- Items Pagination -->
         <div class="pagination justify-content-center">
     <?php
@@ -148,11 +151,11 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 
     </div>
 
+    <form action="form-horizontal" action="booking_item.php" method="post" class="dialog-form">
     <dialog id="editDialog">
-        <button autofocus>Close</button>
+        <i class="fa fa-close" style="float: right;" autofocus></i>
         <h2 id="editDialogTitle"></h2>
         <div class="container">
-            <form class="form-horizontal" action="booking_item.php" method="post">
                 <input type="hidden" name="itembook_id" id="editItembookId">
                 <div>
                     <label>Booking Date:</label>
@@ -179,9 +182,10 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
                         <!-- <button type="button" onclick="window.location.href='booking_item.php'">Back</button> -->
                     </div>
                 </div>
-            </form>
+
         </div>
     </dialog>
+    </form>
 
   
 
@@ -190,6 +194,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 </html>
 
 <script>
+        const closeButton = document.querySelector(".fa-close");
         const editLinks = document.querySelectorAll(".edit-link");
         const dialog = document.getElementById('editDialog');
         const dialogTitle = document.getElementById('editDialogTitle');
@@ -217,7 +222,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
             });
         });
 
-        dialog.querySelector("button").addEventListener("click", () => {
+        closeButton.addEventListener("click", () => {
             dialog.close();
         });
 
@@ -228,7 +233,51 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 
    
 
-<style>
+<!-- <style>
+    dialog {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        background-color: #fff;
+        border: 2px solid #0f0e0e;
+        border-radius: 10px;
+    }
+    .dialog-form {
+        max-width: 300px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .dialog-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    .dialog-form input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+    }
+
+    .dialog-form button {
+        background-color: #343634;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .dialog-form button:hover {
+        background-color: #484848;
+    }
+
     .header {
         position: relative;
         z-index: 1;
@@ -285,8 +334,8 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
         font-size: 18px;
         color: #555;
     }
+    .btn {
+        background-color: #fff;
+    }
 
-
-
-
-</style>
+</style> -->

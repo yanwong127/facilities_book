@@ -73,8 +73,8 @@ $result2 = mysqli_query($conn, $jj2);
 <header class="w3-container w3-xlarge">
     <p class="w3-left">PLACE</p>
     <p class="w3-right">
-        <a href="item.php">Item</a>
-        <a href="place.php">Place</a>
+        <button class="btn" onclick="location.href='item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='place.php'">PLACE</button>
     </p>
   </header>
 <body>

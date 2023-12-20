@@ -11,8 +11,8 @@ if (isset($_REQUEST['item_book'])) {
         $item_overview = trim($_POST['item_overview']);
         $quantity = $_POST['quantity'];
         $booking_date = $_POST['booking_date'];
-        // $start_time = $_POST['start_time'];
-        // $end_time = $_POST['end_time'];
+        $start_time = $_POST['start_time'];
+        $end_time = $_POST['end_time'];
 
         // $booking_date = date('Y/m/d', strtotime($booking_date));
         // $start_time = date('H:i:s', strtotime($start_time));
@@ -84,8 +84,9 @@ $result = mysqli_query($conn, $jj);
 <header class="w3-container w3-xlarge">
     <p class="w3-left">ITEM</p>
     <p class="w3-right">
-        <a href="item.php">Item</a>
-        <a href="place.php">Place</a>
+        <button class="btn" onclick="location.href='item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='place.php'">PLACE</button>
+
     </p>
   </header>
 <body>
