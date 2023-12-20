@@ -66,18 +66,20 @@ mysqli_data_seek($placeResult, 0);
   </style>
   <title>Your Title</title>
 </head>
+<div style="border-left: 3px solid #000;">
 <header class="w3-container w3-xlarge">
     <p class="w3-left">HOME</p>
     <p class="w3-right">
 
     </p>
   </header>
+  <div style="width: 99%; margin-left: auto;">
 <body class="w3-content" style="max-width:1200px">
 
-<div class="w3-content w3-display-container box" style="width:100%;">
+<div class="w3-panel w3-border w3-round-xlarge w3-content w3-display-container" style="width:100%; height: 300px;">
   <img class="mySlides" src="img/basketball.jpg">
   <img class="mySlides" src="img/科学室.jpg">
-  <img class="mySlides" src="img/电脑.jpg">
+  <img class="mySlides" src="img/游泳池.jpg">
   <img class="mySlides" src="img/键盘.jpg">
 
   <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
@@ -89,7 +91,7 @@ mysqli_data_seek($placeResult, 0);
     <p>Item</p>
   </div>
 
-  <div class="w3-row w3-grayscale">
+  <div class="w3-row">
     <?php while ($row = mysqli_fetch_array($itemResult)) { ?>
       <div class="w3-col l3 s6">
         <div class="w3-container">
@@ -110,7 +112,7 @@ mysqli_data_seek($placeResult, 0);
     <p>Place</p>
   </div>
 
-  <div class="w3-row w3-grayscale">
+  <div class="w3-row">
     <?php while ($row = mysqli_fetch_array($placeResult)) { ?>
       <div class="w3-col l3 s6">
         <div class="w3-container">
@@ -124,6 +126,8 @@ mysqli_data_seek($placeResult, 0);
       </div>
     <?php } ?>
   </div>
+</div>
+</div>  
 </div>
 <script>
   var slideIndex = 1;
@@ -157,7 +161,7 @@ mysqli_data_seek($placeResult, 0);
 <style>
  .w3-content-container {
     border: 2px solid #ccc;
-    padding: 10px;
+    object-fit:cover;
     width: 80%;
     margin: 0 auto;
   }
@@ -165,7 +169,7 @@ mysqli_data_seek($placeResult, 0);
   .mySlides {
     transition: opacity 3s ease-in-out;
     width: 100%;
-    height: 300px;
+    height: 100%;
     object-fit: cover; /* 裁剪并填充，确保照片完全覆盖框 */
   }
 

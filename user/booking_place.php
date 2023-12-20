@@ -54,27 +54,18 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place result</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="booking_page.css">
  </head>
  <header class="w3-container w3-xlarge">
     <p class="w3-left">YOUR BOOKING (PLACE)</p>
     <p class="w3-right">
-        <a href="booking_item.php">Item</a>
-        <a href="booking_place.php">Place</a>
+        <button class="btn" onclick="location.href='booking_item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='booking_place.php'">PLACE</button>
     </p>
   </header>
  <body>
  <!-- Display Places Table -->
  <div class="ctable">
- <?php if (mysqli_num_rows($place_result) > 0) { ?>
-        <table>
-            <!-- ... (Your existing table rows) -->
-        </table>
-    <?php } else { ?>
-        <div class="no-appointments">
-            <p>No appointments found.</p>
-            <p>Feel free to schedule new appointments!</p>
-        </div>
-    <?php } ?>
 
         <table class="w3-table-all">
             <thead>
@@ -84,6 +75,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                     <th>Booking Date</th>
                     <th>Start Time</th>
                     <th>End Time</th>
+                    <th>Quantity</th>
                     <th>Status</th>
                     <th></th>
                     <th></th>
@@ -118,6 +110,17 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                 </tr>
             <?php } ?>
         </table>
+
+        <?php if (mysqli_num_rows($place_result) > 0) { ?>
+        <table>
+            <!-- ... (Your existing table rows) -->
+        </table>
+    <?php } else { ?>
+        <div class="no-appointments">
+            <p>No appointments found.</p>
+            <p>Feel free to schedule new appointments!</p>
+        </div>
+    <?php } ?>
 
         <!-- Places Pagination -->
         <div class="pagination justify-content-center">
@@ -223,7 +226,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
         
     </script>
 
-<style>
+<!-- <style>
     .header {
         position: relative;
         z-index: 1;
@@ -280,5 +283,8 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
         font-size: 18px;
         color: #555;
     }
+    .btn {
+        background-color: #fff;
+    }
 
-</style>
+</style> -->

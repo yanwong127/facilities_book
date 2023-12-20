@@ -117,7 +117,7 @@ if (isset($_POST['newImg'])) {
                                 accept=".jpg, .png, .jpeg" onchange="previewImage()">
                         </div>
 
-                        <button type="submit" name="newImg">Update</button>
+                        <button class="bta" type="submit" name="newImg">Update <br> Your Image</button>
                     </form>
 
 
@@ -211,7 +211,7 @@ if (isset($_POST['newImg'])) {
         width: 100%;
         height: 100%;
         z-index: -1;
-        background-image: url('img/profile.jpg');
+
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -255,14 +255,16 @@ if (isset($_POST['newImg'])) {
         margin: auto;
         background-color: #ddd;
         overflow: hidden;
+
         /* Ensure the image doesn't overflow the container */
     }
 
     .profile-picture img {
         width: 100%;
         /* Make the image fill the container */
-        height: auto;
+        height: 100%;
         border-radius: 50%;
+        object-fit: cover;
     }
 
     .profile-name {
@@ -324,6 +326,16 @@ if (isset($_POST['newImg'])) {
         font-size: 16px;
         cursor: pointer;
         border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    .bta {
+        background-color: #fff;
+        color: #010101;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 2px;
         transition: background-color 0.3s;
     }
 
