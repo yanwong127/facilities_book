@@ -65,7 +65,7 @@ if (strlen($_SESSION['alogin']) == 0) {
     <meta name="author" content="">
     <meta name="theme-color" content="#3e454c">
 
-    <title>College | Admin Post Item</title>
+    <title>SBooking | Admin Post Item</title>
 
     <!-- Font awesome -->
     <link rel="stylesheet" href="css/font-awesome.min.css">

@@ -119,7 +119,7 @@ try {
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>College |Admin Manage Place Booking </title>
+	<title>SBooking |Admin Manage Place Booking </title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">

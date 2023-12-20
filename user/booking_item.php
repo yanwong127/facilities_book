@@ -54,7 +54,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet">
 <link rel="stylesheet" href="booking_page.css">
 <header class="w3-container w3-xlarge">
     <p class="w3-left">YOUR BOOKING (ITEM)</p>

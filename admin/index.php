@@ -34,7 +34,7 @@ echo "<script type='text/javascript'> document.location = 'dashboard.php'; </scr
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>College | Admin Login</title>
+	<title>SBooking | Admin Login</title>
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">

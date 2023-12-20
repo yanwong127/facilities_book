@@ -1,5 +1,5 @@
 <div class="brand clearfix">
-	<a href="add_item.php" style="font-size: 20px;">College | Admin Panel</a>  
+	<a href="add_item.php" style="font-size: 20px;">SBooking | Admin Panel</a>  
 		<span class="menu-btn"><i class="fa fa-bars"></i></span>
 		<ul class="ts-profile-nav">
 			

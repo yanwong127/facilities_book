@@ -69,7 +69,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="theme-color" content="#3e454c">
-    <title>College | Admin Edit Item Info</title>
+    <title>SBooking | Admin Edit Item Info</title>
     <!-- Font awesome -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Sandstone Bootstrap CSS -->

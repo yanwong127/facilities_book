@@ -32,7 +32,7 @@ $msg="Place  record deleted successfully";
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>College |Admin Manage Place   </title>
+	<title>SBooking |Admin Manage Place   </title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
