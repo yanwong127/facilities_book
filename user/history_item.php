@@ -100,7 +100,7 @@ if (isset($_POST['return']) && isset($_POST['itembook_id'])) {
                     <td>
                     <form method="post">
                         <input type="hidden" name="itembook_id" value="<?= $row['book_id'] ?>">
-                        <button type="submit" name="return">Return</button>
+                        <!-- <button type="submit" name="return">Return</button> -->
                     </form>
                     </td>
                 </tr>
