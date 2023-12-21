@@ -46,7 +46,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password Confirmation</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&subset=greek-ext">
-    <style>
+  
+</head>
+<body>
+<form action="" method="post" onsubmit="return validatePasswordMatch();">
+
+    <div class="container">
+        <div class="form-container">
+            <?php if (isset($confirmationMessage)) : ?>
+                <p class="confirmation-message"><?php echo $confirmationMessage; ?></p>
+                <p>You can now <a href="login.php">login with your new password</a>.</p>
+            <?php else : ?>
+                <?php if (isset($errorMessage)) : ?>
+                    <p class="error-message"><?php echo $errorMessage; ?></p>
+                <?php endif; ?>
+                <form action="" method="post">
+                    <h2>Reset Password Confirmation</h2>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_GET['email'] ?? ''); ?>" required>
+                    <label for="code">Verification Code:</label>
+                    <input type="text" id="code" name="code" required>
+                    <label for="password">New Password:</label>
+                    <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must contain at least one number, one lowercase and one uppercase letter, and be at least 8 characters long" required>
+                    <label for="confirm_password">Confirm Password:</label>
+                    <input type="password" id="confirm_password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must contain at least one number, one lowercase and one uppercase letter, and be at least 8 characters long" required>
+                    <button type="submit">Reset Password</button>
+                    <button type="button" style="margin-top: 10px;" onclick="window.location.href='login.php'">Back</button>
+                </form>
+            <?php endif; ?>
+        </div>
+    </div>
+</body>
+</form>
+
+</html>
+
+
+
+<script>
+    function validatePasswordMatch() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirm_password").value;
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
+
+
+<style>
         body {
             background-color: rgba(121, 120, 120, 0.221);
             background-position: center;
@@ -141,32 +194,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-weight: bold;
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <div class="form-container">
-            <?php if (isset($confirmationMessage)) : ?>
-                <p class="confirmation-message"><?php echo $confirmationMessage; ?></p>
-                <p>You can now <a href="login.php">login with your new password</a>.</p>
-            <?php else : ?>
-                <?php if (isset($errorMessage)) : ?>
-                    <p class="error-message"><?php echo $errorMessage; ?></p>
-                <?php endif; ?>
-                <form action="" method="post">
-                    <h2>Reset Password Confirmation</h2>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($_GET['email'] ?? ''); ?>" required>
-                    <label for="code">Verification Code:</label>
-                    <input type="text" id="code" name="code" required>
-                    <label for="password">New Password:</label>
-                    <input type="password" id="password" name="password" required>
-                    <label for="confirm_password">Confirm Password:</label>
-                    <input type="password" id="confirm_password" name="confirm_password" required>
-                    <button type="submit">Reset Password</button>
-                    <button type="button" style="margin-top: 10px;" onclick="window.location.href='login.php'">Back</button>
-                </form>
-            <?php endif; ?>
-        </div>
-    </div>
-</body>
-</html>

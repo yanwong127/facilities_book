@@ -143,7 +143,7 @@ $result = mysqli_query($conn, $jj);
             <label for="end_time">End Time:</label>
             <input type="time" name="end_time" id="end_time" required>
 
-            <label for="quantity">Quantity:</label>
+            <label for="quantity">Quantity: </label>
             <input type="number" name="quantity" id="quantity" value="1" min="1" max="10" required>
 
             <button name="item_book">Book</button>
