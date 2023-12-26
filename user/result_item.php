@@ -49,9 +49,9 @@ while ($row = mysqli_fetch_array($item_result)) {
     $start_datetime = $row['start_time'];
     $reminder_datetime = $row['booking_date'] . ' ' . $start_datetime;
 
-    "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
-    "Reminder Datetime (Malaysia): $reminder_datetime<br>";
-    "One Hour Before Current Datetime (Malaysia): " . date('Y-m-d H:i:s', strtotime('-1 hour')) . "<br>";
+    echo "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
+    echo "Reminder Datetime (Malaysia): $reminder_datetime<br>";
+    echo "One Hour Before Current Datetime (Malaysia): " . date('Y-m-d H:i:s', strtotime('-1 hour')) . "<br>";
 
     if ($current_datetime > $reminder_datetime && $reminder_datetime > $one_hour_before_current_time) {
         echo "<script>alert('Reminder: Your item booking is starting soon.');</script>";
