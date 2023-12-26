@@ -88,7 +88,8 @@ $result = mysqli_query($conn, $jj);
         <button class="btn" onclick="location.href='place.php'">PLACE</button>
 
     </p>
-  </header>
+</header>
+
 <body>
     <div class="custom-table" id="clickable-div">
 
@@ -99,20 +100,20 @@ $result = mysqli_query($conn, $jj);
 
             $qry = mysqli_query($conn, $item);
             $num = mysqli_num_rows($qry);
-            $at=mysqli_fetch_array($qry);
-            $sub=0;
-            if($num!==0){
-                $sub=$at[0];
-            }else{
-                $sub=0;
+            $at = mysqli_fetch_array($qry);
+            $sub = 0;
+            if ($num !== 0) {
+                $sub = $at[0];
+            } else {
+                $sub = 0;
             }
-            $total=$row["quantity"]-$sub;
-            
+            $total = $row["quantity"] - $sub;
+
             ?>
             <div class="td">
                 <div class="item-container" id="none">
                     <a href="place.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_overview'] ?>"
-                        data-item-quantity="<?=$total?>">
+                        data-item-quantity="<?= $total ?>">
                         <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
                         <div class="item-name">
                             <?= $row['item_name'] ?>
@@ -143,9 +144,10 @@ $result = mysqli_query($conn, $jj);
             <label for="end_time">End Time:</label>
             <input type="time" name="end_time" id="end_time" required>
 
-            <label for="quantity" id="displayQuantity">Quantity: </label>
-<input type="number" name="quantity" id="quantity" value="1" min="1" max="10" required>
-<!-- <span id="displayQuantity">1</span>  -->
+
+
+            <label for="quantity">Quantity: <span id="available_quantity"></span></label>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" max="10" required>
 
             <button name="item_book">Book</button>
         </dialog>
@@ -194,35 +196,38 @@ $result = mysqli_query($conn, $jj);
     // const quantity = document.getElementById("quantity").value;
 
 
-   document.querySelectorAll(".item-container a").forEach((link) => {
-    link.addEventListener("click", (e) => {
-        e.preventDefault();
+    document.querySelectorAll(".item-container a").forEach((link) => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
 
-        const itemTitle = link.querySelector(".item-name").textContent;
-        const itemImageSrc = "img/" + link.querySelector("img").src.split('/').pop();
-        const itemUrl = link.getAttribute('href');
-        const item_id = itemUrl.split('=')[1];
-        const itemOverview = link.getAttribute('data-item-overview');
-        const itemQuantity = link.getAttribute('data-item-quantity');
+            const availableQuantity = link.getAttribute('data-item-quantity');
+            document.getElementById("available_quantity").textContent = availableQuantity;
 
-        document.getElementById("item_id").value = item_id;
-        document.getElementById("item_name").value = itemTitle;
-        document.getElementById("item_img").value = itemImageSrc;
-        document.getElementById("item_overview").value = itemOverview;
+            const itemTitle = link.querySelector(".item-name").textContent;
+            const itemImageSrc = "img/" + link.querySelector("img").src.split('/').pop();
+            const itemUrl = link.getAttribute('href');
+            const item_id = itemUrl.split('=')[1];
+            const itemOverview = link.getAttribute('data-item-overview');
+            const itemQuantity = link.getAttribute('data-item-quantity');
 
-        // Set the quantity input value to the available quantity
-        document.getElementById("quantity").value = itemQuantity;
+            document.getElementById("item_id").value = item_id;
+            document.getElementById("item_name").value = itemTitle;
+            document.getElementById("item_img").value = itemImageSrc;
+            document.getElementById("item_overview").value = itemOverview;
+            // document.getElementById("quantity").value = itemQuantity;
 
-        // Update the displayed quantity in the span
-        document.getElementById("displayQuantity").textContent = itemQuantity;
+            document.getElementById("quantity").setAttribute("max", itemQuantity);
 
-        dialogTitle.textContent = itemTitle;
-        dialogImage.src = itemImageSrc;
-        dialogOverview.textContent = itemOverview;
-        dialog.showModal();
+            // Set the quantity input value to 1 or the available quantity, whichever is smaller
+            document.getElementById("quantity").value = Math.min(1, itemQuantity);
+
+
+            dialogTitle.textContent = itemTitle;
+            dialogImage.src = itemImageSrc;
+            dialogOverview.textContent = itemOverview;
+            dialog.showModal();
+        });
     });
-});
-
 
     closeButton.addEventListener("click", () => {
         dialog.close();
