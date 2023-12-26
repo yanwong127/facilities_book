@@ -2,6 +2,9 @@
 include_once('db.php');
 include_once('header.php');
 
+date_default_timezone_set('Asia/Kuala_Lumpur');
+
+
 $user_id = $_SESSION['user_id'];
 $records_per_page = 3;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
@@ -19,6 +22,9 @@ $place_query = "
 $place_result = mysqli_query($conn, $place_query);
 $alertShown = false; 
 $current_datetime = date('Y-m-d H:i:s');
+$one_hour_before_current_time = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime($current_datetime)));
+
+$expiredFound = false;
 
 while ($row = mysqli_fetch_array($place_result)) {
     $end_datetime = $row['end_time'];
@@ -35,6 +41,26 @@ while ($row = mysqli_fetch_array($place_result)) {
             echo "<script>alert('The venue you had booked has expired.'); location.reload();</script>";
             $alertShown = true; 
         }
+        if ($expiredFound) {
+            break;
+        }
+    }
+
+    // Check if the start_time is within the previous hour of the current time
+    $start_datetime = $row['start_time'];
+    $reminder_datetime = $row['booking_date'] . ' ' . $start_datetime;
+
+    echo "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
+    echo "Reminder Datetime (Malaysia): $reminder_datetime<br>";
+    echo "One Hour Before Current Datetime (Malaysia): " . date('Y-m-d H:i:s', strtotime('-1 hour')) . "<br>";
+
+    if ($current_datetime > $reminder_datetime && $reminder_datetime > $one_hour_before_current_time) {
+        echo "<script>alert('Reminder: Your item booking is starting soon.');</script>";
+    }
+
+
+    if ($expiredFound) {
+        break;
     }
 }
 
