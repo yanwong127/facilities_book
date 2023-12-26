@@ -73,38 +73,40 @@ if (isset($_POST['return']) && isset($_POST['itembook_id'])) {
             </div>
         <?php } ?>
 
-        <table>
-            <?php while ($row = mysqli_fetch_array($item_result)) { ?>
-                <tr>
-                    <td>
-                        <img class="rounded-image" src="<?= $row['img'] ?>">
-                    </td>
-                    <td>
-                        <?= $row['name'] ?>
-                    </td>
-                    <td>
-                        <?= $row['booking_date'] ?>
-                    </td>
-                    <td>
-                        <?= $row['start_time'] ?>
-                    </td>
-                    <td>
-                        <?= $row['end_time'] ?>
-                    </td>
-                    <td>
-                        <?= $row['quantity'] ?>
-                    </td>
-                    <td>
-                        <?= $row['status'] ?>
-                    </td>
-                    <td>
-                    <form method="post">
-                        <input type="hidden" name="itembook_id" value="<?= $row['book_id'] ?>">
-                        <!-- <button type="submit" name="return">Return</button> -->
-                    </form>
-                    </td>
-                </tr>
-            <?php } ?>
+        <div class="ctable">
+        <?php if (mysqli_num_rows($item_result) > 0) { ?>
+            <table class="w3-table-all w3-card-4">
+                <thead>
+                    <tr class="w3-light-grey">
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Booking Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = mysqli_fetch_array($item_result)) { ?>
+                        <tr>
+                            <td><img class="rounded-image" src="<?= $row['img'] ?>" alt="<?= $row['name'] ?>"></td>
+                            <td><?= $row['name'] ?></td>
+                            <td><?= $row['booking_date'] ?></td>
+                            <td><?= $row['start_time'] ?></td>
+                            <td><?= $row['end_time'] ?></td>
+                            <td><?= $row['quantity'] ?></td>
+                            <td><?= $row['status'] ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        <?php } else { ?>
+            <div class="no-appointments">
+                <p>No appointments found.</p>
+                <p>Feel free to schedule new appointments!</p>
+            </div>
+        <?php } ?>
 
         </table>
 

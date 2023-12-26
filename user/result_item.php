@@ -77,6 +77,11 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
 <!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
 <header class="w3-container w3-xlarge">
     <p class="w3-left">Result Item</p>
     <p class="w3-right">
@@ -87,10 +92,33 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
 <body>
 
-    <div class="ctable">
+<div class="ctable">
         <?php if (mysqli_num_rows($item_result) > 0) { ?>
-            <table>
-
+            <table class="w3-table-all w3-card-4">
+                <thead>
+                    <tr class="w3-light-grey">
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Booking Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = mysqli_fetch_array($item_result)) { ?>
+                        <tr>
+                            <td><img class="rounded-image" src="<?= $row['img'] ?>" alt="<?= $row['name'] ?>"></td>
+                            <td><?= $row['name'] ?></td>
+                            <td><?= $row['booking_date'] ?></td>
+                            <td><?= $row['start_time'] ?></td>
+                            <td><?= $row['end_time'] ?></td>
+                            <td><?= $row['quantity'] ?></td>
+                            <td><?= $row['status'] ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
             </table>
         <?php } else { ?>
             <div class="no-appointments">
@@ -98,34 +126,6 @@ $total_item_pages = ceil($item_records / $records_per_page);
                 <p>Feel free to schedule new appointments!</p>
             </div>
         <?php } ?>
-
-        <table>
-            <?php while ($row = mysqli_fetch_array($item_result)) { ?>
-
-                <tr>
-                    <td>
-                        <img class="rounded-image" src="<?= $row['img'] ?>">
-                    </td>
-                    <td>
-                        <?= $row['name'] ?>
-                    </td>
-                    <td>
-                        <?= $row['booking_date'] ?>
-                    </td>
-                    <td>
-                        <?= $row['start_time'] ?>
-                    </td>
-                    <td>
-                        <?= $row['end_time'] ?>
-                    </td>
-                    <td>
-                        <?= $row['quantity'] ?>
-                    </td>
-                    <td>
-                        <?= $row['status'] ?>
-                    </td>
-                </tr>
-            <?php } ?>
 
         </table>
 
@@ -223,4 +223,23 @@ $total_item_pages = ceil($item_records / $records_per_page);
         font-size: 18px;
         color: #555;
     }
+
+
+
+
+
+    .w3-sidebar a {
+            font-family: "Roboto", sans-serif
+        }
+
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .w3-wide {
+            font-family: "Montserrat", sans-serif;
+        }
 </style>

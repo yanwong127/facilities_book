@@ -76,7 +76,8 @@ $result2 = mysqli_query($conn, $jj2);
         <button class="btn" onclick="location.href='item.php'">ITEM</button>
         <button class="btn" onclick="location.href='place.php'">PLACE</button>
     </p>
-  </header>
+</header>
+
 <body>
     <div class="custom-table" id="clickable-div">
         <?php while ($row = mysqli_fetch_array($result2)) { ?>
@@ -170,7 +171,7 @@ $result2 = mysqli_query($conn, $jj2);
 
             placeDialogTitle.textContent = placeTitle;
             placeDialogImage.src = placeImageSrc;
-            placeDialogOverview.textContent =  placeOverview;
+            placeDialogOverview.textContent = placeOverview;
             placeDialog.showModal();
         });
     });
