@@ -88,7 +88,8 @@ $result = mysqli_query($conn, $jj);
         <button class="btn" onclick="location.href='place.php'">PLACE</button>
 
     </p>
-  </header>
+</header>
+
 <body>
     <div class="custom-table" id="clickable-div">
 
@@ -99,20 +100,20 @@ $result = mysqli_query($conn, $jj);
 
             $qry = mysqli_query($conn, $item);
             $num = mysqli_num_rows($qry);
-            $at=mysqli_fetch_array($qry);
-            $sub=0;
-            if($num!==0){
-                $sub=$at[0];
-            }else{
-                $sub=0;
+            $at = mysqli_fetch_array($qry);
+            $sub = 0;
+            if ($num !== 0) {
+                $sub = $at[0];
+            } else {
+                $sub = 0;
             }
-            $total=$row["quantity"]-$sub;
-            
+            $total = $row["quantity"] - $sub;
+
             ?>
             <div class="td">
                 <div class="item-container" id="none">
                     <a href="place.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_overview'] ?>"
-                        data-item-quantity="<?=$total?>">
+                        data-item-quantity="<?= $total ?>">
                         <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
                         <div class="item-name">
                             <?= $row['item_name'] ?>
@@ -143,7 +144,9 @@ $result = mysqli_query($conn, $jj);
             <label for="end_time">End Time:</label>
             <input type="time" name="end_time" id="end_time" required>
 
-            <label for="quantity">Quantity:</label>
+
+
+            <label for="quantity">Quantity: <span id="available_quantity"></span></label>
             <input type="number" name="quantity" id="quantity" value="1" min="1" max="10" required>
 
             <button name="item_book">Book</button>
@@ -196,6 +199,9 @@ $result = mysqli_query($conn, $jj);
     document.querySelectorAll(".item-container a").forEach((link) => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
+
+            const availableQuantity = link.getAttribute('data-item-quantity');
+            document.getElementById("available_quantity").textContent = availableQuantity;
 
             const itemTitle = link.querySelector(".item-name").textContent;
             const itemImageSrc = "img/" + link.querySelector("img").src.split('/').pop();
