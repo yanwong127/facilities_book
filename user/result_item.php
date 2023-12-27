@@ -78,10 +78,10 @@ $total_item_pages = ceil($item_records / $records_per_page);
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <header class="w3-container w3-xlarge">
     <p class="w3-left">Result Item</p>
     <p class="w3-right">
@@ -92,7 +92,7 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
 <body>
 
-<div class="ctable">
+    <div class="ctable">
         <?php if (mysqli_num_rows($item_result) > 0) { ?>
             <table class="w3-table-all w3-card-4">
                 <thead>
@@ -110,12 +110,24 @@ $total_item_pages = ceil($item_records / $records_per_page);
                     <?php while ($row = mysqli_fetch_array($item_result)) { ?>
                         <tr>
                             <td><img class="rounded-image" src="<?= $row['img'] ?>" alt="<?= $row['name'] ?>"></td>
-                            <td><?= $row['name'] ?></td>
-                            <td><?= $row['booking_date'] ?></td>
-                            <td><?= $row['start_time'] ?></td>
-                            <td><?= $row['end_time'] ?></td>
-                            <td><?= $row['quantity'] ?></td>
-                            <td><?= $row['status'] ?></td>
+                            <td>
+                                <?= $row['name'] ?>
+                            </td>
+                            <td>
+                                <?= $row['booking_date'] ?>
+                            </td>
+                            <td>
+                                <?= $row['start_time'] ?>
+                            </td>
+                            <td>
+                                <?= $row['end_time'] ?>
+                            </td>
+                            <td>
+                                <?= $row['quantity'] ?>
+                            </td>
+                            <td>
+                                <?= $row['status'] ?>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -175,6 +187,7 @@ $total_item_pages = ceil($item_records / $records_per_page);
         align-items: center;
         min-height: 50vh;
     }
+
     .btn {
         background-color: #fff;
     }
@@ -229,17 +242,17 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
 
     .w3-sidebar a {
-            font-family: "Roboto", sans-serif
-        }
+        font-family: "Roboto", sans-serif
+    }
 
-        body,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        .w3-wide {
-            font-family: "Montserrat", sans-serif;
-        }
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5, 
+    h6,
+    .w3-wide {
+        font-family: "Montserrat", sans-serif;
+    }
 </style>
