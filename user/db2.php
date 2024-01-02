@@ -1,6 +1,6 @@
 <?php
 $host = "localhost:3306";
-$dbname = "facilities_book";
+$dbname = "hrrejuve_facilities";
 $username = "cpses_hrzxz2ir5o";
 $password = "";
 

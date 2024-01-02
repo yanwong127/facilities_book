@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 $server = "localhost:3306";
 $user   = "cpses_hrzxz2ir5o";
 $pass   = "";
-$data   ="facilities_book";
+$data   ="hrrejuve_facilities";
 
 $conn = mysqli_connect($server, $user, $pass, $data);
 
