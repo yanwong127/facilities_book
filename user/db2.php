@@ -1,7 +1,7 @@
 <?php
-$host = "localhost";
+$host = "localhost:3306";
 $dbname = "facilities_book";
-$username = "root";
+$username = "cpses_hrzxz2ir5o";
 $password = "";
 
 try {

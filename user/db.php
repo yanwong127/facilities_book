@@ -3,8 +3,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$server = "localhost";
-$user   = "root";
+$server = "localhost:3306";
+$user   = "cpses_hrzxz2ir5o";
 $pass   = "";
 $data   ="facilities_book";
 
