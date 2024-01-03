@@ -59,7 +59,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
  <header class="w3-container w3-xlarge">
     <p class="w3-left">YOUR BOOKING (PLACE)</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='booking_item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='booking_item.php'">ERUIPMENT</button>
         <button class="btn" onclick="location.href='booking_place.php'">PLACE</button>
     </p>
   </header>
@@ -67,7 +67,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
  <!-- Display Places Table -->
  <div class="ctable">
 
-        <table class="w3-table-all">
+        <table class="w3-table-all w3-card-4">
             <thead>
                 <tr class="w3-grey">
                     <th>Image</th>

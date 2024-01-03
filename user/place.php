@@ -73,8 +73,8 @@ $result2 = mysqli_query($conn, $jj2);
 <header class="w3-container w3-xlarge">
     <p class="w3-left">PLACE</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='item.php'">ITEM</button>
-        <button class="btn" onclick="location.href='place.php'">PLACE</button>
+        <button class="btn" id="itemButton">Equipment</button>
+        <button class="btn" id="placeButton">Place</button>
     </p>
 </header>
 
@@ -149,6 +149,15 @@ $result2 = mysqli_query($conn, $jj2);
 </html>
 
 <script>
+    // Is a navigation to other page.
+document.getElementById("itemButton").addEventListener("click", function() {
+    location.href = 'item.php';
+    });
+    document.getElementById("placeButton").addEventListener("click", function() {
+    location.href = 'place.php';
+    });
+
+
     const placeDialog = document.querySelector("#place-dialog");
     const closeButton = document.querySelector(".fa-close");
     const placeDialogTitle = document.getElementById("place-dialog-title");
@@ -182,4 +191,37 @@ $result2 = mysqli_query($conn, $jj2);
     placeDialog.querySelector("*").addEventListener("click", (e) => {
         e.stopPropagation();
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+            var today = new Date();
+            var dayOfWeek = today.getDay();
+
+            // Calculate the number of days to add to reach the next Friday
+            var daysToAdd = dayOfWeek === 5 ? 7 : (5 - dayOfWeek + (dayOfWeek < 5 ? 0 : 7));
+
+            // Calculate the next Friday's date
+            var nextFriday = new Date(today);
+            nextFriday.setDate(today.getDate() + daysToAdd);
+
+            // Calculate the next Monday's date
+            var nextMonday = new Date(today);
+            nextMonday.setDate(today.getDate() + (1 + 7 - dayOfWeek) % 7);
+
+            // Set the min attribute of the date input to the next Monday
+            document.getElementById('booking_date').setAttribute('min', formatDate(nextMonday));
+
+            // Set the max attribute of the date input to the next Sunday
+            var nextSunday = new Date(today);
+            nextSunday.setDate(today.getDate() + (7 - dayOfWeek) % 7);
+            document.getElementById('booking_date').setAttribute('max', formatDate(nextSunday));
+        });
+
+        // Function to format the date as 'YYYY-MM-DD'
+        function formatDate(date) {
+            var year = date.getFullYear();
+            var month = ('0' + (date.getMonth() + 1)).slice(-2);
+            var day = ('0' + date.getDate()).slice(-2);
+            return year + '-' + month + '-' + day;
+        }
+
 </script>

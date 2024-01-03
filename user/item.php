@@ -78,42 +78,57 @@ $result = mysqli_query($conn, $jj);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Item Page</title>
+    <title>Equipment Page</title>
     <link rel="stylesheet" href="bookingpage.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
+
 </head>
-<header class="w3-container w3-xlarge">
-    <p class="w3-left">ITEM</p>
-    <p class="w3-right">
-        <button class="btn" onclick="location.href='item.php'">ITEM</button>
-        <button class="btn" onclick="location.href='place.php'">PLACE</button>
-
-    </p>
-</header>
-
+<style>
+    #itemCard {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px; /* 适当调整最大宽度 */
+        max-height: 70vh; /* 适当调整最大高度 */
+        overflow-y: auto; /* 添加滚动条 */
+    }
+</style>
 <body>
+    <header class="w3-container w3-xlarge">
+        <p class="w3-left">Equipment</p>
+        <p class="w3-right">
+        <button class="btn" id="itemButton">Equipment</button>
+        <button class="btn" id="placeButton">Place</button>
+        </p>
+    </header>
+    <!-- This is show out a data of item list -->
     <div class="custom-table" id="clickable-div">
 
         <?php
         $i = 0;
         while ($row = mysqli_fetch_array($result)) {
-            $item = "SELECT SUM(quantity) FROM `item_appointment` WHERE item_id='$row[item_id]' AND status='Approve' GROUP BY item_id";
+            $item = "SELECT SUM(quantity) FROM item_appointment WHERE item_id='$row[item_id]' AND status='Approve' GROUP BY item_id";
 
             $qry = mysqli_query($conn, $item);
             $num = mysqli_num_rows($qry);
-            $at = mysqli_fetch_array($qry);
-            $sub = 0;
-            if ($num !== 0) {
-                $sub = $at[0];
-            } else {
-                $sub = 0;
+            $at=mysqli_fetch_array($qry);
+            $sub=0;
+            if($num!==0){
+                $sub=$at[0];
+            }else{
+                $sub=0;
             }
-            $total = $row["quantity"] - $sub;
-
+            $total=$row["quantity"]-$sub;
+            
             ?>
             <div class="td">
                 <div class="item-container" id="none">
-                    <a href="place.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_overview'] ?>"
-                        data-item-quantity="<?= $total ?>">
+                    <a href="item.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_overview'] ?>">
                         <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
                         <div class="item-name">
                             <?= $row['item_name'] ?>
@@ -125,35 +140,32 @@ $result = mysqli_query($conn, $jj);
         } ?>
     </div>
 
-    <form action="item.php" method="post" class="dialog-form">
-        <dialog class="dialog">
-            <i class="fa fa-close" style="float: right;" autofocus></i>
-            <h2 id="dialog-title"></h2>
-            <h2 id="dialog-item-name"></h2>
-            <img id="dialog-image" src="" alt="Item Image">
-            <p id="dialog-overview"></p>
-            <input type="hidden" name="item_id" id="item_id">
-            <input type="hidden" name="item_name" id="item_name">
-            <input type="hidden" name="item_img" id="item_img">
-            <input type="hidden" name="item_overview" id="item_overview">
+    <!-- This is a container where user click a item list div -->
+    <div class="card text-center" id="itemCard" style="display: none;">
+        <i class="fa fa-close" id="closeButton" style="float: right;"></i>
+        <h2 id="card-title"></h2>
+        <h2 id="card-item-name"></h2>
+        <img id="card-image" src="img/<?= $row['item_img'] ?>" alt="Item Image">
+        <p id="card-overview"></p>
+        <form action="item.php" method="post" class="card-form">
+            <input type="hidden" name="item_id" id="card-item_id">
+            <input type="hidden" name="item_name" id="card-item_name">
+            <input type="hidden" name="item_img" id="card-item_img">
+            <input type="hidden" name="item_overview" id="card-item_overview">
             <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-            <label for="booking_date">Booking Date:</label>
-            <input type="date" name="booking_date" id="booking_date" required>
-            <label for="start_time">Start Time:</label>
-            <input type="time" name="start_time" id="start_time" required>
-            <label for="end_time">End Time:</label>
-            <input type="time" name="end_time" id="end_time" required>
+            <label for="booking_date">Booking Date:</label><br>
+            <input type="text" id="booking_date" name="booking_date" required><br>
+            <label for="start_time">Start Time:</label><br>
+            <input type="time" name="start_time" id="start_time" required min="08:00" max="16:00"><br>
+            <label for="end_time">End Time:</label><br>
+            <input type="time" name="end_time" id="end_time" required min="09:00" max="17:00"><br>
+            <label for="quantity">Quantity: </label><br>
+            <input type="number" name="quantity" id="card-quantity" value="1" min="1" max="10" required><br>
+            <button name="item_book">Book</button><br>
+        </form>
+    </div>
 
-
-
-            <label for="quantity">Quantity: <span id="available_quantity"></span></label>
-            <input type="number" name="quantity" id="quantity" value="1" min="1" max="10" required>
-
-            <button name="item_book">Book</button>
-        </dialog>
-    </form>
-
-
+    <!-- Pagination Navigation -->
     <div class="pagination justify-content-center">
         <?php
         $SQL = "SELECT COUNT(*) FROM item WHERE availability = 'Still Working'";
@@ -183,57 +195,204 @@ $result = mysqli_query($conn, $jj);
         }
         ?>
     </div>
+
 </body>
+
 
 </html>
 
 <script>
-    const dialog = document.querySelector("dialog");
-    const closeButton = document.querySelector(".fa-close");
-    const dialogTitle = document.getElementById("dialog-title");
-    const dialogImage = document.getElementById("dialog-image");
-    const dialogOverview = document.getElementById("dialog-overview");
-    // const quantity = document.getElementById("quantity").value;
+// Is a navigation to other page.
+document.getElementById("itemButton").addEventListener("click", function() {
+    location.href = 'item.php';
+    });
+    document.getElementById("placeButton").addEventListener("click", function() {
+    location.href = 'place.php';
+    });
+
+//A Card DIV
+
+var clickableElement = document.querySelector('a[data-item-overview]');
 
 
-    document.querySelectorAll(".item-container a").forEach((link) => {
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
+    // 获取卡片
+    var itemCard = document.getElementById('itemCard');
 
-            const availableQuantity = link.getAttribute('data-item-quantity');
-            document.getElementById("available_quantity").textContent = availableQuantity;
+    // 添加点击事件监听器
+    clickableElement.addEventListener('click', function(event) {
+    event.preventDefault();
 
-            const itemTitle = link.querySelector(".item-name").textContent;
-            const itemImageSrc = "img/" + link.querySelector("img").src.split('/').pop();
-            const itemUrl = link.getAttribute('href');
-            const item_id = itemUrl.split('=')[1];
-            const itemOverview = link.getAttribute('data-item-overview');
-            const itemQuantity = link.getAttribute('data-item-quantity');
+    var clickedElement = event.target;
+    var itemOverview = clickedElement.getAttribute('data-item-overview');
+    var href = clickedElement.getAttribute('href');
+    var itemId = href.split('=')[1];
 
-            document.getElementById("item_id").value = item_id;
-            document.getElementById("item_name").value = itemTitle;
-            document.getElementById("item_img").value = itemImageSrc;
-            document.getElementById("item_overview").value = itemOverview;
-            // document.getElementById("quantity").value = itemQuantity;
-
-            document.getElementById("quantity").setAttribute("max", itemQuantity);
-
-            // Set the quantity input value to 1 or the available quantity, whichever is smaller
-            document.getElementById("quantity").value = Math.min(1, itemQuantity);
+    // 获取item_id
+    var item_id = itemId;
+    document.getElementById('card-item_id').value = itemId;
+    document.getElementById('card-overview').innerText = itemOverview;
 
 
-            dialogTitle.textContent = itemTitle;
-            dialogImage.src = itemImageSrc;
-            dialogOverview.textContent = itemOverview;
-            dialog.showModal();
+    // 显示对应卡片
+    var cardDiv = document.getElementById('itemCard');
+    cardDiv.style.display = 'block';
+
+        // 显示卡片
+        // itemCard.style.display = 'block';
+    });
+
+// Calendar display
+    $(function() {
+            $("#booking_date").datepicker({
+                minDate: 0, // Disable dates before today
+                beforeShowDay: function(date) {
+                    var day = date.getDay();
+                    // Disable Saturdays (6) and Sundays (0)
+                    console.log($("#booking_date"))
+                    return [(day !== 0 && day !== 6)];
+                },
+                onClose: function(selectedDate) {
+                    var selected = new Date(selectedDate);
+                    var today = new Date();
+                    today.setHours(0, 0, 0, 0); // Set hours to 0 for accurate comparison
+
+                    // Check if the selected date is before today, if so, reset the date
+                    if (selected < today) {
+                        $(this).val('');
+                    }
+                }
+            });
+        });
+            
+       
+//Close a div card
+
+    // 获取关闭按钮和卡片元素
+    var closeButton = document.getElementById('closeButton'); // 假设关闭按钮的ID是 closeButon
+    var cardDiv = document.getElementById('itemCard'); // 假设卡片的ID是 itemCard
+
+    // 添加点击事件监听器到关闭按钮
+    closeButton.addEventListener("click", () => {
+        // 关闭卡片
+        cardDiv.style.display = 'none';
+    });
+
+    // 添加点击事件监听器到卡片上的所有元素，防止点击卡片内容时关闭卡片
+    cardDiv.addEventListener("click", (e) => {
+        e.stopPropagation(); // 阻止事件传播，确保点击卡片内容不会关闭卡片
+    });
+
+
+// Get the equipment id
+    // 获取所有的链接元素
+    var clickableLinks = document.querySelectorAll('a[data-item-overview]');
+
+    // 添加点击事件监听器到每个链接元素
+    clickableLinks.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); // 阻止链接的默认行为，即不进行页面跳转
+
+            // 获取对应的卡片数据
+            var itemOverview = link.getAttribute('data-item-overview');
+            var href = link.getAttribute('href');
+            var itemId = href.split('=')[1]; // 假设链接格式为 testing.php?id=123，这里将分割字符串以获取ID部分
+
+            console.log("Equipment ID:", itemId);
+
+            // 显示对应卡片
+            var cardDiv = document.getElementById('itemCard');
+            cardDiv.style.display = 'block';
+
+            document.getElementById('card-item_id').value = itemId;
+
+            // 这里你可能可以根据需要，填充卡片中的内容
         });
     });
 
-    closeButton.addEventListener("click", () => {
-        dialog.close();
-    });
+//Timer
+    $(function(){
+        var currentTime = new Date();
+        var currentHour = currentTime.getHours();
+        var currentMinute = currentTime.getMinutes();
 
-    dialog.querySelector("*").addEventListener("click", (e) => {
-        e.stopPropagation();
-    });
+        // 将当前时间设置为最小时间
+        var minTime = currentHour + ':' + (currentMinute < 10 ? '0' + currentMinute : currentMinute);
+
+        // 初始化时间选择器
+        $('#start_time, #end_time').timepicker({
+            timeFormat: 'HH:mm',
+            interval: 60,
+            minTime: minTime, // 设置最小时间为当前时间
+            maxTime: '17:00',
+            startTime: minTime, // 设置开始时间为当前时间
+            dynamic: true,
+            dropdown: true,
+            scrollbar: true,
+            change: function(time) {        
+                var selectedStartTime = $('#start_time').val();
+                var selectedEndTime = $('#end_time').val();
+
+                if (selectedStartTime >= selectedEndTime) {
+                    var newEndTime = new Date('2000-01-01T' + selectedStartTime + ':00');
+                    newEndTime.setHours(newEndTime.getHours() + 1);
+                    $('#end_time').timepicker('setTime', newEndTime.toTimeString().slice(0, 5));
+                    console.log($('#start_time, #end_time'))
+                }
+            }
+        });
+    })
+
+// let startTimeInput = document.getElementById('start_time');
+// let endTimeInput = document.getElementById('end_time');
+
+// startTimeInput.addEventListener('input', function() {
+//     let selectedStartTime = startTimeInput.value;
+//     let selectedEndTime = endTimeInput.value;
+
+//     let minStartTime = '08:00';
+//     let maxStartTime = '16:00';
+
+//     // 检查当前时间是否在允许的预订时间之前
+//     let currentTime = new Date();
+//     let hours = currentTime.getHours();
+//     let minutes = currentTime.getMinutes();
+//     let formattedCurrentTime = ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes};
+
+//     if (formattedCurrentTime < minStartTime) {
+//         startTimeInput.value = minStartTime;
+//     }
+
+//     // 检查选择的开始时间是否超出范围
+//     if (selectedStartTime < minStartTime || selectedStartTime > maxStartTime) {
+//         startTimeInput.value = minStartTime;
+//     }
+
+//     // 检查选择的结束时间是否在开始时间之前，如果是则设置结束时间为开始时间后一小时
+//     if (selectedEndTime <= selectedStartTime) {
+//         let newEndTime = new Date('2000-01-01T' + selectedStartTime + ':00');
+//         newEndTime.setHours(newEndTime.getHours() + 1);
+//         endTimeInput.value = newEndTime.toTimeString().slice(0, 5);
+//     }
+// });
+
+// endTimeInput.addEventListener('input', function() {
+//     let selectedStartTime = startTimeInput.value;
+//     let selectedEndTime = endTimeInput.value;
+
+//     let minEndTime = '09:00';
+//     let maxEndTime = '17:00';
+
+//     // 检查选择的结束时间是否超出范围
+//     if (selectedEndTime < minEndTime || selectedEndTime > maxEndTime) {
+//         endTimeInput.value = minEndTime;
+//     }
+
+//     // 检查选择的结束时间是否在开始时间之前，如果是则设置结束时间为开始时间后一小时
+//     if (selectedEndTime <= selectedStartTime) {
+//         let newEndTime = new Date('2000-01-01T' + selectedStartTime + ':00');
+//         newEndTime.setHours(newEndTime.getHours() + 1);
+//         endTimeInput.value = newEndTime.toTimeString().slice(0, 5);
+//     }
+// });
+
 </script>
