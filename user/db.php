@@ -3,10 +3,15 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$server = "localhost:3306";
-$user   = "cpses_hrzxz2ir5o";
+// $server = "localhost:3306";
+// $user   = "cpses_hrzxz2ir5o";
+// $pass   = "";
+// $data   ="hrrejuve_facilities";
+
+$server = "localhost";
+$user   = "root";
 $pass   = "";
-$data   ="hrrejuve_facilities";
+$data   ="facilities_book";
 
 $conn = mysqli_connect($server, $user, $pass, $data);
 

@@ -6,7 +6,7 @@ include_once('header.php');
 date_default_timezone_set('Asia/Kuala_Lumpur');
 
 $user_id = $_SESSION['user_id'];
-$records_per_page = 3;
+$records_per_page = 3;                                                    
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $records_per_page;
 
