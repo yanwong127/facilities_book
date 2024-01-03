@@ -58,6 +58,7 @@ while ($row = mysqli_fetch_array($item_result)) {
     }
 
 
+
     if ($expiredFound) {
         break;
     }
@@ -93,7 +94,7 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
 <body>
 
-<div class="ctable">
+    <div class="ctable">
         <?php if (mysqli_num_rows($item_result) > 0) { ?>
             <table class="w3-table-all w3-card-4">
                 <thead>
@@ -111,12 +112,24 @@ $total_item_pages = ceil($item_records / $records_per_page);
                     <?php while ($row = mysqli_fetch_array($item_result)) { ?>
                         <tr>
                             <td><img class="rounded-image" src="<?= $row['img'] ?>" alt="<?= $row['name'] ?>"></td>
-                            <td><?= $row['name'] ?></td>
-                            <td><?= $row['booking_date'] ?></td>
-                            <td><?= $row['start_time'] ?></td>
-                            <td><?= $row['end_time'] ?></td>
-                            <td><?= $row['quantity'] ?></td>
-                            <td><?= $row['status'] ?></td>
+                            <td>
+                                <?= $row['name'] ?>
+                            </td>
+                            <td>
+                                <?= $row['booking_date'] ?>
+                            </td>
+                            <td>
+                                <?= $row['start_time'] ?>
+                            </td>
+                            <td>
+                                <?= $row['end_time'] ?>
+                            </td>
+                            <td>
+                                <?= $row['quantity'] ?>
+                            </td>
+                            <td>
+                                <?= $row['status'] ?>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -176,6 +189,7 @@ $total_item_pages = ceil($item_records / $records_per_page);
         align-items: center;
         min-height: 50vh;
     }
+
     .btn {
         background-color: #fff;
     }
@@ -243,8 +257,8 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
 
     .w3-sidebar a {
-            font-family: "Roboto", sans-serif
-        }
+        font-family: "Roboto", sans-serif
+    }
 
         body,
         h1,

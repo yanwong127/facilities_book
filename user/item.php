@@ -1,6 +1,18 @@
 <?php
+
 include_once('db.php');
 include_once('header.php');
+
+$records_per_page = 6;
+if (isset($_GET['item_page'])) {
+    $page = $_GET['item_page'];
+} else {
+    $page = 1;
+}
+
+$set = ($page - 1) * $records_per_page;
+$jj = "SELECT * FROM item WHERE availability <> 'Not Working' LIMIT $set,$records_per_page";
+$result = mysqli_query($conn, $jj);
 
 if (isset($_REQUEST['item_book'])) {
     if (isset($_POST["item_book"])) {
@@ -13,38 +25,10 @@ if (isset($_REQUEST['item_book'])) {
         $booking_date = $_POST['booking_date'];
         $start_time = $_POST['start_time'];
         $end_time = $_POST['end_time'];
-
-        // $booking_date = date('Y/m/d', strtotime($booking_date));
-        // $start_time = date('H:i:s', strtotime($start_time));
-        // $end_time = date('H:i:s', strtotime($end_time));
-
-        // $availabilityCheckQuery = "SELECT * FROM `item_appointment` WHERE item_id = '$item_id' AND 
-        //     (
-        //         ('$start_time' >= start_time AND '$start_time' < end_time) OR 
-        //         ('$end_time' > start_time AND '$end_time' <= end_time) OR
-        //         ('$start_time' <= start_time AND '$end_time' >= end_time)
-        //     ) AND
-        //     booking_date = '$booking_date'";
-        // $availabilityCheckResult = mysqli_query($conn, $availabilityCheckQuery);
-
-        // if (mysqli_num_rows($availabilityCheckResult) > 0) {
-        //     $message = "Sorry, the item is not available at the selected date and time.";
-        //     echo "<script>alert('$message'); window.location.href = 'item.php';</script>";
-        //     exit();
-        // }
-
-        // Update the item table quantity
-        // $updateQuantityQuery = "UPDATE `item` SET quantity = quantity - $quantity WHERE item_id = '$item_id'";
-        // $updateQuantityResult = mysqli_query($conn, $updateQuantityQuery);
-
-        // if (!$updateQuantityResult) {
-        //     // Handle error if the quantity update fails
-        //     error_log("Error updating quantity: " . mysqli_error($conn));
-        //     // Optionally, you can roll back the previous insert operation here
-        // }
+        $mysqlDateFormat = date("Y-m-d", strtotime($booking_date));
 
         // Insert the appointment
-        $insertQuery = "INSERT INTO `item_appointment` (item_id, item_name, item_img, user_id, start_time, end_time, booking_date, status, quantity) VALUES ('$item_id', '$item_name', '$item_img', '$user_id', '$start_time', '$end_time', '$booking_date', 'Unactive', '$quantity')";
+        $insertQuery = "INSERT INTO `item_appointment` (item_id, item_name, item_img, user_id, start_time, end_time, booking_date, status, quantity) VALUES ('$item_id', '$item_name', '$item_img', '$user_id', '$start_time', '$end_time', '$mysqlDateFormat', 'Unactive', '$quantity')";
         $result = mysqli_query($conn, $insertQuery);
 
         if ($result) {
@@ -60,16 +44,6 @@ if (isset($_REQUEST['item_book'])) {
 }
 
 
-$records_per_page = 6;
-if (isset($_GET['item_page'])) {
-    $page = $_GET['item_page'];
-} else {
-    $page = 1;
-}
-
-$set = ($page - 1) * $records_per_page;
-$jj = "SELECT * FROM `item` WHERE availability <> 'Not Working' LIMIT $set,$records_per_page";
-$result = mysqli_query($conn, $jj);
 ?>
 
 <!DOCTYPE html>
@@ -200,7 +174,6 @@ $result = mysqli_query($conn, $jj);
 
 
 </html>
-
 <script>
 // Is a navigation to other page.
 document.getElementById("itemButton").addEventListener("click", function() {
