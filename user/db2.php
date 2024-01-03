@@ -6,7 +6,7 @@
 
 $host = "localhost";
 $username   = "root";
-$password   = "";
+$password   = "ak6403012";
 $dbname   ="facilities_book";
 
 try {
