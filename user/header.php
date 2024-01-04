@@ -23,7 +23,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   </div>
   <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
     <a href="home.php" class="w3-bar-item w3-button">Home</a>
-    <a href="item.php" class="w3-bar-item w3-button">Equipment and Place</a> 
+    <a href="item.php" class="w3-bar-item w3-button">Item and Place</a> 
     <a href="booking_item.php" class="w3-bar-item w3-button">Booking Detail</a>
     <a href="result_item.php" class="w3-bar-item w3-button">Booking Result</a>
     <a href="history_item.php" class="w3-bar-item w3-button">History</a>

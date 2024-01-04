@@ -53,9 +53,9 @@ if (isset($_POST['return']) && isset($_POST['itembook_id'])) {
 
 <body>
 <header class="w3-container w3-xlarge">
-    <p class="w3-left">Equipemnt History</p>
+    <p class="w3-left">Place History</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='history_item.php'">EQUIPMENT</button>
+        <button class="btn" onclick="location.href='history_item.php'">ITEM</button>
         <button class="btn" onclick="location.href='history_place.php'">PLACE</button>
     </p>
   </header>

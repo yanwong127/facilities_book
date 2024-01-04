@@ -13,8 +13,8 @@ $offset = ($page - 1) * $records_per_page;
 // Query for items
 $place_query = "
     SELECT 'place' as type, ia.placebook_id as book_id, ia.place_img as img, ia.place_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status
-    FROM place_appointment ia
-    WHERE ia.user_id = $user_id AND (ia.status = 'Approve' OR ia.status = 'Cancelled')
+    FROM `place_appointment` ia
+    WHERE ia.`user_id` = $user_id AND (ia.`status` = 'Approve' OR ia.`status` = 'Cancelled')
     LIMIT $offset, $records_per_page
 ";
 
@@ -34,7 +34,7 @@ while ($row = mysqli_fetch_array($place_result)) {
 
     if ($current_datetime > $appointment_datetime) {
         $placebook_id = $row['book_id'];
-        $update_query = "UPDATE place_appointment SET status = 'Expired' WHERE placebook_id = $placebook_id";
+        $update_query = "UPDATE `place_appointment` SET `status` = 'Expired' WHERE `placebook_id` = $placebook_id";
         mysqli_query($conn, $update_query);
 
         if (!$alertShown) {
@@ -44,25 +44,6 @@ while ($row = mysqli_fetch_array($place_result)) {
         if ($expiredFound) {
             break;
         }
-        if ($expiredFound) {
-            break;
-        }
-    }
-
-    // Check if the start_time is within the previous hour of the current time
-    $start_datetime = $row['start_time'];
-    $reminder_datetime = $row['booking_date'] . ' ' . $start_datetime;
-
-    echo "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
-    echo "Reminder Datetime (Malaysia): $reminder_datetime<br>";
-    echo "One Hour Before Current Datetime (Malaysia): " . date('Y-m-d H:i:s', strtotime('-1 hour')) . "<br>";
-    
-    if ($current_datetime > $reminder_datetime && $reminder_datetime > $one_hour_before_current_time) {
-        echo "<script>alert('Reminder: Your item booking is starting soon.');</script>";
-    }
-
-    if ($expiredFound) {
-        break;
     }
 
     // Check if the start_time is within the previous hour of the current time
@@ -86,7 +67,7 @@ if ($expiredFound) {
 }
 
 mysqli_data_seek($place_result, 0);
-$place_count_query = "SELECT COUNT(*) FROM place_appointment WHERE user_id = $user_id AND status = 'Approve'";
+$place_count_query = "SELECT COUNT(*) FROM `place_appointment` WHERE `user_id` = $user_id AND `status` = 'Approve'";
 $place_count_result = mysqli_query($conn, $place_count_query);
 $place_row = mysqli_fetch_row($place_count_result);
 $place_records = $place_row[0];
@@ -106,7 +87,7 @@ $total_place_pages = ceil($place_records / $records_per_page);
 <header class="w3-container w3-xlarge">
     <p class="w3-left">Place Result</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='result_item.php'">EQUIPMENT</button>
+        <button class="btn" onclick="location.href='result_item.php'">ITEM</button>
         <button class="btn" onclick="location.href='result_place.php'">PLACE</button>
     </p>
 </header>

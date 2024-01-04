@@ -50,9 +50,11 @@ while ($row = mysqli_fetch_array($item_result)) {
     $start_datetime = $row['start_time'];
     $reminder_datetime = $row['booking_date'] . ' ' . $start_datetime;
 
-   echo "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
-   echo "Reminder Datetime (Malaysia): $reminder_datetime<br>";
-   echo "One Hour Before Current Datetime (Malaysia): " . date('Y-m-d H:i:s', strtotime('-1 hour')) . "<br>";
+     "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
+     "Reminder Datetime (Malaysia): $reminder_datetime<br>";
+
+    $one_hour_before_booking_time = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime($reminder_datetime)));
+     "One Hour Before Booking Datetime (Malaysia): $one_hour_before_booking_time<br>";
 
     if ($current_datetime > $one_hour_before_booking_time && $current_datetime < $reminder_datetime) {
         echo "<script>alert('Reminder: Your item booking is starting soon.');</script>";
@@ -82,9 +84,9 @@ $total_item_pages = ceil($item_records / $records_per_page);
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <header class="w3-container w3-xlarge">
-    <p class="w3-left">Result Equipemnt</p>
+    <p class="w3-left">Result Item</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='result_item.php'">EQUIPMENT</button>
+        <button class="btn" onclick="location.href='result_item.php'">ITEM</button>
         <button class="btn" onclick="location.href='result_place.php'">PLACE</button>
     </p>
 </header>

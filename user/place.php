@@ -59,24 +59,58 @@ if (isset($_REQUEST['place_book'])) {
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
     <title>Equipment</title>
 </head>
-<header class="w3-container w3-xlarge">
-    <p class="w3-left">PLACE</p>
-    <p class="w3-right">
-        <button class="btn" onclick="location.href='item.php'">ITEM</button>
-        <button class="btn" onclick="location.href='place.php'">PLACE</button>
-    </p>
-  </header>
+<style>
+    #placeCard {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+</style>
+
 <body>
-    <div class="custom-table" id="clickable-div">
-        <?php while ($row = mysqli_fetch_array($result2)) { ?>
-            <div class="td">
-                <div class="place-container" id="none">
-                    <a href="place.php?id=<?= $row['place_id'] ?>" data-place-overview="<?= $row['place_overview'] ?>">
-                        <img class="rounded-image" src="img/<?= $row['place_img'] ?>" alt="<?= $row['place_name'] ?>">
-                        <div class="place-name">
-                            <?= $row['place_name'] ?>
-                        </div>
-                    </a>
+    <header class="w3-container w3-xlarge">
+        <p class="w3-left">Equipment</p>
+        <p class="w3-right">
+            <button class="btn" id="itemButton">Equipment</button>
+            <button class="btn" id="placeButton">PLACE</button>
+        </p>
+    </header>
+    <form action="place.php" method="post">
+        <div class="custom-table" id="clickable-div">
+
+            <?php
+            $i = 0;
+            while ($row = mysqli_fetch_array($result)) {
+                $place = "SELECT * FROM place_appointment WHERE place_id='$row[place_id]' AND status='Approve' GROUP BY place_id";
+
+                $qry = mysqli_query($conn, $place);
+                $num = mysqli_num_rows($qry);
+                $at = mysqli_fetch_array($qry);
+                // $sub = 0;
+                // if ($num !== 0) {
+                //     $sub = $at[0];
+                // } else {
+                //     $sub = 0;
+                // }
+                // $total = $row["quantity"] - $sub;
+
+                // ?>
+                <div class="td">
+                    <div class="place-container" id="none">
+                        <a href="place.php?id=<?= $row['place_id'] ?>" data-place-overview="<?= $row['place_img'] ?>"
+                            data-place-name="<?= $row['place_name'] ?>">
+                            <img class="rounded-image" src="img/<?= $row['place_img'] ?>" alt="<?= $row['place_name'] ?>">
+                            <div class="place-name">
+                                <?= $row['place_name'] ?>
+                            </div>
+                        </a>
+
+
+                    </div>
                 </div>
                 <?php $i++;
             } ?>
