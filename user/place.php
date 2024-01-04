@@ -27,7 +27,7 @@ if (isset($_REQUEST['place_book'])) {
         $mysqlDateFormat = date("Y-m-d", strtotime($booking_date));
 
         // Insert the appointment
-        $insertQuery = "INSERT INTO `place_appointment` (place_id, place_name, place_img, user_id, start_time, end_time, booking_date, status) VALUES ('$place_id', '$place_name', '$place_img', '$user_id', '$start_time', '$end_time', '$mysqlDateFormat', 'Unactive')";
+        $insertQuery = "INSERT INTO place_appointment (place_id, place_name, place_img, user_id, start_time, end_time, booking_date, status) VALUES ('$place_id', '$place_name', '$place_img', '$user_id', '$start_time', '$end_time', '$mysqlDateFormat', 'Unactive')";
         $result = mysqli_query($conn, $insertQuery);
 
         if ($result) {
@@ -57,27 +57,61 @@ if (isset($_REQUEST['place_book'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
+
     <title>Equipment</title>
 </head>
-<header class="w3-container w3-xlarge">
-    <p class="w3-left">PLACE</p>
-    <p class="w3-right">
-        <button class="btn" id="itemButton">Equipment</button>
-        <button class="btn" id="placeButton">Place</button>
-    </p>
-</header>
+<style>
+    #placeCard {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+</style>
 
 <body>
-    <div class="custom-table" id="clickable-div">
-        <?php while ($row = mysqli_fetch_array($result2)) { ?>
-            <div class="td">
-                <div class="place-container" id="none">
-                    <a href="place.php?id=<?= $row['place_id'] ?>" data-place-overview="<?= $row['place_overview'] ?>">
-                        <img class="rounded-image" src="img/<?= $row['place_img'] ?>" alt="<?= $row['place_name'] ?>">
-                        <div class="place-name">
-                            <?= $row['place_name'] ?>
-                        </div>
-                    </a>
+    <header class="w3-container w3-xlarge">
+        <p class="w3-left">Equipment</p>
+        <p class="w3-right">
+            <button class="btn" id="itemButton">Equipment</button>
+            <button class="btn" id="placeButton">PLACE</button>
+        </p>
+    </header>
+    <form action="testing.php" method="post">
+        <div class="custom-table" id="clickable-div">
+
+            <?php
+            $i = 0;
+            while ($row = mysqli_fetch_array($result)) {
+                $place = "SELECT * FROM place_appointment WHERE place_id='$row[place_id]' AND status='Approve' GROUP BY place_id";
+
+                $qry = mysqli_query($conn, $place);
+                $num = mysqli_num_rows($qry);
+                $at = mysqli_fetch_array($qry);
+                // $sub = 0;
+                // if ($num !== 0) {
+                //     $sub = $at[0];
+                // } else {
+                //     $sub = 0;
+                // }
+                // $total = $row["quantity"] - $sub;
+
+                // ?>
+                <div class="td">
+                    <div class="place-container" id="none">
+                        <a href="place.php?id=<?= $row['place_id'] ?>" data-place-overview="<?= $row['place_img'] ?>"
+                            data-place-name="<?= $row['place_name'] ?>">
+                            <img class="rounded-image" src="img/<?= $row['place_img'] ?>" alt="<?= $row['place_name'] ?>">
+                            <div class="place-name">
+                                <?= $row['place_name'] ?>
+                            </div>
+                        </a>
+
+
+                    </div>
                 </div>
                 <?php $i++;
             } ?>
@@ -145,45 +179,44 @@ if (isset($_REQUEST['place_book'])) {
 
 </html>
 <script>
-    // Is a navigation to other page.
-document.getElementById("itemButton").addEventListener("click", function() {
+
+document.getElementById("itemButton").addEventListener("click", function () {
     location.href = 'item.php';
-    });
-    document.getElementById("placeButton").addEventListener("click", function() {
+});
+document.getElementById("placeButton").addEventListener("click", function () {
     location.href = 'place.php';
-    });
+});
 
+        var clickableElement = document.getElementById('clickable-div');
+        var placeCard = document.getElementById('placeCard');
 
-    const placeDialog = document.querySelector("#place-dialog");
-    const closeButton = document.querySelector(".fa-close");
-    const placeDialogTitle = document.getElementById("place-dialog-title");
-    const placeDialogImage = document.getElementById("place-dialog-image");
-    const placeDialogOverview = document.getElementById("place-dialog-overview");
+        clickableElement.addEventListener('click', function (event) {
+            placeCard.style.display = 'block';
+        });
 
-    document.querySelectorAll(".place-container a").forEach((link) => {
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
+    // Calendar display
+    $(function () {
+        $("#booking_date").datepicker({
+            minDate: 0,
+            beforeShowDay: function (date) {
+                var day = date.getDay();
+                console.log($("#booking_date"))
+                return [(day !== 0 && day !== 6)];
+            },
+            onClose: function (selectedDate) {
+                var selected = new Date(selectedDate);
+                var today = new Date();
+                today.setHours(0, 0, 0, 0);
 
-            const placeTitle = link.querySelector(".place-name").textContent;
-            const placeImageSrc = "img/" + link.querySelector("img").src.split('/').pop();
-            const placeUrl = link.getAttribute('href');
-            const place_id = placeUrl.split('=')[1];
-            const placeOverview = link.getAttribute('data-place-overview');
-
-            document.getElementById("place_id").value = place_id;
-            document.getElementById("place_name").value = placeTitle;
-            document.getElementById("place_img").value = placeImageSrc;
-
-            placeDialogTitle.textContent = placeTitle;
-            placeDialogImage.src = placeImageSrc;
-            placeDialogOverview.textContent = placeOverview;
-            placeDialog.showModal();
+                if (selected < today) {
+                    $(this).val('');
+                }
+            }
         });
     });
 
-
     var closeButton = document.getElementById('closeButton');
-    var cardDiv = document.getElementById('PlaceCard');
+    var cardDiv = document.getElementById('placeCard');
 
     closeButton.addEventListener("click", () => {
         cardDiv.style.display = 'none';
@@ -193,36 +226,66 @@ document.getElementById("itemButton").addEventListener("click", function() {
         e.stopPropagation();
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-            var today = new Date();
-            var dayOfWeek = today.getDay();
 
-            // Calculate the number of days to add to reach the next Friday
-            var daysToAdd = dayOfWeek === 5 ? 7 : (5 - dayOfWeek + (dayOfWeek < 5 ? 0 : 7));
+    var clickableLinks = document.querySelectorAll('a[data-place-overview]');
 
-            // Calculate the next Friday's date
-            var nextFriday = new Date(today);
-            nextFriday.setDate(today.getDate() + daysToAdd);
+    clickableLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
 
-            // Calculate the next Monday's date
-            var nextMonday = new Date(today);
-            nextMonday.setDate(today.getDate() + (1 + 7 - dayOfWeek) % 7);
+            var placeOverview = link.getAttribute('data-place-overview');
+            var placeImg = link.querySelector('img').getAttribute('src'); // Get the 'src' attribute of the 'img' element
+            var placeName = link.getAttribute('data-place-name');
+            var href = link.getAttribute('href');
+            var placeId = href.split('=')[1];
 
-            // Set the min attribute of the date input to the next Monday
-            document.getElementById('booking_date').setAttribute('min', formatDate(nextMonday));
+            console.log("Equipment ID:", placeId);
 
-            // Set the max attribute of the date input to the next Sunday
-            var nextSunday = new Date(today);
-            nextSunday.setDate(today.getDate() + (7 - dayOfWeek) % 7);
-            document.getElementById('booking_date').setAttribute('max', formatDate(nextSunday));
+            // Set the values of hidden input fields
+            document.getElementById('card-place_img').value = placeImg;
+            document.getElementById('card-place_name').value = placeName;
+
+            // Set the image source directly in the HTML
+            var cardImage = document.getElementById('card-image');
+            cardImage.src = placeImg; // Use the 'src' value directly
+
+            // Show the corresponding card
+            var cardDiv = document.getElementById('placeCard');
+            cardDiv.style.display = 'block';
         });
+    });
 
-        // Function to format the date as 'YYYY-MM-DD'
-        function formatDate(date) {
-            var year = date.getFullYear();
-            var month = ('0' + (date.getMonth() + 1)).slice(-2);
-            var day = ('0' + date.getDate()).slice(-2);
-            return year + '-' + month + '-' + day;
-        }
+
+    $(function () {
+        var currentTime = new Date();
+        var currentHour = currentTime.getHours();
+        var currentMinute = currentTime.getMinutes();
+
+
+        var minTime = currentHour + ':' + (currentMinute < 10 ? '0' + currentMinute : currentMinute);
+
+        $('#start_time, #end_time').timepicker({
+            timeFormat: 'HH:mm',
+            interval: 60,
+            minTime: minTime,
+            maxTime: '17:00',
+            startTime: minTime,
+            dynamic: true,
+            dropdown: true,
+            scrollbar: true,
+            change: function (time) {
+                var selectedStartTime = $('#start_time').val();
+                var selectedEndTime = $('#end_time').val();
+
+                if (selectedStartTime >= selectedEndTime) {
+                    var newEndTime = new Date('2000-01-01T' + selectedStartTime + ':00');
+                    newEndTime.setHours(newEndTime.getHours() + 1);
+                    $('#end_time').timepicker('setTime', newEndTime.toTimeString().slice(0, 5));
+                    console.log($('#start_time, #end_time'))
+                }
+            }
+        });
+    })
+
 
 </script>

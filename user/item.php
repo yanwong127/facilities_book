@@ -182,12 +182,13 @@ if (isset($_REQUEST['item_book'])) {
 </html>
 <script>
     document.getElementById("itemButton").addEventListener("click", function () {
-        location.href = 'item.php';
-    });
-    document.getElementById("placeButton").addEventListener("click", function () {
-        location.href = 'place.php';
-    });
+    location.href = 'item.php';
+});
+document.getElementById("placeButton").addEventListener("click", function () {
+    location.href = 'place.php';
+});
 
+  
     var clickableElement = document.getElementById('clickable-div');
 
     var itemCard = document.getElementById('itemCard');

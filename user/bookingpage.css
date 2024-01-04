@@ -6,7 +6,7 @@
     .btn {
         background-color: #fff;
     }
-    dialog {
+    .card {
         flex-direction: column;
         align-items: center;
         padding: 20px;
@@ -72,8 +72,8 @@
     }
 
 
-    #dialog-image,
-    #place-dialog-image {
+    #card-image,
+    #place-card-image {
         width: 350px;  /* 设置宽度 */
         height: 150px; /* 设置高度 */
     }
@@ -81,8 +81,8 @@
 
 
     /* New styles for the form inside the dialog */
-    .dialog-form {
-        max-width: 300px;
+    .card {
+        max-width: 500px;
         margin: 0 auto;
         background-color: #fff;
         border-radius: 8px;
@@ -90,20 +90,20 @@
         text-align: center;
     }
 
-    .dialog-form label {
+    .card label {
         display: block;
         margin-bottom: 8px;
         font-weight: bold;
     }
 
-    .dialog-form input {
-        width: 100%;
+    .card input {
+        width: 80%;
         padding: 8px;
         margin-bottom: 16px;
         box-sizing: border-box;
     }
 
-    .dialog-form button {
+    .card button {
         background-color: #343634;
         color: #fff;
         padding: 10px 20px;
@@ -113,7 +113,7 @@
         font-size: 16px;
     }
 
-    .dialog-form button:hover {
+    .card button:hover {
         background-color: #484848;
     }
 
