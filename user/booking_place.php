@@ -53,7 +53,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place result</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <link rel="stylesheet" href="booking_page.css">
  </head>
  <header class="w3-container w3-xlarge">
@@ -225,66 +225,3 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
 
         
     </script>
-
-<!-- <style>
-    .header {
-        position: relative;
-        z-index: 1;
-        /* Set a value smaller than varbar's z-index */
-    }
-    .ctable {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-height: 50vh;
-    }
-
-    .rounded-image {
-        border-radius: 20px;
-        width: 200px;
-        height: 120px;
-    }
-
-    .pagination {
-        display: flex;
-        justify-content: center;
-        list-style: none;
-        padding: 0;
-        margin-top: 20px;
-    }
-
-    .pagination a {
-        color: black;
-        padding: 8px 16px;
-        text-decoration: none;
-        transition: background-color 0.3s;
-    }
-
-    .pagination a.active {
-        background-color: dodgerblue;
-        color: white;
-    }
-
-    .pagination a:hover:not(.active) {
-        background-color: #ddd;
-    }
-    .no-appointments {
-        text-align: center;
-        padding: 20px;
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        background-color: #f9f9f9;
-        margin: 20px;
-    }
-
-    .no-appointments p {
-        margin: 10px 0;
-        font-size: 18px;
-        color: #555;
-    }
-    .btn {
-        background-color: #fff;
-    }
-
-</style> -->

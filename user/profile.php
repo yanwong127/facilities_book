@@ -104,8 +104,6 @@ if (isset($_POST['newImg'])) {
 </header>
 
 <body>
-    <br>
-    <br>
     <div class="ctable">
         <div class="profile-panel">
             <?php while ($row = mysqli_fetch_array($user_result)) { ?>

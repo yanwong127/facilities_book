@@ -20,11 +20,12 @@ if (mysqli_num_rows($result) === 0) {
     exit;
 }
 
-$itemQuery = "SELECT * FROM `item`";
+$itemQuery = "SELECT * FROM `item` LIMIT 4";
 $itemResult = mysqli_query($conn, $itemQuery);
 
-$placeQuery = "SELECT * FROM `place`";
+$placeQuery = "SELECT * FROM `place` LIMIT 4";
 $placeResult = mysqli_query($conn, $placeQuery);
+
 
 $records_per_page = 4;
 if (isset($_GET['item_page'])) {
@@ -159,6 +160,10 @@ mysqli_data_seek($placeResult, 0);
 </body>
 </html>
 <style>
+
+a {
+        text-decoration: none !important;
+    }
  .w3-content-container {
     border: 2px solid #ccc;
     object-fit:cover;

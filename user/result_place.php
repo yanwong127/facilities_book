@@ -20,7 +20,7 @@ $place_query = "
 
 
 $place_result = mysqli_query($conn, $place_query);
-$alertShown = false; 
+$alertShown = false;
 $current_datetime = date('Y-m-d H:i:s');
 $one_hour_before_current_time = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime($current_datetime)));
 
@@ -28,7 +28,7 @@ $expiredFound = false;
 
 while ($row = mysqli_fetch_array($place_result)) {
     $end_datetime = $row['end_time'];
-    
+
     // Combine booking_date and end_time to create a datetime string for comparison
     $appointment_datetime = $row['booking_date'] . ' ' . $end_datetime;
 
@@ -39,7 +39,10 @@ while ($row = mysqli_fetch_array($place_result)) {
 
         if (!$alertShown) {
             echo "<script>alert('The venue you had booked has expired.'); location.reload();</script>";
-            $alertShown = true; 
+            $alertShown = true;
+        }
+        if ($expiredFound) {
+            break;
         }
         if ($expiredFound) {
             break;
@@ -61,6 +64,25 @@ while ($row = mysqli_fetch_array($place_result)) {
     if ($expiredFound) {
         break;
     }
+
+    // Check if the start_time is within the previous hour of the current time
+  // Check if the start_time is within the previous hour of the current time
+$start_datetime = $row['start_time'];
+$reminder_datetime = $row['booking_date'] . ' ' . $start_datetime;
+
+ "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
+ "Reminder Datetime (Malaysia): $reminder_datetime<br>";
+
+$one_hour_before_booking_time = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime($reminder_datetime)));
+ "One Hour Before Booking Datetime (Malaysia): $one_hour_before_booking_time<br>";
+
+if ($current_datetime > $one_hour_before_booking_time && $current_datetime < $reminder_datetime) {
+    echo "<script>alert('Reminder: Your place booking is starting soon.');</script>";
+}
+
+if ($expiredFound) {
+    break;
+}
 }
 
 mysqli_data_seek($place_result, 0);
@@ -80,53 +102,60 @@ $total_place_pages = ceil($place_records / $records_per_page);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place result</title>
- </head>
- <header class="w3-container w3-xlarge">
+</head>
+<header class="w3-container w3-xlarge">
     <p class="w3-left">Place Result</p>
     <p class="w3-right">
         <button class="btn" onclick="location.href='result_item.php'">EQUIPMENT</button>
         <button class="btn" onclick="location.href='result_place.php'">PLACE</button>
     </p>
-  </header>
- <body>
-    
- <!-- Display Places Table -->
- <div class="ctable">
- <?php if (mysqli_num_rows($place_result) > 0) { ?>
-        <table>
-            <!-- ... (Your existing table rows) -->
-        </table>
-    <?php } else { ?>
-        <div class="no-appointments">
-            <p>No appointments found.</p>
-            <p>Feel free to schedule new appointments!</p>
-        </div>
-    <?php } ?>
+</header>
 
-        <table>
-            <?php while ($row = mysqli_fetch_array($place_result)) { ?>
+<body>
 
-                <tr>
-                    <td>
-                        <img class="rounded-image" src="<?= $row['img'] ?>">
-                    </td>
-                    <td>
-                        <?= $row['name'] ?>
-                    </td>
-                    <td>
-                        <?= $row['booking_date'] ?>
-                    </td>
-                    <td>
-                        <?= $row['start_time'] ?>
-                    </td>
-                    <td>
-                        <?= $row['end_time'] ?>
-                    </td>
-                    <td>
-                        <?= $row['status'] ?>
-                    </td>
-                </tr>
-            <?php } ?>
+    <!-- Display Places Table -->
+    <div class="ctable">
+        <?php if (mysqli_num_rows($place_result) > 0) { ?>
+            <table class="w3-table-all w3-card-4">
+                <thead>
+                    <tr class="w3-light-grey">
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Booking Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = mysqli_fetch_array($place_result)) { ?>
+                        <tr>
+                            <td><img class="rounded-image" src="<?= $row['img'] ?>" alt="<?= $row['name'] ?>"></td>
+                            <td>
+                                <?= $row['name'] ?>
+                            </td>
+                            <td>
+                                <?= $row['booking_date'] ?>
+                            </td>
+                            <td>
+                                <?= $row['start_time'] ?>
+                            </td>
+                            <td>
+                                <?= $row['end_time'] ?>
+                            </td>
+                            <td>
+                                <?= $row['status'] ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        <?php } else { ?>
+            <div class="no-appointments">
+                <p>No appointments found.</p>
+                <p>Feel free to schedule new appointments!</p>
+            </div>
+        <?php } ?>
         </table>
 
         <!-- Places Pagination -->
@@ -158,7 +187,7 @@ $total_place_pages = ceil($place_records / $records_per_page);
 </html>
 
 <script>
- 
+
 
 </script>
 
@@ -170,6 +199,7 @@ $total_place_pages = ceil($place_records / $records_per_page);
         align-items: center;
         min-height: 50vh;
     }
+
     .btn {
         background-color: #fff;
     }

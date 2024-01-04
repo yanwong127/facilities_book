@@ -71,92 +71,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
+    <link rel="stylesheet" href="loginsignup.css">
 
-        .container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-
-        .form-container {
-            text-align: center;
-        }
-
-        h2 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 8px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        button {
-            background-color: #4caf50;
-            color: #fff;
-            border: none;
-            padding: 12px 20px;
-            text-transform: uppercase;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        p {
-            font-size: 14px;
-            color: #555;
-            margin-top: 15px;
-        }
-
-        a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="form-container">
-            <form action="" method="post">
-                <h2>Forgot Password</h2>
+    <div>
+        <form action="forget_password" method="post">
+            <h2>Forgot Password</h2>
+            <div class="input-container">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
-                <button type="submit">Send Verification Code</button><br><br>
-                <button type="button" onclick="window.location.href='login.php'">Back</button>
-            </form>
+            </div>
+            <div>
+                <input type="submit" name="submit" value="Send Verification Code"></input>
+            </div>
+            <br>
+            <div>
+                <button type="submit" class="button" onclick="window.location.href='login.php'">Back</button>
+            </div>
+            
+            
+        </form>
         </div>
     </div>
 </body>
