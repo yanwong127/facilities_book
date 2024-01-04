@@ -56,16 +56,15 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 <header class="w3-container w3-xlarge">
     <p class="w3-left">Your Booking (Item)</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='booking_item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='booking_item.php'">EQUIPMENT</button>
         <button class="btn" onclick="location.href='booking_place.php'">PLACE</button>
     </p>
   </header>
 <body>
-
-    <!-- Display Items Table -->
     <div class="ctable">
 
-        <table class="w3-table-all">
+        <?php if (mysqli_num_rows($item_result) > 0) { ?>
+            <table class="w3-table-all w3-card-4">
             <thead>
                 <tr class="w3-grey">
                     <th>Image</th>
@@ -75,8 +74,8 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
                     <th>End Time</th>
                     <th>Quantity</th>
                     <th>Status</th>
-                    <th></th>
-                    <th></th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <?php while ($row = mysqli_fetch_array($item_result)) { ?>
@@ -111,11 +110,6 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
                 </tr>
             <?php } ?>
         </table>
-
-        <?php if (mysqli_num_rows($item_result) > 0) { ?>
-        <table>
-            <!-- ... (Your existing table rows) -->
-        </table>
     <?php } else { ?>
         <div class="no-appointments">
             <p>No appointments found.</p>
@@ -123,7 +117,6 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
         </div>
     <?php } ?>
 
-        <!-- Items Pagination -->
         <div class="pagination justify-content-center">
     <?php
     if ($page > 1) {

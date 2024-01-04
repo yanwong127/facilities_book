@@ -27,7 +27,7 @@ if (isset($_REQUEST['place_book'])) {
         $mysqlDateFormat = date("Y-m-d", strtotime($booking_date));
 
         // Insert the appointment
-        $insertQuery = "INSERT INTO `place_appointment` (place_id, place_name, place_img, user_id, start_time, end_time, booking_date, status) VALUES ('$place_id', '$place_name', '$place_img', '$user_id', '$start_time', '$end_time', '$mysqlDateFormat', 'Unactive')";
+        $insertQuery = "INSERT INTO place_appointment (place_id, place_name, place_img, user_id, start_time, end_time, booking_date, status) VALUES ('$place_id', '$place_name', '$place_img', '$user_id', '$start_time', '$end_time', '$mysqlDateFormat', 'Unactive')";
         $result = mysqli_query($conn, $insertQuery);
 
         if ($result) {
@@ -57,6 +57,7 @@ if (isset($_REQUEST['place_book'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
+
     <title>Equipment</title>
 </head>
 <style>
@@ -178,12 +179,13 @@ if (isset($_REQUEST['place_book'])) {
 
 </html>
 <script>
-     document.getElementById("itemButton").addEventListener("click", function () {
-            location.href = 'item.php';
-        });
-     document.getElementById("placeButton").addEventListener("click", function () {
-            location.href = 'place.php';
-        });
+
+document.getElementById("itemButton").addEventListener("click", function () {
+    location.href = 'item.php';
+});
+document.getElementById("placeButton").addEventListener("click", function () {
+    location.href = 'place.php';
+});
 
         var clickableElement = document.getElementById('clickable-div');
         var placeCard = document.getElementById('placeCard');
@@ -213,7 +215,6 @@ if (isset($_REQUEST['place_book'])) {
         });
     });
 
-
     var closeButton = document.getElementById('closeButton');
     var cardDiv = document.getElementById('placeCard');
 
@@ -224,7 +225,6 @@ if (isset($_REQUEST['place_book'])) {
     cardDiv.addEventListener("click", (e) => {
         e.stopPropagation();
     });
-
 
 
     var clickableLinks = document.querySelectorAll('a[data-place-overview]');
@@ -256,7 +256,6 @@ if (isset($_REQUEST['place_book'])) {
     });
 
 
-
     $(function () {
         var currentTime = new Date();
         var currentHour = currentTime.getHours();
@@ -286,7 +285,7 @@ if (isset($_REQUEST['place_book'])) {
                 }
             }
         });
-    })
+    })
 
 
 </script>

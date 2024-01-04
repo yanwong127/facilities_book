@@ -101,7 +101,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
         <table class="w3-table w3-striped w3-bordered w3-table-all w3-hoverable">
                 <tr class="w3-light-grey">
                     <th>Image</th>
-                    <th>Place/Item</th>
+                    <th>Place/Equipment</th>
                     <th>Booking Date</th>
                     <th>Start Time</th>
                     <th>End Time</th>

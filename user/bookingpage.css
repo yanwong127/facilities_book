@@ -7,6 +7,7 @@
         background-color: #fff;
     }
     .card {
+    .card {
         flex-direction: column;
         align-items: center;
         padding: 20px;
@@ -81,8 +82,8 @@
 
 
     /* New styles for the form inside the dialog */
-    .card-form {
-        max-width: 300px;
+    .card {
+        max-width: 500px;
         margin: 0 auto;
         background-color: #fff;
         border-radius: 8px;
@@ -90,20 +91,20 @@
         text-align: center;
     }
 
-    .card-form label {
+    .card label {
         display: block;
         margin-bottom: 8px;
         font-weight: bold;
     }
 
-    .card-form input {
-        width: 100%;
+    .card input {
+        width: 80%;
         padding: 8px;
         margin-bottom: 16px;
         box-sizing: border-box;
     }
 
-    .card-form button {
+    .card button {
         background-color: #343634;
         color: #fff;
         padding: 10px 20px;
@@ -113,7 +114,7 @@
         font-size: 16px;
     }
 
-    .card-form button:hover {
+    .card button:hover {
         background-color: #484848;
     }
 

@@ -79,15 +79,16 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="booking_page.css">
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    
 <header class="w3-container w3-xlarge">
-    <p class="w3-left">Result Item</p>
+    <p class="w3-left">Result Equipment</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='result_item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='result_item.php'">EQUIPMENT</button>
         <button class="btn" onclick="location.href='result_place.php'">PLACE</button>
     </p>
 </header>
@@ -98,7 +99,7 @@ $total_item_pages = ceil($item_records / $records_per_page);
         <?php if (mysqli_num_rows($item_result) > 0) { ?>
             <table class="w3-table-all w3-card-4">
                 <thead>
-                    <tr class="w3-light-grey">
+                    <tr class="w3-grey">
                         <th>Image</th>
                         <th>Name</th>
                         <th>Booking Date</th>
@@ -181,7 +182,7 @@ $total_item_pages = ceil($item_records / $records_per_page);
 
 
 
-<style>
+<!-- <style>
     .ctable {
         display: flex;
         flex-direction: column;
@@ -201,29 +202,42 @@ $total_item_pages = ceil($item_records / $records_per_page);
     }
 
     .pagination {
-        display: flex;
-        justify-content: center;
-        list-style: none;
-        padding: 0;
-        margin-top: 20px;
-    }
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
 
     .pagination a {
-        color: black;
+        color: #6d6f6d;
         padding: 8px 16px;
         text-decoration: none;
         transition: background-color 0.3s;
+        border: 1px solid #ddd;
+        margin: 0 4px;
     }
 
     .pagination a.active {
-        background-color: dodgerblue;
+        background-color: #3d3e3d;
         color: white;
     }
 
     .pagination a:hover:not(.active) {
         background-color: #ddd;
     }
-
+    .pagination {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        border-top: 1px solid #ccc;
+    }
     .no-appointments {
         text-align: center;
         padding: 20px;
@@ -247,14 +261,14 @@ $total_item_pages = ceil($item_records / $records_per_page);
         font-family: "Roboto", sans-serif
     }
 
-    body,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    .w3-wide {
-        font-family: "Montserrat", sans-serif;
-    }
-</style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .w3-wide {
+            font-family: "Montserrat", sans-serif;
+        }
+</style> -->
