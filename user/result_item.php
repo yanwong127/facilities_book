@@ -45,20 +45,21 @@ while ($row = mysqli_fetch_array($item_result)) {
         }
     }
 
-    // Check if the start_time is within the previous hour of the current time
-    // Check if the start_time is within the previous hour of the current time
     $start_datetime = $row['start_time'];
     $reminder_datetime = $row['booking_date'] . ' ' . $start_datetime;
 
-     "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
-     "Reminder Datetime (Malaysia): $reminder_datetime<br>";
+    "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
+    "Reminder Datetime (Malaysia): $reminder_datetime<br>";
 
     $one_hour_before_booking_time = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime($reminder_datetime)));
-     "One Hour Before Booking Datetime (Malaysia): $one_hour_before_booking_time<br>";
+    "One Hour Before Booking Datetime (Malaysia): $one_hour_before_booking_time<br>";
 
-    if ($current_datetime > $one_hour_before_booking_time && $current_datetime < $reminder_datetime) {
-        echo "<script>alert('Reminder: Your item booking is starting soon.');</script>";
+    if (!$alertShown && $current_datetime > $one_hour_before_booking_time && $current_datetime < $reminder_datetime) {
+        $itemName = $row['name'];
+        echo "<script>alert('Reminder: Your item booking for $itemName is starting soon.');</script>";
+        // $alertShown = true;
     }
+
 
     if ($expiredFound) {
         break;
