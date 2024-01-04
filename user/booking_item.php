@@ -57,9 +57,9 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 <link rel="stylesheet">
 <link rel="stylesheet" href="booking_page.css">
 <header class="w3-container w3-xlarge">
-    <p class="w3-left">YOUR BOOKING (ITEM)</p>
+    <p class="w3-left">YOUR BOOKING (EQUIPMENT)</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='booking_item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='booking_item.php'">EQUIPMENT</button>
         <button class="btn" onclick="location.href='booking_place.php'">PLACE</button>
     </p>
   </header>

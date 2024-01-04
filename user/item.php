@@ -82,9 +82,9 @@ $result = mysqli_query($conn, $jj);
     <link rel="stylesheet" href="bookingpage.css">
 </head>
 <header class="w3-container w3-xlarge">
-    <p class="w3-left">ITEM</p>
+    <p class="w3-left">EQUIPMENT</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='item.php'">EQUIPMENT</button>
         <button class="btn" onclick="location.href='place.php'">PLACE</button>
 
     </p>
