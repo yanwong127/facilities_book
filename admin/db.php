@@ -3,10 +3,11 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// $server = "localhost:3306";
-// $user   = "cpses_hrzxz2ir5o";
-// $pass   = "";
+// $server = "sv77.ifastnet.com";
+// $user   = "hrrejuve_facilities";
+// $pass   = "Taz+O,cBK;^0";
 // $data   ="hrrejuve_facilities";
+
 
 $server = "localhost";
 $user   = "root";

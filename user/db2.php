@@ -1,8 +1,13 @@
 <?php
-// $host = "localhost:3306";
+// $host = "sv77.ifastnet.com";
 // $dbname = "hrrejuve_facilities";
 // $username = "cpses_hrzxz2ir5o";
 // $password = "";
+
+// $host = "sv77.ifastnet.com";
+// $dbname   = "hrrejuve_facilities";
+// $password   = "Taz+O,cBK;^0";
+// $username   ="hrrejuve_facilities";
 
 $host = "localhost";
 $username   = "root";

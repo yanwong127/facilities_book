@@ -79,7 +79,7 @@ if (isset($_REQUEST['place_book'])) {
             <button class="btn" id="placeButton">PLACE</button>
         </p>
     </header>
-    <form action="testing.php" method="post">
+    <form action="place.php" method="post">
         <div class="custom-table" id="clickable-div">
 
             <?php
@@ -212,7 +212,7 @@ if (isset($_REQUEST['place_book'])) {
 
 
     var closeButton = document.getElementById('closeButton');
-    var cardDiv = document.getElementById('PlaceCard');
+    var cardDiv = document.getElementById('placeCard');
 
     closeButton.addEventListener("click", () => {
         cardDiv.style.display = 'none';
