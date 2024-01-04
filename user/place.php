@@ -178,6 +178,9 @@ if (isset($_REQUEST['place_book'])) {
 
 </html>
 <script>
+     document.getElementById("itemButton").addEventListener("click", function () {
+            location.href = 'item.php';
+        });
      document.getElementById("placeButton").addEventListener("click", function () {
             location.href = 'place.php';
         });

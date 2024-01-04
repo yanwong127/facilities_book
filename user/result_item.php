@@ -51,7 +51,7 @@ while ($row = mysqli_fetch_array($item_result)) {
     "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
     "Reminder Datetime (Malaysia): $reminder_datetime<br>";
 
-    $one_hour_before_booking_time = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime($reminder_datetime)));
+    $one_hour_before_booking_time = date('Y-m-d H   :i:s', strtotime('-1 hour', strtotime($reminder_datetime)));
     "One Hour Before Booking Datetime (Malaysia): $one_hour_before_booking_time<br>";
 
     if (!$alertShown && $current_datetime > $one_hour_before_booking_time && $current_datetime < $reminder_datetime) {
