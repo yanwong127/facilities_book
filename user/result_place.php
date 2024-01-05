@@ -46,24 +46,25 @@ while ($row = mysqli_fetch_array($place_result)) {
         }
     }
 
-    // Check if the start_time is within the previous hour of the current time
-  // Check if the start_time is within the previous hour of the current time
-$start_datetime = $row['start_time'];
-$reminder_datetime = $row['booking_date'] . ' ' . $start_datetime;
 
- "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
- "Reminder Datetime (Malaysia): $reminder_datetime<br>";
+    $start_datetime = $row['start_time'];
+    $reminder_datetime = $row['booking_date'] . ' ' . $start_datetime;
 
-$one_hour_before_booking_time = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime($reminder_datetime)));
- "One Hour Before Booking Datetime (Malaysia): $one_hour_before_booking_time<br>";
+    "Current Datetime (Malaysia): " . date('Y-m-d H:i:s') . "<br>";
+    "Reminder Datetime (Malaysia): $reminder_datetime<br>";
 
-if ($current_datetime > $one_hour_before_booking_time && $current_datetime < $reminder_datetime) {
-    echo "<script>alert('Reminder: Your place booking is starting soon.');</script>";
-}
+    $one_hour_before_booking_time = date('Y-m-d H:i:s', strtotime('-1 hour', strtotime($reminder_datetime)));
+    "One Hour Before Booking Datetime (Malaysia): $one_hour_before_booking_time<br>";
 
-if ($expiredFound) {
-    break;
-}
+    if (!$alertShown && $current_datetime > $one_hour_before_booking_time && $current_datetime < $reminder_datetime) {
+        $placeName = $row['name'];
+        echo "<script>alert('Reminder: Your item booking for $placeName is starting soon.');</script>";
+        // $alertShown = true;
+    }
+
+    if ($expiredFound) {
+        break;
+    }
 }
 
 mysqli_data_seek($place_result, 0);
@@ -87,7 +88,7 @@ $total_place_pages = ceil($place_records / $records_per_page);
 <header class="w3-container w3-xlarge">
     <p class="w3-left">Place Result</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='result_item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='result_item.php'">EQUIPMENT</button>
         <button class="btn" onclick="location.href='result_place.php'">PLACE</button>
     </p>
 </header>
@@ -99,7 +100,7 @@ $total_place_pages = ceil($place_records / $records_per_page);
         <?php if (mysqli_num_rows($place_result) > 0) { ?>
             <table class="w3-table-all w3-card-4">
                 <thead>
-                    <tr class="w3-light-grey">
+                    <tr class="w3-grey">
                         <th>Image</th>
                         <th>Name</th>
                         <th>Booking Date</th>

@@ -28,7 +28,7 @@ if (isset($_REQUEST['item_book'])) {
         $mysqlDateFormat = date("Y-m-d", strtotime($booking_date));
 
         // Insert the appointment
-        $insertQuery = "INSERT INTO `item_appointment` (item_id, item_name, item_img, user_id, start_time, end_time, booking_date, status, quantity) VALUES ('$item_id', '$item_name', '$item_img', '$user_id', '$start_time', '$end_time', '$mysqlDateFormat', 'Unactive', '$quantity')";
+        $insertQuery = "INSERT INTO item_appointment (item_id, item_name, item_img, user_id, start_time, end_time, booking_date, status, quantity) VALUES ('$item_id', '$item_name', '$item_img', '$user_id', '$start_time', '$end_time', '$mysqlDateFormat', 'Unactive', '$quantity')";
         $result = mysqli_query($conn, $insertQuery);
 
         if ($result) {
@@ -182,12 +182,13 @@ if (isset($_REQUEST['item_book'])) {
 </html>
 <script>
     document.getElementById("itemButton").addEventListener("click", function () {
-        location.href = 'item.php';
-    });
-    document.getElementById("placeButton").addEventListener("click", function () {
-        location.href = 'place.php';
-    });
+    location.href = 'item.php';
+});
+document.getElementById("placeButton").addEventListener("click", function () {
+    location.href = 'place.php';
+});
 
+  
     var clickableElement = document.getElementById('clickable-div');
 
     var itemCard = document.getElementById('itemCard');
@@ -291,7 +292,7 @@ if (isset($_REQUEST['item_book'])) {
                 }
             }
         });
-    })
+    })
 
 
 </script>

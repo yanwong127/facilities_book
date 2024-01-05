@@ -49,7 +49,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-
+<link rel="stylesheet" href="booking_page.css">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,29 +60,17 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
 <header class="w3-container w3-xlarge">
     <p class="w3-left">Item History</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='history_item.php'">ITEM</button>
+        <button class="btn" onclick="location.href='history_item.php'">EQUIPMENT</button>
         <button class="btn" onclick="location.href='history_place.php'">PLACE</button>
     </p>
   </header>
 
     <!-- Display Places Table -->
     <div class="ctable">
-        <?php if (mysqli_num_rows($place_result) > 0) { ?>
-            <table>
-                <!-- ... (Your existing table rows) -->
-            </table>
-        <?php } else { ?>
-            <div class="no-appointments">
-                <p>No appointments found.</p>
-                <p>Feel free to schedule new appointments!</p>
-            </div>
-        <?php } ?>
-
-        <div class="ctable class="w3-table-all"">
-        <?php if (mysqli_num_rows($place_result) > 0) { ?>
+    <?php if (mysqli_num_rows($place_result) > 0) { ?>
             <table class="w3-table-all w3-card-4">
                 <thead>
-                    <tr class="w3-light-grey">
+                    <tr class="w3-grey">
                         <th>Image</th>
                         <th>Name</th>
                         <th>Booking Date</th>
@@ -104,13 +92,15 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                     <?php } ?>
                 </tbody>
             </table>
+        </table>
         <?php } else { ?>
             <div class="no-appointments">
                 <p>No appointments found.</p>
                 <p>Feel free to schedule new appointments!</p>
             </div>
         <?php } ?>
-        </table>
+
+
 
         <!-- Places Pagination -->
         <div class="pagination justify-content-center">
@@ -213,60 +203,3 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
 
 </script>
 
-<style>
-    .ctable {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-height: 50vh;
-    }
-    .btn {
-        background-color: #fff;
-    }
-
-    .rounded-image {
-        border-radius: 20px;
-        width: 200px;
-        height: auto;
-    }
-
-    .pagination {
-        display: flex;
-        justify-content: center;
-        list-style: none;
-        padding: 0;
-        margin-top: 20px;
-    }
-
-    .pagination a {
-        color: black;
-        padding: 8px 16px;
-        text-decoration: none;
-        transition: background-color 0.3s;
-    }
-
-    .pagination a.active {
-        background-color: dodgerblue;
-        color: white;
-    }
-
-    .pagination a:hover:not(.active) {
-        background-color: #ddd;
-    }
-
-    .no-appointments {
-        text-align: center;
-        padding: 20px;
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        background-color: #f9f9f9;
-        margin: 20px;
-    }
-
-    .no-appointments p {
-        margin: 10px 0;
-        font-size: 18px;
-        color: #555;
-    }
-</style>

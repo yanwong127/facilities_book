@@ -77,11 +77,11 @@ mysqli_data_seek($placeResult, 0);
   <div style="width: 99%; margin-left: auto;">
 <body class="w3-content" style="max-width:1200px">
 
-<div class="w3-panel w3-border w3-round-xlarge w3-content w3-display-container" style="width:100%; height: 300px;">
+<div class="w3-panel w3-round-xlarge w3-content w3-display-container" style="width:100%; height: 300px;">
   <img class="mySlides" src="img/basketball.jpg">
-  <img class="mySlides" src="img/科学室.jpg">
-  <img class="mySlides" src="img/游泳池.jpg">
-  <img class="mySlides" src="img/键盘.jpg">
+  <img class="mySlides" src="img/science room.jpg">
+  <img class="mySlides" src="img/profile.jpg">
+  <img class="mySlides" src="img/download (9).jpeg">
 
   <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
   <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
@@ -89,7 +89,7 @@ mysqli_data_seek($placeResult, 0);
 
 <div class="w3-panel w3-border w3-round-xlarge">
   <div class="w3-container w3-text-grey" id="jeans">
-    <p>Item</p>
+    <p>Equipment</p>
   </div>
 
   <div class="w3-row">
