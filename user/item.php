@@ -80,7 +80,7 @@ if (isset($_REQUEST['item_book'])) {
             <button class="btn" id="placeButton">PLACE</button>
         </p>
     </header>
-    <form action="testing.php" method="post">
+    <form action="item.php" method="post">
         <div class="custom-table" id="clickable-div">
 
             <?php
