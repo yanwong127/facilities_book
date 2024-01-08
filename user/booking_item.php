@@ -141,7 +141,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 
     </div>
 
-    <form action="form-horizontal" action="booking_item.php" method="post" class="dialog-form">
+    <form action="booking_item.php" method="post" class="dialog-form">
     <dialog id="editDialog">
         <i class="fa fa-close" style="float: right;" autofocus></i>
         <h2 id="editDialogTitle"></h2>

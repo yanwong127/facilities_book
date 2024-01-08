@@ -250,20 +250,12 @@ if (isset($_REQUEST['place_book'])) {
             <?php
             $i = 0;
             while ($row = mysqli_fetch_array($result)) {
-                $place = "SELECT * FROM place_appointment WHERE place_id='$row[place_id]' AND status='Approve' GROUP BY place_id";
+                $place = "SELECT * FROM place_appointment WHERE place_id='$row[place_id]' AND status='Approved' GROUP BY place_id";
 
                 $qry = mysqli_query($conn, $place);
                 $num = mysqli_num_rows($qry);
                 $at = mysqli_fetch_array($qry);
-                // $sub = 0;
-                // if ($num !== 0) {
-                //     $sub = $at[0];
-                // } else {
-                //     $sub = 0;
-                // }
-                // $total = $row["quantity"] - $sub;
-
-                // ?>
+        ?>
                 <div class="td">
                     <div class="place-container" id="none">
                         <a href="place.php?id=<?= $row['place_id'] ?>" data-place-overview="<?= $row['place_img'] ?>"
@@ -302,8 +294,6 @@ if (isset($_REQUEST['place_book'])) {
                 <input type="time" name="start_time" id="start_time" required min="08:00" max="16:00"><br>
                 <label for="end_time">End Time:</label><br>
                 <input type="time" name="end_time" id="end_time" required min="09:00" max="17:00"><br>
-                <label for="quantity">Quantity: </label><br>
-                <input type="number" name="quantity" id="card-quantity" value="1" min="1" max="10" required><br>
                 <button name="place_book">Book</button>
             </form>
         </div>
@@ -408,6 +398,8 @@ document.getElementById("placeButton").addEventListener("click", function () {
             // Set the values of hidden input fields
             document.getElementById('card-place_img').value = placeImg;
             document.getElementById('card-place_name').value = placeName;
+            document.getElementById('card-place_id').value = placeId;
+
 
             // Set the image source directly in the HTML
             var cardImage = document.getElementById('card-image');

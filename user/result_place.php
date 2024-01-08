@@ -14,7 +14,7 @@ $offset = ($page - 1) * $records_per_page;
 $place_query = "
     SELECT 'place' as type, ia.placebook_id as book_id, ia.place_img as img, ia.place_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status
     FROM `place_appointment` ia
-    WHERE ia.`user_id` = $user_id AND (ia.`status` = 'Approve' OR ia.`status` = 'Cancelled')
+    WHERE ia.`user_id` = $user_id AND (ia.`status` = 'Approved' OR ia.`status` = 'Cancelled')
     LIMIT $offset, $records_per_page
 ";
 
@@ -68,7 +68,7 @@ while ($row = mysqli_fetch_array($place_result)) {
 }
 
 mysqli_data_seek($place_result, 0);
-$place_count_query = "SELECT COUNT(*) FROM `place_appointment` WHERE `user_id` = $user_id AND `status` = 'Approve'";
+$place_count_query = "SELECT COUNT(*) FROM `place_appointment` WHERE `user_id` = $user_id AND `status` = 'Approved'";
 $place_count_result = mysqli_query($conn, $place_count_query);
 $place_row = mysqli_fetch_row($place_count_result);
 $place_records = $place_row[0];

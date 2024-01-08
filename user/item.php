@@ -16,7 +16,7 @@ $result = mysqli_query($conn, $jj);
 
 if (isset($_REQUEST['item_book'])) {
     if (isset($_POST["item_book"])) {
-        $item_id = $_POST['item_id'];
+        $item_id = trim($_POST['item_id']);
         $user_id = $_POST['user_id'];
         $item_name = trim($_POST['item_name']);
         $item_img = $_POST['item_img'];
@@ -250,8 +250,8 @@ if (isset($_REQUEST['item_book'])) {
             <?php
             $i = 0;
             while ($row = mysqli_fetch_array($result)) {
-                $item = "SELECT SUM(quantity) FROM item_appointment WHERE item_id='$row[item_id]' AND status='Approve' GROUP BY item_id";
-
+                $item = "SELECT SUM(quantity) FROM item_appointment WHERE item_id='$row[item_id]' AND status='Approved' GROUP BY item_id";
+            
                 $qry = mysqli_query($conn, $item);
                 $num = mysqli_num_rows($qry);
                 $at = mysqli_fetch_array($qry);
@@ -262,24 +262,21 @@ if (isset($_REQUEST['item_book'])) {
                     $sub = 0;
                 }
                 $total = $row["quantity"] - $sub;
-
-
                 ?>
                 <div class="td">
                     <div class="item-container" id="none">
-                        <a href="item.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_img'] ?>"
-                            data-item-name="<?= $row['item_name'] ?>">
+                        <a href="item.php?id=<?= $row['item_id'] ?>" data-item-id="<?=$row['item_id']?>" data-item-overview="<?= $row['item_img'] ?>"
+                            data-item-name="<?= $row['item_name'] ?>" data-max="<?= $total ?>">
                             <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
                             <div class="item-name">
                                 <?= $row['item_name'] ?>
                             </div>
                         </a>
-
-
                     </div>
                 </div>
                 <?php $i++;
-            } ?>
+            }
+             ?>
         </div>
 
 
@@ -295,7 +292,6 @@ if (isset($_REQUEST['item_book'])) {
                 <input type="hidden" name="item_name" id="card-item_name">
                 <input type="hidden" name="item_img" id="card-item_img">
                 <p id="card-overview"></p>
-
                 <input type="hidden" name="item_overview" id="card-item_overview">
                 <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
                 <label for="booking_date">Booking Date:</label><br>
@@ -305,7 +301,7 @@ if (isset($_REQUEST['item_book'])) {
                 <label for="end_time">End Time:</label><br>
                 <input type="time" name="end_time" id="end_time" required min="09:00" max="17:00"><br>
                 <label for="quantity">Quantity: </label><br>
-                <input type="number" name="quantity" id="card-quantity" value="1" min="1" max="10" required><br>
+                <input type="number" name="quantity" id="card-quantity" value="1" min="1" max="<?= $total ?>" required><br>
                 <button name="item_book">Book</button>
             </form>
         </div>
@@ -399,29 +395,35 @@ document.getElementById("placeButton").addEventListener("click", function () {
 
     var clickableLinks = document.querySelectorAll('a[data-item-overview]');
 
-    clickableLinks.forEach(function (link) {
-        link.addEventListener('click', function (event) {
-            event.preventDefault();
+clickableLinks.forEach(function (link) {
+    link.addEventListener('click', function (event) {
+        event.preventDefault();
 
-            var itemOverview = link.getAttribute('data-item-overview');
-            var itemImg = link.querySelector('img').getAttribute('src');
-            var itemName = link.getAttribute('data-item-name');
-            var href = link.getAttribute('href');
-            var itemId = href.split('=')[1];
+        var itemOverview = link.getAttribute('data-item-overview');
+        var itemImg = link.querySelector('img').getAttribute('src');
+        var itemId = link.getAttribute('data-item-id');
+        var itemName = link.getAttribute('data-item-name');
+        var maxQuantity = link.getAttribute('data-max'); // Get the max quantity
 
-            console.log("Equipment ID:", itemId);
+        console.log("Equipment ID:", itemId);
 
-            document.getElementById('card-item_img').value = itemImg;
-            document.getElementById('card-item_name').value = itemName;
-            document.getElementById('card-item_overview').textContent = itemOverview;
+        document.getElementById('card-item_img').value = itemImg;
+        document.getElementById('card-item_id').value = itemId;
+        document.getElementById('card-item_name').value = itemName;
+        document.getElementById('card-item_overview').textContent = itemOverview;
 
-            var cardImage = document.getElementById('card-image');
-            cardImage.src = itemImg;
+        var cardImage = document.getElementById('card-image');
+        cardImage.src = itemImg;
 
-            var cardDiv = document.getElementById('itemCard');
-            cardDiv.style.display = 'block';
-        });
+        var cardQuantityInput = document.getElementById('card-quantity');
+        cardQuantityInput.value = 1; // Reset quantity to 1
+        cardQuantityInput.max = maxQuantity; // Set the max attribute dynamically
+
+        var cardDiv = document.getElementById('itemCard');
+        cardDiv.style.display = 'block';
     });
+});
+
 
 
 
