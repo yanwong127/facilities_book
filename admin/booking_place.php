@@ -62,7 +62,7 @@ try {
 if(isset($_REQUEST['aeid']))
 	{
 $aeid=intval($_GET['aeid']);
-$status="Approve";
+$status="Approved";
 
 $sql = "UPDATE place_appointment SET status=:status WHERE  placebook_id=:aeid";
 $query = $dbh->prepare($sql);
