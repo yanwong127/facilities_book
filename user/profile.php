@@ -403,4 +403,7 @@ if (isset($_POST['newImg'])) {
     .form input:valid+.label-name::after {
         transform: translateX(0%);
     }
+    a{
+        text-decoration: none !important;
+    }
 </style>
