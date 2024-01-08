@@ -58,10 +58,10 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
 
 <body>
 <header class="w3-container w3-xlarge">
-    <p class="w3-left">Item History</p>
+    <p class="w3-left">History</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='history_item.php'">EQUIPMENT</button>
-        <button class="btn" onclick="location.href='history_place.php'">PLACE</button>
+        <button class="btn" onclick="location.href='history_item.php'">Equipment</button>
+        <button class="btn" onclick="location.href='history_place.php'">Place</button>
     </p>
   </header>
 

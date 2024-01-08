@@ -54,10 +54,10 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 <html lang="en">
 <link rel="stylesheet" href="booking_page.css">
 <header class="w3-container w3-xlarge">
-    <p class="w3-left">Your Booking (Item)</p>
+    <p class="w3-left">Booking Detail</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='booking_item.php'">EQUIPMENT</button>
-        <button class="btn" onclick="location.href='booking_place.php'">PLACE</button>
+        <button class="btn" onclick="location.href='booking_item.php'">Equipment</button>
+        <button class="btn" onclick="location.href='booking_place.php'">Place</button>
     </p>
   </header>
 <body>
@@ -102,10 +102,10 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
                         <?= $row['status'] ?>
                     </td>
                     <td>
-                        <a href="#" class="edit-link" data-itembook-id="<?= $row['book_id'] ?>">Edit</a>
+                        <a class="" href="#" class="edit-link" data-itembook-id="<?= $row['book_id'] ?>">Edit</a>
                     </td>
                     <td>
-                        <a href="cancel_item.php?itembook_id=<?= $row['book_id'] ?>">Cancel</a>
+                        <a class="bta" href="cancel_item.php?itembook_id=<?= $row['book_id'] ?>">Cancel</a>
                     </td>
                 </tr>
             <?php } ?>

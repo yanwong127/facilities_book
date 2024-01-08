@@ -72,6 +72,15 @@
 .btn {
     background-color: #fff;
 }
+.bta:link {
+    color:red;
+}
+.bta:visited {
+    color:green;
+}
+.bta:hover {
+    color:blue;
+}
 a {
     text-decoration: none !important;
 }

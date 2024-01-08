@@ -11,7 +11,7 @@
 
 $host = "localhost";
 $username   = "root";
-$password   = "ak6403012";
+$password   = "";
 $dbname   ="facilities_book";
 
 try {

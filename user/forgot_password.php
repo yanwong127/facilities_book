@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div>
-        <form action="forget_password" method="post">
+        <form action="forgot_password.php" method="post">
             <h2>Forgot Password</h2>
             <div class="input-container">
                 <label for="email">Email:</label>

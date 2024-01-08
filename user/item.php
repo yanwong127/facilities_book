@@ -16,7 +16,7 @@ $result = mysqli_query($conn, $jj);
 
 if (isset($_REQUEST['item_book'])) {
     if (isset($_POST["item_book"])) {
-        $item_id = $_POST['item_id'];
+        $item_id = trim($_POST['item_id']);
         $user_id = $_POST['user_id'];
         $item_name = trim($_POST['item_name']);
         $item_img = $_POST['item_img'];
@@ -70,6 +70,170 @@ if (isset($_REQUEST['item_book'])) {
         max-height: 70vh;
         overflow-y: auto;
     }
+    .header {
+    position: relative;
+    z-index: 1;
+}
+    .btn {
+        background-color: #fff;
+    }
+    .card {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        background-color: #fff;
+        border: 2px solid #0f0e0e;
+        border-radius: 10px;
+    }
+
+    /* 共用的表格样式改进 */
+    .custom-table {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 16px;
+        justify-content: center; /* Center alignment */
+    }
+
+    .td {
+        text-align: center;
+    }
+
+    .custom-table .td .item-container,.place-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: transform 0.3s ease;
+        /* border: 1px solid #ccc; */
+        border-radius: 10px;
+        margin-bottom: 16px;
+        overflow: hidden; /* 隐藏溢出的内容 */
+        border: 2px solid #ccc;
+        padding: 10px 10px;
+    }
+    
+    .item-container:hover,
+    .place-container:hover {
+        transform: translateY(-10px);
+        cursor: pointer;
+    }
+    
+
+    .item-container img,
+    .place-container img {
+        width: 280px;
+        height: 180px;
+        border-radius: 5px;
+        object-fit: cover; /* 尝试使用scale-down */
+    }
+    
+    
+
+    .item-name,
+    .place-name {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+
+    #clickable-div:hover {
+        cursor: pointer;
+    }
+
+
+    #card-image,
+    #place-card-image {
+        width: 350px;  /* 设置宽度 */
+        height: 150px; /* 设置高度 */
+    }
+
+
+
+    /* New styles for the form inside the dialog */
+    .card {
+        max-width: 500px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .card label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    .card input {
+        width: 80%;
+        padding: 8px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+    }
+
+    .card button {
+        background-color: #343634;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .card button:hover {
+        background-color: #484848;
+    }
+
+    .pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+    .pagination a {
+        color: #6d6f6d;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        border: 1px solid #ddd;
+        margin: 0 4px;
+    }
+
+    .pagination a.active {
+        background-color: #3d3e3d;
+        color: white;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
+    .pagination {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        border-top: 1px solid #ccc;
+    }
+    #itemCard {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
 </style>
 
 <body>
@@ -80,13 +244,13 @@ if (isset($_REQUEST['item_book'])) {
             <button class="btn" id="placeButton">PLACE</button>
         </p>
     </header>
-    <form action="testing.php" method="post">
+    <form action="item.php" method="post">
         <div class="custom-table" id="clickable-div">
 
             <?php
             $i = 0;
             while ($row = mysqli_fetch_array($result)) {
-                $item = "SELECT SUM(quantity) FROM item_appointment WHERE item_id='$row[item_id]' AND status='Approve' GROUP BY item_id";
+                 $item = "SELECT SUM(quantity) FROM item_appointment WHERE item_id='$row[item_id]' AND status='Approved' GROUP BY item_id";
 
                 $qry = mysqli_query($conn, $item);
                 $num = mysqli_num_rows($qry);
@@ -97,13 +261,13 @@ if (isset($_REQUEST['item_book'])) {
                 } else {
                     $sub = 0;
                 }
-                $total = $row["quantity"] - $sub;
+                 $total = $row["quantity"] - $sub;
 
 
                 ?>
                 <div class="td">
                     <div class="item-container" id="none">
-                        <a href="item.php?id=<?= $row['item_id'] ?>" data-item-overview="<?= $row['item_img'] ?>"
+                        <a href="item.php?id=<?= $row['item_id'] ?>" data-item-id="<?=$row['item_id']?>" data-item-overview="<?= $row['item_img'] ?>"
                             data-item-name="<?= $row['item_name'] ?>">
                             <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
                             <div class="item-name">
@@ -131,7 +295,6 @@ if (isset($_REQUEST['item_book'])) {
                 <input type="hidden" name="item_name" id="card-item_name">
                 <input type="hidden" name="item_img" id="card-item_img">
                 <p id="card-overview"></p>
-
                 <input type="hidden" name="item_overview" id="card-item_overview">
                 <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
                 <label for="booking_date">Booking Date:</label><br>
@@ -141,7 +304,7 @@ if (isset($_REQUEST['item_book'])) {
                 <label for="end_time">End Time:</label><br>
                 <input type="time" name="end_time" id="end_time" required min="09:00" max="17:00"><br>
                 <label for="quantity">Quantity: </label><br>
-                <input type="number" name="quantity" id="card-quantity" value="1" min="1" max="10" required><br>
+                <input type="number" name="quantity" id="card-quantity" value="1" min="1" max="<?= $total ?>" required><br>
                 <button name="item_book">Book</button>
             </form>
         </div>
@@ -241,6 +404,7 @@ document.getElementById("placeButton").addEventListener("click", function () {
 
             var itemOverview = link.getAttribute('data-item-overview');
             var itemImg = link.querySelector('img').getAttribute('src');
+            var itemId = link.getAttribute('data-item-id');
             var itemName = link.getAttribute('data-item-name');
             var href = link.getAttribute('href');
             var itemId = href.split('=')[1];
@@ -248,6 +412,7 @@ document.getElementById("placeButton").addEventListener("click", function () {
             console.log("Equipment ID:", itemId);
 
             document.getElementById('card-item_img').value = itemImg;
+            document.getElementById('card-item_id').value = itemId;
             document.getElementById('card-item_name').value = itemName;
             document.getElementById('card-item_overview').textContent = itemOverview;
 

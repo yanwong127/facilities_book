@@ -13,15 +13,15 @@
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
 </head>
-<body class="w3-content" style="max-width:1200px;">
+<body class="w3-content" style="max-width:1450px;">
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:200px;" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
     <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-    <h3 class="w3-wide"><b>SBooking</b></h3>
+    <h3  class="w3-wide"><a href="home.php">SBooking</a></h3>
   </div>
-  <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+  <div class="w3-padding-44 w3-large w3-text-grey" style="font-weight:bold">
     <a href="home.php" class="w3-bar-item w3-button">Home</a>
     <a href="item.php" class="w3-bar-item w3-button">Equipment and Place</a> 
     <a href="booking_item.php" class="w3-bar-item w3-button">Booking Detail</a>
@@ -44,7 +44,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:200px">
   <!-- Push down content on small screens -->
-  <div class="w3-hide-large" style="margin-top:83px"></div>
+  <div class="w3-hide-large" style="margin-top:103px"></div>
   <!-- Top header -->
 
 

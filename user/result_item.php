@@ -13,8 +13,8 @@ $offset = ($page - 1) * $records_per_page;
 // Query for items
 $item_query = "
     SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status ,  ia.quantity
-    FROM `item_appointment` ia
-    WHERE ia.`user_id` = $user_id AND (ia.`status` = 'Approve' OR ia.`status` = 'Cancelled')
+    FROM item_appointment ia
+    WHERE ia.user_id = $user_id AND (ia.status = 'Approved' OR ia.status = 'Cancelled')
     LIMIT $offset, $records_per_page
 ";
 
@@ -67,7 +67,7 @@ while ($row = mysqli_fetch_array($item_result)) {
 }
 
 mysqli_data_seek($item_result, 0);
-$item_count_query = "SELECT COUNT(*) FROM `item_appointment` WHERE `user_id` = $user_id AND `status` = 'Approve'";
+$item_count_query = "SELECT COUNT(*) FROM item_appointment WHERE user_id = $user_id AND status = 'Approved'";
 $item_count_result = mysqli_query($conn, $item_count_query);
 $item_row = mysqli_fetch_row($item_count_result);
 $item_records = $item_row[0];

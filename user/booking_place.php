@@ -57,10 +57,10 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     <link rel="stylesheet" href="booking_page.css">
  </head>
  <header class="w3-container w3-xlarge">
-    <p class="w3-left">YOUR BOOKING (PLACE)</p>
+    <p class="w3-left">Booking Detail</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='booking_item.php'">ERUIPMENT</button>
-        <button class="btn" onclick="location.href='booking_place.php'">PLACE</button>
+        <button class="btn" onclick="location.href='booking_item.php'">Equipment</button>
+        <button class="btn" onclick="location.href='booking_place.php'">Place</button>
     </p>
   </header>
  <body>
@@ -75,10 +75,9 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                     <th>Booking Date</th>
                     <th>Start Time</th>
                     <th>End Time</th>
-                    <th>Quantity</th>
                     <th>Status</th>
-                    <th></th>
-                    <th></th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <?php while ($row = mysqli_fetch_array($place_result)) { ?>
@@ -102,10 +101,10 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                         <?= $row['status'] ?>
                     </td>
                     <td>
-                        <a href="#" class="edit-place-link" data-placebook-id="<?= $row['book_id'] ?>">Edit</a>
+                        <a class="bta" href="#" class="edit-place-link" data-placebook-id="<?= $row['book_id'] ?>">Edit</a>
                     </td>
                     <td>
-                        <a href="cancel_place.php?placebook_id=<?= $row['book_id'] ?>">Cancel</a>
+                        <a class="bta" href="cancel_place.php?placebook_id=<?= $row['book_id'] ?>">Cancel</a>
                     </td>
                 </tr>
             <?php } ?>
