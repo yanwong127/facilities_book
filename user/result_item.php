@@ -56,7 +56,7 @@ while ($row = mysqli_fetch_array($item_result)) {
 
     if (!$alertShown && $current_datetime > $one_hour_before_booking_time && $current_datetime < $reminder_datetime) {
         $itemName = $row['name'];
-        echo "<script>alert('Reminder: Your item booking for $itemName is starting soon.');</script>";
+        echo "<script>alert('Reminder: Your equipment booking for $itemName is starting soon.');</script>";
         // $alertShown = true;
     }
 
@@ -88,8 +88,8 @@ $total_item_pages = ceil($item_records / $records_per_page);
 <header class="w3-container w3-xlarge">
     <p class="w3-left">Result Equipment</p>
     <p class="w3-right">
-        <button class="btn" onclick="location.href='result_item.php'">EQUIPMENT</button>
-        <button class="btn" onclick="location.href='result_place.php'">PLACE</button>
+        <button class="btn" onclick="location.href='result_item.php'">Equipment</button>
+        <button class="btn" onclick="location.href='result_place.php'">Place</button>
     </p>
 </header>
 

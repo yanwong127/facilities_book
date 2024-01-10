@@ -52,7 +52,6 @@ if (isset($_REQUEST['place_book'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bookingpage.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
@@ -241,7 +240,7 @@ if (isset($_REQUEST['place_book'])) {
         <p class="w3-left">Equipment</p>
         <p class="w3-right">
             <button class="btn" id="itemButton">Equipment</button>
-            <button class="btn" id="placeButton">PLACE</button>
+            <button class="btn" id="placeButton">Place</button>
         </p>
     </header>
     <form action="place.php" method="post">

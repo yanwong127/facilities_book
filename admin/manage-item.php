@@ -28,7 +28,7 @@ if (strlen($_SESSION['alogin']) == 0) {
     <meta name="author" content="">
     <meta name="theme-color" content="#3e454c">
 
-    <title>SBooking | Admin Manage Item</title>
+    <title>SBooking | Admin Manage Equipment</title>
 
     <!-- Font awesome -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
@@ -79,11 +79,11 @@ if (strlen($_SESSION['alogin']) == 0) {
                 <div class="row">
                     <div class="col-md-12">
 
-                        <h2 class="page-title">Manage Item</h2>
+                        <h2 class="page-title">Manage Equipment</h2>
 
                         <!-- Zero Configuration Table -->
                         <div class="panel panel-default">
-                            <div class="panel-heading">Item Details</div>
+                            <div class="panel-heading">Equipment Details</div>
                             <div class="panel-body">
                                 <?php if ($error) { ?>
                                     <div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div>
@@ -94,9 +94,9 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Item Name</th>
-                                            <th>Item Overview</th>
-                                            <th>Item Image</th>
+                                            <th>Equipment Name</th>
+                                            <th>Equipment Overview</th>
+                                            <th>Equipment Image</th>
                                             <th>Availability</th>
                                             <th>Quantity</th> <!-- New column -->
                                             <th>Action</th>
@@ -105,9 +105,9 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     <tfoot>
                                         <tr>
                                             <th>#</th>
-                                            <th>Item Name</th>
-                                            <th>Item Overview</th>
-                                            <th>Item Image</th>
+                                            <th>Equipment Name</th>
+                                            <th>Equipment Overview</th>
+                                            <th>Equipment Image</th>
                                             <th>Availability</th>
                                             <th>Quantity</th> <!-- New column -->
                                             <th>Action</th>

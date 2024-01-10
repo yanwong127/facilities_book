@@ -1,12 +1,13 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background: url('img/bckgrd.jpg') no-repeat center center fixed;
+    background-size: cover;
 }
 
 form {

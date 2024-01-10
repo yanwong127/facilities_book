@@ -89,7 +89,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 														<div class="stat-panel-number h1 ">
 															<?php echo htmlentities($totalitem); ?>
 														</div>
-														<div class="stat-panel-title text-uppercase">Listed Item</div>
+														<div class="stat-panel-title text-uppercase">Listed Equipment</div>
 													</div>
 												</div>
 												<a href="manage-item.php" class="block-anchor panel-footer text-center">Full
@@ -134,7 +134,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 														<div class="stat-panel-number h1 ">
 															<?php echo htmlentities($itembookings); ?>
 														</div>
-														<div class="stat-panel-title text-uppercase">Total Item Bookings
+														<div class="stat-panel-title text-uppercase">Total Equipment Bookings
 														</div>
 													</div>
 												</div>

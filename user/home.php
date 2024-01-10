@@ -20,22 +20,25 @@ if (mysqli_num_rows($result) === 0) {
     exit;
 }
 
-$itemQuery = "SELECT * FROM `item` LIMIT 4";
+// Query for items excluding 'Not Working'
+$itemQuery = "SELECT * FROM `item` WHERE availability <> 'Not Working' LIMIT 4";
 $itemResult = mysqli_query($conn, $itemQuery);
 
-$placeQuery = "SELECT * FROM `place` LIMIT 4";
+// Query for places excluding 'Not Working'
+$placeQuery = "SELECT * FROM `place` WHERE availability <> 'Not Working' LIMIT 4";
 $placeResult = mysqli_query($conn, $placeQuery);
-
 
 $records_per_page = 4;
 if (isset($_GET['item_page'])) {
-    $page = $_GET['item_page'];
+    $item_page = $_GET['item_page'];
 } else {
-    $page = 1;
+    $item_page = 1;
 }
-$set = ($page - 1) * $records_per_page;
-$jj = "SELECT * FROM `item` WHERE availability <> 'Not Working' LIMIT $set,$records_per_page";
-$result = mysqli_query($conn, $jj);
+$set = ($item_page - 1) * $records_per_page;
+
+// Updated item query to exclude items with status 'Not Working'
+$itemQuery = "SELECT * FROM `item` WHERE availability <> 'Not Working' LIMIT $set, $records_per_page";
+$itemResult = mysqli_query($conn, $itemQuery);
 
 $records_per_page1 = 4;
 if (isset($_GET['place_page'])) {
@@ -44,10 +47,12 @@ if (isset($_GET['place_page'])) {
     $place_page = 1;
 }
 $set2 = ($place_page - 1) * $records_per_page1;
-$jj2 = "SELECT * FROM `place` WHERE availability <> 'Not Working' LIMIT $set2,$records_per_page1";
-$result2 = mysqli_query($conn, $jj2);
 
-// Reset the data pointer to the beginning of the result set
+// Updated place query to exclude places with status 'Not Working'
+$placeQuery = "SELECT * FROM `place` WHERE availability <> 'Not Working' LIMIT $set2, $records_per_page1";
+$placeResult = mysqli_query($conn, $placeQuery);
+
+// Reset the data pointer to the beginning of the result sets
 mysqli_data_seek($itemResult, 0);
 mysqli_data_seek($placeResult, 0);
 ?>

@@ -53,7 +53,6 @@ if (isset($_REQUEST['item_book'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bookingpage.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
@@ -234,14 +233,14 @@ if (isset($_REQUEST['item_book'])) {
         max-height: 70vh;
         overflow-y: auto;
     }
-</style>
+</style>            
 
 <body>
     <header class="w3-container w3-xlarge">
         <p class="w3-left">Equipment</p>
         <p class="w3-right">
             <button class="btn" id="itemButton">Equipment</button>
-            <button class="btn" id="placeButton">PLACE</button>
+            <button class="btn" id="placeButton">Place</button>
         </p>
     </header>
     <form action="item.php" method="post">
@@ -250,8 +249,8 @@ if (isset($_REQUEST['item_book'])) {
             <?php
             $i = 0;
             while ($row = mysqli_fetch_array($result)) {
-                 $item = "SELECT SUM(quantity) FROM item_appointment WHERE item_id='$row[item_id]' AND status='Approved' GROUP BY item_id";
-
+                $item = "SELECT SUM(quantity) FROM item_appointment WHERE item_id='$row[item_id]' AND status='Approved' GROUP BY item_id";
+            
                 $qry = mysqli_query($conn, $item);
                 $num = mysqli_num_rows($qry);
                 $at = mysqli_fetch_array($qry);
@@ -261,25 +260,22 @@ if (isset($_REQUEST['item_book'])) {
                 } else {
                     $sub = 0;
                 }
-                 $total = $row["quantity"] - $sub;
-
-
+                $total = $row["quantity"] - $sub;
                 ?>
                 <div class="td">
                     <div class="item-container" id="none">
                         <a href="item.php?id=<?= $row['item_id'] ?>" data-item-id="<?=$row['item_id']?>" data-item-overview="<?= $row['item_img'] ?>"
-                            data-item-name="<?= $row['item_name'] ?>">
+                            data-item-name="<?= $row['item_name'] ?>" data-max="<?= $total ?>">
                             <img class="rounded-image" src="img/<?= $row['item_img'] ?>" alt="<?= $row['item_name'] ?>">
                             <div class="item-name">
                                 <?= $row['item_name'] ?>
                             </div>
                         </a>
-
-
                     </div>
                 </div>
                 <?php $i++;
-            } ?>
+            }
+             ?>
         </div>
 
 
@@ -289,6 +285,7 @@ if (isset($_REQUEST['item_book'])) {
             <h2 id="card-title"></h2>
             <h2 id="card-item-name"></h2>
             <img id="card-image" src="img/<?= $row['item_img'] ?>" alt="Item Image">
+
             <p id="card-overview"></p>
             <form action="item.php" method="post" class="card-form">
                 <input type="hidden" name="item_id" id="card-item_id">
@@ -303,7 +300,8 @@ if (isset($_REQUEST['item_book'])) {
                 <input type="time" name="start_time" id="start_time" required min="08:00" max="16:00"><br>
                 <label for="end_time">End Time:</label><br>
                 <input type="time" name="end_time" id="end_time" required min="09:00" max="17:00"><br>
-                <label for="quantity">Quantity: </label><br>
+                <!-- <label for="quantity">Quantity: </label><br> -->
+                <label id="card-quantity">Quantity: <span id="quantity-display"></span></label>
                 <input type="number" name="quantity" id="card-quantity" value="1" min="1" max="<?= $total ?>" required><br>
                 <button name="item_book">Book</button>
             </form>
@@ -398,31 +396,37 @@ document.getElementById("placeButton").addEventListener("click", function () {
 
     var clickableLinks = document.querySelectorAll('a[data-item-overview]');
 
-    clickableLinks.forEach(function (link) {
-        link.addEventListener('click', function (event) {
-            event.preventDefault();
+clickableLinks.forEach(function (link) {
+    link.addEventListener('click', function (event) {
+        event.preventDefault();
 
-            var itemOverview = link.getAttribute('data-item-overview');
-            var itemImg = link.querySelector('img').getAttribute('src');
-            var itemId = link.getAttribute('data-item-id');
-            var itemName = link.getAttribute('data-item-name');
-            var href = link.getAttribute('href');
-            var itemId = href.split('=')[1];
+        var itemOverview = link.getAttribute('data-item-overview');
+        var itemImg = link.querySelector('img').getAttribute('src');
+        var itemId = link.getAttribute('data-item-id');
+        var itemName = link.getAttribute('data-item-name');
+        var maxQuantity = link.getAttribute('data-max'); // Get the max quantity
+        var maxQuantity = link.getAttribute('data-max');
+        document.getElementById('card-quantity').innerHTML = "Quantity: <span id='quantity-display'>" + maxQuantity + "</span>";
 
-            console.log("Equipment ID:", itemId);
+        console.log("Equipment ID:", itemId);
 
-            document.getElementById('card-item_img').value = itemImg;
-            document.getElementById('card-item_id').value = itemId;
-            document.getElementById('card-item_name').value = itemName;
-            document.getElementById('card-item_overview').textContent = itemOverview;
+        document.getElementById('card-item_img').value = itemImg;
+        document.getElementById('card-item_id').value = itemId;
+        document.getElementById('card-item_name').value = itemName;
+        document.getElementById('card-item_overview').textContent = itemOverview;
 
-            var cardImage = document.getElementById('card-image');
-            cardImage.src = itemImg;
+        var cardImage = document.getElementById('card-image');
+        cardImage.src = itemImg;
 
-            var cardDiv = document.getElementById('itemCard');
-            cardDiv.style.display = 'block';
-        });
+        var cardQuantityInput = document.getElementById('card-quantity');
+        cardQuantityInput.value = 1; // Reset quantity to 1
+        cardQuantityInput.max = maxQuantity; // Set the max attribute dynamically
+
+        var cardDiv = document.getElementById('itemCard');
+        cardDiv.style.display = 'block';
     });
+});
+
 
 
 

@@ -137,7 +137,7 @@ if (isset($_POST['return']) && isset($_POST['itembook_id'])) {
 
     editLinks.forEach((link) => {
         link.addEventListener("click", (event) => {
-            event.preventDefault();
+            event.preventDefault(); 
 
             const itembook_id = link.getAttribute('data-itembook-id');
             const booking_date = link.getAttribute('data-booking-date');

@@ -114,7 +114,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                 <div class="row">
                     <div class="col-md-12">
 
-                        <h2 class="page-title">Post An Item</h2>
+                        <h2 class="page-title">Post An Equipment</h2>
 
                         <div class="row">
                             <div class="col-md-12">
@@ -132,7 +132,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     <div class="panel-body">
                                         <form method="post" class="form-horizontal" enctype="multipart/form-data">
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">Item Name<span
+                                                <label class="col-sm-2 control-label">Equipment Name<span
                                                         style="color:red">*</span></label>
                                                 <div class="col-sm-4">
                                                     <input type="text" name="item_name" class="form-control" required>
@@ -140,7 +140,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-sm-2 control-label">Item Overview<span
+                                                <label class="col-sm-2 control-label">Equipment Overview<span
                                                         style="color:red">*</span></label>
                                                 <div class="col-sm-10">
                                                     <textarea class="form-control" name="item_overview" rows="3"

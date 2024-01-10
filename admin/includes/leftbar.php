@@ -4,10 +4,10 @@
 				<li class="ts-label">Main</li>
 				<li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 			
-<li><a href="#"><i class="fa fa-files-o"></i> Item </a>
+<li><a href="#"><i class="fa fa-files-o"></i> Equipment </a>
 <ul>
-<li><a href="add_item.php">Add Item</a></li>
-<li><a href="manage-item.php">Manage Item</a></li>
+<li><a href="add_item.php">Add Equipment</a></li>
+<li><a href="manage-item.php">Manage Equipment</a></li>
 </ul>
 </li>
 
@@ -19,7 +19,7 @@
 				</li>
 				<li><a href="#"><i class="fa fa-book"></i>Manage Booking</a>
 					<ul>
-						<li><a href="booking_item.php">Item Booking</a></li>
+						<li><a href="booking_item.php">Equipment Booking</a></li>
 						<li><a href="booking_place.php">Place Booking</a></li>
 					</ul>
 				</li>

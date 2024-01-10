@@ -1,4 +1,4 @@
- <?php 
+<?php 
 
 include_once("db.php");
 include_once("header.php");
@@ -11,15 +11,15 @@ $offset = ($page - 1) * $records_per_page;
 // Query for places
 $place_query = "
     SELECT 'place' as type, pa.placebook_id as book_id, pa.place_img as img, pa.place_name as name, pa.booking_date, pa.start_time, pa.end_time, pa.status
-    FROM `place_appointment` pa
-    WHERE pa.`user_id` = $user_id AND pa.`status` = 'unactive'
+    FROM place_appointment pa
+    WHERE pa.user_id = $user_id AND pa.status = 'unactive'
     LIMIT $offset, $records_per_page
 ";
 
 $place_result = mysqli_query($conn, $place_query);
 
 // Calculate total pages for places
-$place_count_query = "SELECT COUNT(*) FROM `place_appointment` WHERE `user_id` = $user_id AND `status` = 'unactive'";
+$place_count_query = "SELECT COUNT(*) FROM place_appointment WHERE user_id = $user_id AND status = 'unactive'";
 $place_count_result = mysqli_query($conn, $place_count_query);
 $place_row = mysqli_fetch_row($place_count_result);
 $place_records = $place_row[0];
@@ -31,7 +31,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     $start_time2 = $_POST['place_start_time'];
     $end_time2 = $_POST['place_end_time'];
 
-    $query2 = "UPDATE `place_appointment` SET booking_date=?, start_time=?, end_time=? WHERE placebook_id=?";
+    $query2 = "UPDATE place_appointment SET booking_date=?, start_time=?, end_time=? WHERE placebook_id=?";
 
     $stmt2 = mysqli_prepare($conn, $query2);
     mysqli_stmt_bind_param($stmt2, "sssi", $booking_date2, $start_time2, $end_time2, $placebook_id);
@@ -57,7 +57,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
     <link rel="stylesheet" href="booking_page.css">
  </head>
  <header class="w3-container w3-xlarge">
-    <p class="w3-left">Booking Detail</p>
+    <p class="w3-left">Your Booking (Place)</p>
     <p class="w3-right">
         <button class="btn" onclick="location.href='booking_item.php'">Equipment</button>
         <button class="btn" onclick="location.href='booking_place.php'">Place</button>
@@ -77,7 +77,7 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                     <th>End Time</th>
                     <th>Status</th>
                     <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Cancel</th>
                 </tr>
             </thead>
             <?php while ($row = mysqli_fetch_array($place_result)) { ?>
@@ -101,10 +101,10 @@ if (isset($_POST['edit_place']) && isset($_POST['placebook_id'])) {
                         <?= $row['status'] ?>
                     </td>
                     <td>
-                        <a class="bta" href="#" class="edit-place-link" data-placebook-id="<?= $row['book_id'] ?>">Edit</a>
+                        <a href="#" class="edit-place-link" data-placebook-id="<?= $row['book_id'] ?>">Edit</a>
                     </td>
                     <td>
-                        <a class="bta" href="cancel_place.php?placebook_id=<?= $row['book_id'] ?>">Cancel</a>
+                        <a href="cancel_place.php?placebook_id=<?= $row['book_id'] ?>">Cancel</a>
                     </td>
                 </tr>
             <?php } ?>

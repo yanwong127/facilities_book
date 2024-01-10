@@ -10,15 +10,15 @@ $offset = ($page - 1) * $records_per_page;
 // Query for items
 $item_query = "
     SELECT 'item' as type, ia.itembook_id as book_id, ia.item_img as img, ia.item_name as name, ia.booking_date, ia.start_time, ia.end_time, ia.status ,  ia.quantity
-    FROM `item_appointment` ia
-    WHERE ia.`user_id` = $user_id AND ia.`status` = 'unactive'
+    FROM item_appointment ia
+    WHERE ia.user_id = $user_id AND ia.status = 'unactive'
     LIMIT $offset, $records_per_page
 ";
 
 $item_result = mysqli_query($conn, $item_query);
 
 // Calculate total pages for items
-$item_count_query = "SELECT COUNT(*) FROM `item_appointment` WHERE `user_id` = $user_id AND `status` = 'unactive'";
+$item_count_query = "SELECT COUNT(*) FROM item_appointment WHERE user_id = $user_id AND status = 'unactive'";
 $item_count_result = mysqli_query($conn, $item_count_query);
 $item_row = mysqli_fetch_row($item_count_result);
 $item_records = $item_row[0];
@@ -31,7 +31,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
     $start_time = $_POST['start_time'];
     $end_time = $_POST['end_time'];
 
-    $query1 = "UPDATE `item_appointment` SET booking_date=?, start_time=?, end_time=? WHERE itembook_id=?";
+    $query1 = "UPDATE item_appointment SET booking_date=?, start_time=?, end_time=? WHERE itembook_id=?";
 
     $stmt = mysqli_prepare($conn, $query1);
     mysqli_stmt_bind_param($stmt, "sssi", $booking_date, $start_time, $end_time, $itembook_id);
@@ -54,7 +54,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 <html lang="en">
 <link rel="stylesheet" href="booking_page.css">
 <header class="w3-container w3-xlarge">
-    <p class="w3-left">Booking Detail</p>
+    <p class="w3-left">Your Booking (Equipment)</p>
     <p class="w3-right">
         <button class="btn" onclick="location.href='booking_item.php'">Equipment</button>
         <button class="btn" onclick="location.href='booking_place.php'">Place</button>
@@ -75,7 +75,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
                     <th>Quantity</th>
                     <th>Status</th>
                     <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Cancel</th>
                 </tr>
             </thead>
             <?php while ($row = mysqli_fetch_array($item_result)) { ?>
@@ -102,10 +102,10 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
                         <?= $row['status'] ?>
                     </td>
                     <td>
-                        <a class="" href="#" class="edit-link" data-itembook-id="<?= $row['book_id'] ?>">Edit</a>
+                        <a href="#" class="edit-link" data-itembook-id="<?= $row['book_id'] ?>">Edit</a>
                     </td>
                     <td>
-                        <a class="bta" href="cancel_item.php?itembook_id=<?= $row['book_id'] ?>">Cancel</a>
+                        <a href="cancel_item.php?itembook_id=<?= $row['book_id'] ?>">Cancel</a>
                     </td>
                 </tr>
             <?php } ?>
@@ -141,7 +141,7 @@ if (isset($_POST['edit']) && isset($_POST['itembook_id'])) {
 
     </div>
 
-    <form action="form-horizontal" action="booking_item.php" method="post" class="dialog-form">
+    <form action="booking_item.php" method="post" class="dialog-form">
     <dialog id="editDialog">
         <i class="fa fa-close" style="float: right;" autofocus></i>
         <h2 id="editDialogTitle"></h2>
