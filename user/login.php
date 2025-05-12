@@ -43,6 +43,17 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet" href="loginsignup.css">
     <title>Login</title>
 </head>
+<style>
+        #togglePassword {
+            cursor: pointer;
+            position: absolute;
+            right: 450px;
+            top: 53%;
+            transform: translateY(-50%);
+            font-size: 16px; 
+        }
+    </style>
+</head>
 <body>
     <div>
         <form action="login.php" method="post">
@@ -55,7 +66,8 @@ if (isset($_POST['submit'])) {
                 </div>
                 <div class="input-container">
                     <label for="userpass"> Password: </label>
-                    <input type="password" name="password" required>
+                    <input type="password" name="password" id="passwordField" required>
+                    <i class="fa fa-eye" id="togglePassword"></i>
                 </div>
                 <div>
                     <input type="submit" name="submit" value="Login">
@@ -68,6 +80,14 @@ if (isset($_POST['submit'])) {
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const inputContainers = document.querySelectorAll('.input-container');
+            const passwordField = document.getElementById('passwordField');
+            const togglePasswordIcon = document.getElementById('togglePassword');
+
+            togglePasswordIcon.addEventListener('click', function() {
+                const type = passwordField.type === 'password' ? 'text' : 'password';
+                passwordField.type = type;
+                togglePasswordIcon.classList.toggle('fa-eye-slash');
+            });
 
             inputContainers.forEach(container => {
                 const input = container.querySelector('input');

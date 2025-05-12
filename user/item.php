@@ -286,6 +286,7 @@ if (isset($_REQUEST['item_book'])) {
             <h2 id="card-title"></h2>
             <h2 id="card-item-name"></h2>
             <img id="card-image" src="img/<?= $row['item_img'] ?>" alt="Item Image">
+
             <p id="card-overview"></p>
             <form action="item.php" method="post" class="card-form">
                 <input type="hidden" name="item_id" id="card-item_id">
@@ -300,7 +301,8 @@ if (isset($_REQUEST['item_book'])) {
                 <input type="time" name="start_time" id="start_time" required min="08:00" max="16:00"><br>
                 <label for="end_time">End Time:</label><br>
                 <input type="time" name="end_time" id="end_time" required min="09:00" max="17:00"><br>
-                <label for="quantity">Quantity: </label><br>
+                <!-- <label for="quantity">Quantity: </label><br> -->
+                <label id="card-quantity">Quantity: <span id="quantity-display"></span></label>
                 <input type="number" name="quantity" id="card-quantity" value="1" min="1" max="<?= $total ?>" required><br>
                 <button name="item_book">Book</button>
             </form>
@@ -404,6 +406,8 @@ clickableLinks.forEach(function (link) {
         var itemId = link.getAttribute('data-item-id');
         var itemName = link.getAttribute('data-item-name');
         var maxQuantity = link.getAttribute('data-max'); // Get the max quantity
+        var maxQuantity = link.getAttribute('data-max');
+        document.getElementById('card-quantity').innerHTML = "Quantity: <span id='quantity-display'>" + maxQuantity + "</span>";
 
         console.log("Equipment ID:", itemId);
 
