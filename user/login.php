@@ -15,7 +15,8 @@ if (isset($_POST['submit'])) {
         $result = mysqli_stmt_get_result($stmt);
 
         if ($row = mysqli_fetch_assoc($result)) {
-            if (password_verify($userpass, $row['password'])) {
+            if ($userpass === $row['password']) {
+            // if (password_verify($userpass, $row['password'])) {
                 $_SESSION['true'] = true;
                 $_SESSION['user_id'] = $row['user_id'];
 
@@ -72,7 +73,7 @@ if (isset($_POST['submit'])) {
                 <div>
                     <input type="submit" name="submit" value="Login">
                 </div>
-                <p><a href="forgot_password.php">Forget Password?</a></p>
+                <!-- <p><a href="forgot_password.php">Forget Password?</a></p> -->
             </div>
         </form>
     </div>
